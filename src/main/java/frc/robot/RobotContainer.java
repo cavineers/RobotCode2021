@@ -1,13 +1,24 @@
 package frc.robot;
-
-import edu.wpi.first.wpilibj2.command.Command;
-
 public class RobotContainer {
+	private static RobotContainer m_instance;
+
 	public RobotContainer() {
-		configureButtonBindings();
+		Logger.getInstance().addInfo("RobotContainer", "Created RobotContainer instance");
+		mapButtonBindings();
 	}
 
-	private void configureButtonBindings() {}
+
+    public static RobotContainer getInstance() {
+        if (m_instance == null) {
+            m_instance = new RobotContainer();
+        }
+
+        return m_instance;
+    }
+
+	private void mapButtonBindings() {
+		Logger.getInstance().addInfo("RobotContainer", "Start to map button bindings");
+	}
 
 	// public Command getAutonomousCommand() {
 	// 	return m_autoCommand;
