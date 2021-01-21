@@ -7,6 +7,10 @@ public class Robot extends TimedRobot {
 	private final RobotContainer m_robotContainer = RobotContainer.getInstance();
 	private final Logger m_logger = Logger.getInstance();
 
+	public Robot() {
+		super(0.02);
+	}
+
 	@Override
 	public void robotInit() {
 		this.m_logger.addInfo("robot", "Initializing...");
