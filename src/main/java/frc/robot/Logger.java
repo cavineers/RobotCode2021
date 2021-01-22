@@ -8,7 +8,7 @@ import java.time.Instant;
 import com.google.gson.Gson;
 
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.lib.logging.LogEntry;
+import frc.lib.logging.LogEntry;
 
 public class Logger {
     // Instance

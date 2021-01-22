@@ -1,4 +1,4 @@
-package frc.robot.lib.logging;
+package frc.lib.logging;
 
 public class LogEntry {
     public Long timestamp;
