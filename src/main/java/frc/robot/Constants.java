@@ -31,6 +31,11 @@ public final class Constants {
         public static int kRightDriveID = CANIds.kRightDriveMotor;
         public static int kRightRotateID = CANIds.kRightRotateMotor;
 
+        // Kinematics & Odometry
+        // TODO: GET THESE VALUES
+        public static int kModuleDistanceFromCenter = 0; // In Meters
+        public static int kMaxDriveSpeed = 0; // In Meters
+
         // Rotation PID
         // TODO: TUNE THESE
         public static double kRotationPID_P = 1.0;

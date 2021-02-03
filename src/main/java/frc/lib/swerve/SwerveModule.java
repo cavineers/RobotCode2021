@@ -1,5 +1,7 @@
 package frc.lib.swerve;
 
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -17,6 +19,9 @@ public class SwerveModule extends SubsystemBase {
 
     // Settings object
     public SwerveSettings settings;
+
+    // Save these values for later
+    private double m_currentSpeed = 0;
 
     /**
      * Constructor
@@ -42,6 +47,8 @@ public class SwerveModule extends SubsystemBase {
 
         // Set rotation offset based on settings
         this.setOffset(this.settings.getRotationOffset());
+
+        SmartDashboard.putNumber(this.settings.commonName()+"_Angle", 0.0);
     }
 
     /**
@@ -73,29 +80,34 @@ public class SwerveModule extends SubsystemBase {
      * @param speed wheel speed
      */
     public void set(double angle, double speed) {
+        // angle = SmartDashboard.getNumber(this.settings.commonName()+"_Angle", 0.0);
+        // speed = 0.0;
+
         // Current offset
-        double currentOffset = getOffset()/(4096/360);
+        double currentOffset = getOffset()/(4096.0/360.0);
         
         // Normalize offset
-        while (currentOffset > 180) currentOffset -= 360;
-        while (currentOffset < -180) currentOffset += 360;
+        while (currentOffset > 180.0) currentOffset -= 360.0;
+        while (currentOffset < -180.0) currentOffset += 360.0;
 
         // Normalize angle
-        while (angle > 180) angle -= 360;
-        while (angle < -180) angle += 360;
+        while (angle > 180.0) angle -= 360.0;
+        while (angle < -180.0) angle += 360.0;
 
+        // Setting and updating the difference between the offset and the angel
         double difference = angle-currentOffset;
 
-        if (Math.abs(difference) > 180) {
+        if (Math.abs(difference) > 180.0) {
             difference -= (360.0*Math.signum(difference));
         }
 
-        if(Math.abs(difference) > 90.0) {
+        if (Math.abs(difference) > 90.0) {
 			difference -= (180.0*Math.signum(difference));
 			speed = -speed;
         }
         
-        double rSetpoint = getOffset()+(difference*(4096/360));
+        // Current Setpoint
+        double rSetpoint = getOffset()+(difference*(4096.0/360.0));
 
         // Output rotation motor
         this.rotationMotor.set(ControlMode.Position, rSetpoint);
@@ -105,7 +117,15 @@ public class SwerveModule extends SubsystemBase {
 
         SmartDashboard.putNumber(this.settings.commonName()+"_percentOut", this.settings.isInverted() ? -speed : speed);
         SmartDashboard.putNumber(this.settings.commonName()+"_rotationSetpoint", rSetpoint);
-        SmartDashboard.putNumber(this.settings.commonName()+"_rotationPosition", this.getOffset());
+        SmartDashboard.putNumber(this.settings.commonName()+"_rotationPosition", currentOffset);
+        SmartDashboard.putNumber(this.settings.commonName()+"_encoderVal", this.getOffset());
+    }
+
+    public SwerveModuleState getState() {
+		return new SwerveModuleState(
+            this.m_currentSpeed*Constants.Swerve.kMaxDriveSpeed,
+            Rotation2d.fromDegrees(getOffset()/(4096.0/360.0))
+        );
     }
 
     @Override
