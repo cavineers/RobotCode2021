@@ -44,8 +44,8 @@ public final class Constants {
 
         // Value for swerving
         // TODO: I NEED NUMBERS
-        public static double kWheelBase = 10.00; // Distance between the front and back wheels in inches
+        public static double kWheelBase = 0.00; // Distance between the front and back wheels in inches
         public static double kTrackWidth = 12.75; // Distance between the inside of the left and right 2 wheels in inches
-        public static double kTurnRadius = Math.hypot(kWheelBase, kTrackWidth);
+        public static double kTurnRadius = kTrackWidth/2;
     }
 }

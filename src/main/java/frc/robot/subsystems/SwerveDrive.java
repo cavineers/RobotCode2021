@@ -31,7 +31,7 @@ public class SwerveDrive extends SubsystemBase {
             .setRotationMotorID(Constants.Swerve.kRightRotateID)
             .setRotationOffset(0)
             .setInverted(true)
-            .setCommonName("fr_")
+            .setCommonName("right_")
 
     );
 
@@ -86,7 +86,6 @@ public class SwerveDrive extends SubsystemBase {
     }
 
 	public void swerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
-		// TODO: Transition from 4 module to 2 module
 		double gyroAngle = this.m_gyro.getAngle();
 
 		double sin = Math.sin(Math.toRadians(gyroAngle));
@@ -98,37 +97,24 @@ public class SwerveDrive extends SubsystemBase {
 			forward = T;
 		}
 
-		double J = Constants.Swerve.kWheelBase / Constants.Swerve.kTurnRadius;
-		double K = Constants.Swerve.kTrackWidth / Constants.Swerve.kTurnRadius;
+		double A = forward-rotate;
+		double B = forward+rotate;
 
-		double A = strafe - (rotate * J);
-		double B = strafe + (rotate * J);
-		double C = forward - (rotate * K);
-		double D = forward + (rotate * K);
+		double rSpeed = Math.sqrt(Math.pow(strafe, 2)+Math.pow(A, 2));
+		double lSpeed = Math.sqrt(Math.pow(strafe, 2)+Math.pow(B, 2));
 
-		double frSpeed = Math.hypot(B, C);
-        double flSpeed = Math.hypot(B, D);
-		double brSpeed = Math.hypot(A, C);
-		double blSpeed = Math.hypot(A, D);
+		double max = Math.max(rSpeed, lSpeed);
 
-		double frAngle = Math.atan2(B, C) * 180 / Math.PI;
-		double flAngle = Math.atan2(B, D) * 180 / Math.PI;
-		double brAngle = Math.atan2(A, C) * 180 / Math.PI;
-		double blAngle = Math.atan2(A, D) * 180 / Math.PI;
+		if (max > 1.0) {
+			rSpeed /= max;
+			lSpeed /= max;
+		}
 
-		double max = Math.max(Math.max(flSpeed, frSpeed), Math.max(blSpeed, brSpeed));
+		double rAngle = Math.atan2(strafe, A) * 180 / Math.PI;
+		double lAngle = Math.atan2(strafe, B) * 180 / Math.PI;
 
-		if(max > 1) {
-            flSpeed /= max;
-            frSpeed /= max;
-            blSpeed /= max;
-            brSpeed /= max;
-        }
-
-		// m_fl.set(flAngle, flSpeed);
-		// m_fr.set(frAngle, frSpeed);
-		// m_bl.set(blAngle, blSpeed);
-		// m_br.set(brAngle, brSpeed);
+		this.m_right.set(rAngle, rSpeed);
+		this.m_left.set(lAngle, lSpeed);
 	}
 
 	public Pose2d getPosition() {
