@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class Robot extends TimedRobot {
 	private final RobotContainer m_robotContainer = RobotContainer.getInstance();
 	private final Logger m_logger = Logger.getInstance();
+	private final DANK m_dank = DANK.getInstance();
 
 	public Robot() {
 		super(0.02);
