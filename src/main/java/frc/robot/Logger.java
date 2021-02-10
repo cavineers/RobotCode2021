@@ -25,16 +25,18 @@ public class Logger {
     }
 
     public Logger() {
-        this.m_filename = Long.toString(Instant.now().getEpochSecond());
+        if (Robot.isReal()) {
+            this.m_filename = Long.toString(Instant.now().getEpochSecond());
 
-        File file = new File("/home/lvuser/logs/"+this.m_filename+".log");
-        try {
-            file.createNewFile();
-            this.m_fout = new FileOutputStream("/home/lvuser/logs/"+this.m_filename+".log");
-            this.m_fout.write("{\"logVersion\": 1}".getBytes());
-        } catch (IOException e) {
-            System.out.println("Unable to create or open logging file.");
-            e.printStackTrace();
+            File file = new File("/home/lvuser/logs/"+this.m_filename+".log");
+            try {
+                file.createNewFile();
+                this.m_fout = new FileOutputStream("/home/lvuser/logs/"+this.m_filename+".log");
+                this.m_fout.write("{\"logVersion\": 1}".getBytes());
+            } catch (IOException e) {
+                System.out.println("Unable to create or open logging file.");
+                e.printStackTrace();
+            }
         }
     }
 
@@ -60,10 +62,14 @@ public class Logger {
     }
 
     public void add(LogEntry entry) {
-        try {
-            this.m_fout.write(new Gson().toJson(entry).getBytes());
-        } catch (IOException e) {
-            System.out.println(e.getStackTrace());
+        if (Robot.isReal()) {
+            try {
+                this.m_fout.write(new Gson().toJson(entry).getBytes());
+            } catch (IOException e) {
+                System.out.println(e.getStackTrace());
+            }
+        } else {
+            System.out.println(new Gson().toJson(entry));
         }
     }
 
