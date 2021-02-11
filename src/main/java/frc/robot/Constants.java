@@ -10,7 +10,7 @@ public final class Constants {
         public static int kPowerDistributionPanel = 50;
     }
     public static class DANK {
-        public static int PORT = 5805;
+        public static int PORT = 5808;
     }
 
     public static class Vision {
