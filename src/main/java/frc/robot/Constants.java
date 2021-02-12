@@ -6,13 +6,16 @@ public final class Constants {
         public static int kLeftRotateMotor   = 2;
         public static int kRightDriveMotor   = 3;
         public static int kRightRotateMotor  = 4;
-
+        public static int kShooterMotor      = 5;
         public static int kPowerDistributionPanel = 50;
     }
+
+    // DANK
     public static class DANK {
         public static int PORT = 5808;
     }
 
+    // Vision
     public static class Vision {
         // TODO: These are last years numbers, need updated for 2021
         public static double kFieldGoalHeightFromGround = 98.0; // 31 inches used for testing
@@ -20,8 +23,18 @@ public final class Constants {
         public static double kLimelightMountingAngle    = 25.0;
     }
 
-    
+    // Shooter
+    public static class Shooter {
+        public static int ShootID = CANIds.kShooterMotor;
+        public static double PIDp = 0.0005;
+        public static double PIDi = 0.0;
+        public static double PIDd = 0.0;
+        public static double PIDf = 0.00002;
+        public static double MaxRPM = 5500;
+        public static int CurrentLimit = 39;
+    }
 
+    // Swerve
     public static class Swerve {
         // Left 
         public static int kLeftDriveID = CANIds.kLeftDriveMotor;
