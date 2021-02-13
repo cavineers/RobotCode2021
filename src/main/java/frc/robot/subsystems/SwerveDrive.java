@@ -7,12 +7,15 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.lib.Deadzone;
 import frc.lib.swerve.SwerveModule;
 import frc.lib.swerve.SwerveSettings;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class SwerveDrive extends SubsystemBase {
 	private AHRS m_gyro;
@@ -39,17 +42,21 @@ public class SwerveDrive extends SubsystemBase {
 
 	private SwerveDriveOdometry m_odometry;
 
+	private Field2d m_field = new Field2d();
+
+	private double m_simulationAngle = 0.0;
+
     public SwerveDrive(AHRS gyro) {
         this.m_gyro = gyro;
 
 		this.m_kinematics = new SwerveDriveKinematics(
-			new Translation2d(-Constants.Swerve.kModuleDistanceFromCenter, 0),
-			new Translation2d(Constants.Swerve.kModuleDistanceFromCenter, 0)
+			new Translation2d(-Constants.Swerve.kTrackWidth, 0),
+			new Translation2d(Constants.Swerve.kTrackWidth, 0)
 		);
 
 		this.m_odometry = new SwerveDriveOdometry(
 			this.m_kinematics,
-			Rotation2d.fromDegrees(-this.m_gyro.getAngle()),
+			this.getAngle(),
 			new Pose2d(0, 0, new Rotation2d())
 		);
     }
@@ -86,16 +93,18 @@ public class SwerveDrive extends SubsystemBase {
     }
 
 	public void swerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
-		double gyroAngle = this.m_gyro.getAngle();
-
-		double sin = Math.sin(Math.toRadians(gyroAngle));
-		double cos = Math.cos(Math.toRadians(gyroAngle));
-
 		if(isFieldOriented) {
+			double gyroAngle = this.m_gyro.getAngle();
+
+			double sin = Math.sin(Math.toRadians(gyroAngle));
+			double cos = Math.cos(Math.toRadians(gyroAngle));
+
 			double T = (forward * cos) + (strafe * sin);
 			strafe = (-forward * sin) + (strafe * cos);
 			forward = T;
 		}
+
+		this.m_simulationAngle += rotate*2.0;
 
 		double A = forward-rotate;
 		double B = forward+rotate;
@@ -121,12 +130,24 @@ public class SwerveDrive extends SubsystemBase {
 		return this.m_odometry.getPoseMeters();
 	}
 
+	public Rotation2d getAngle() {
+		if (Robot.isReal()) {
+			return Rotation2d.fromDegrees(-this.m_gyro.getAngle());
+		} else {
+			return Rotation2d.fromDegrees(-this.m_simulationAngle);
+		}
+	}
+
 	@Override
 	public void periodic() {
 		this.m_odometry.update(
-			Rotation2d.fromDegrees(-this.m_gyro.getAngle()),
+			this.getAngle(),
 			this.m_left.getState(),
 			this.m_right.getState()
 		);
+
+		this.m_field.setRobotPose(this.getPosition());
+
+		SmartDashboard.putData(this.m_field);
 	}
 }
