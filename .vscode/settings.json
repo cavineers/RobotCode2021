@@ -15,6 +15,9 @@
         "**/*~": true
     },
     "cSpell.words": [
-        "Odometry"
+        "Gson",
+        "Odometry",
+        "fout",
+        "lvuser"
     ]
 }
