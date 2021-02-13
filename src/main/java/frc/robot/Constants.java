@@ -7,7 +7,6 @@ public final class Constants {
         public static int kRightDriveMotor   = 3;
         public static int kRightRotateMotor  = 4;
         public static int kShooterMotor      = 5;
-        public static int kIntakeMotor       = 6;
         public static int kPowerDistributionPanel = 50;
     }
 
@@ -33,11 +32,6 @@ public final class Constants {
         public static double PIDf = 0.00002;
         public static double MaxRPM = 5500;
         public static int CurrentLimit = 39;
-    }
-
-    // Intake
-    public static class Intake {
-        public static int IntakeID = CANIds.kIntakeMotor;
     }
 
     // Swerve
