@@ -13,8 +13,7 @@ public class Intake extends SubsystemBase {
     // Intake motor state
     public enum IntakeMotorState {
         ON,
-        OFF,
-        REVERSED
+        OFF
     }
 
     // Intake State
@@ -53,10 +52,6 @@ public class Intake extends SubsystemBase {
             case OFF:
                 // Off
                 this.intakeMotor.set(ControlMode.PercentOutput, 0);
-                break;
-            case REVERSED:
-                // Reversed
-                this.intakeMotor.set(ControlMode.PercentOutput, Constants.Intake.OutSpeed);
                 break;
         }
     }
