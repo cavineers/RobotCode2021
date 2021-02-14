@@ -1,27 +1,73 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix.motorcontrol.ControlMode; 
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
 
-    // Intake Mode
+    // Intake motor state
+    public enum IntakeMotorState {
+        ON,
+        OFF,
+        REVERSED
+    }
+
+    // Intake State
     public enum IntakeMode {
         ENABLED, DISABLED
     }
 
     // Talon SRX Motor
-    private TalonSRX m_intakeMotor = new TalonSRX(Constants.Intake.IntakeID);
+    private TalonSRX intakeMotor = new TalonSRX(Constants.Intake.IntakeID);
+    private IntakeMotorState currentMotorState;
 
     // Current intake mode
     private IntakeMode m_currentMode = IntakeMode.DISABLED;
 
     public Intake() {
-        // TODO Add motor code based on Intake plan for motor stuff
-        // Implement SMART dashboard logging
+        this.setMotorState(IntakeMotorState.OFF);
+    }
+
+    // Robot
+    private double lastTime = 0.0;
+
+     /**
+     * set the desired intake state
+     * @param state wanted intake state
+     */
+    public void setMotorState(IntakeMotorState state) {
+        // set the current state
+        this.currentMotorState = state;
+
+        // set motor state
+        switch (state) {
+            case ON:
+                // On
+                this.intakeMotor.set(ControlMode.PercentOutput, Constants.Intake.InSpeed);
+                break;
+            case OFF:
+                // Off
+                this.intakeMotor.set(ControlMode.PercentOutput, 0);
+                break;
+            case REVERSED:
+                // Reversed
+                this.intakeMotor.set(ControlMode.PercentOutput, Constants.Intake.OutSpeed);
+                break;
+        }
+    }
+
+    /**
+     * get the current intake state
+     * @return intake state
+     */
+    public IntakeMotorState getMotorState() {
+        // return the current motor state
+        return this.currentMotorState;
     }
 
     /**
@@ -44,5 +90,15 @@ public class Intake extends SubsystemBase {
      */
     public IntakeMode getCurrentMode() {
         return this.m_currentMode;
+    }
+
+    /**
+     * Intake periodic
+     */
+    @Override
+    public void periodic() {
+        if (Timer.getFPGATimestamp()-this.lastTime>0.75) {
+            this.lastTime = Timer.getFPGATimestamp();
+        }
     }
 }

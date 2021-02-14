@@ -38,8 +38,9 @@ public final class Constants {
     // Intake
     public static class Intake {
         public static int IntakeID = CANIds.kIntakeMotor;
+        public static double InSpeed = 1;
+        public static double OutSpeed = -0.12;
     }
-
     // Swerve
     public static class Swerve {
         // Left 
