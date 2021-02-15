@@ -9,6 +9,7 @@ import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class SwerveModule extends SubsystemBase {
     // Drive Motor
@@ -21,7 +22,8 @@ public class SwerveModule extends SubsystemBase {
     public SwerveSettings settings;
 
     // Save these values for later
-    private double m_currentSpeed = 0;
+    private double m_currentSpeed = 0.0;
+    private double m_rotationSetpoint = 0.0;
 
     /**
      * Constructor
@@ -63,7 +65,11 @@ public class SwerveModule extends SubsystemBase {
      * @return current offset
      */
     public double getOffset() {
-        return this.rotationMotor.getSelectedSensorPosition();
+        if (Robot.isReal()) {
+            return this.rotationMotor.getSelectedSensorPosition();
+        } else {
+            return this.m_rotationSetpoint;
+        }
     }
 
     /**
@@ -114,6 +120,12 @@ public class SwerveModule extends SubsystemBase {
 
         // Output drive motor
         this.driveMotor.set(ControlMode.PercentOutput, this.settings.isInverted() ? -speed : speed);
+
+        // Save current speed
+        this.m_currentSpeed = this.settings.isInverted() ? -speed : speed;
+
+        // Save set rotation
+        this.m_rotationSetpoint = rSetpoint*(4096.0/360.0);
 
         SmartDashboard.putNumber(this.settings.commonName()+"_percentOut", this.settings.isInverted() ? -speed : speed);
         SmartDashboard.putNumber(this.settings.commonName()+"_rotationSetpoint", rSetpoint);

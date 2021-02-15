@@ -7,7 +7,7 @@ public final class Constants {
         public static int kRightDriveMotor   = 3;
         public static int kRightRotateMotor  = 4;
         public static int kShooterMotor      = 5;
-        public static int kIntakeMotor       = 6;
+        public static int kIntakeMotor      = 6;
         public static int kPowerDistributionPanel = 50;
     }
 
@@ -52,9 +52,8 @@ public final class Constants {
         public static int kRightRotateID = CANIds.kRightRotateMotor;
 
         // Kinematics & Odometry
-        // TODO: GET THESE VALUES
-        public static int kModuleDistanceFromCenter = 0; // In Meters
-        public static int kMaxDriveSpeed = 0; // In Meters
+        // TODO: GET ACTUAL MAX VELOCITY
+        public static double kMaxDriveSpeed = 5.0; // In Meters Per Second
 
         // Rotation PID
         // TODO: TUNE THESE
@@ -64,8 +63,7 @@ public final class Constants {
 
         // Value for swerving
         // TODO: I NEED NUMBERS
-        public static double kWheelBase = 0.00; // Distance between the front and back wheels in inches
-        public static double kTrackWidth = 12.75; // Distance between the inside of the left and right 2 wheels in inches
-        public static double kTurnRadius = kTrackWidth/2;
+        public static double kWheelBase = 0.0;   // Distance between the front and back wheels in inches
+        public static double kTrackWidth = 10.0; // Distance between the inside of the left and right 2 wheels in inches
     }
 }
