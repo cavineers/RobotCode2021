@@ -7,33 +7,30 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 
 public class Intake extends SubsystemBase {
 
     // Intake motor state
     public enum IntakeMotorState {
         ON,
-        OFF
-    }
-
-    // Intake State
-    public enum IntakeMode {
-        ENABLED, DISABLED
+        OFF,
+        REVERSED
     }
 
     // Talon SRX Motor
-    private TalonSRX intakeMotor = new TalonSRX(Constants.Intake.IntakeID);
-    private IntakeMotorState currentMotorState;
+    private TalonSRX m_intakeMotor = new TalonSRX(Constants.Intake.IntakeID);
 
     // Current intake mode
-    private IntakeMode m_currentMode = IntakeMode.DISABLED;
+    private IntakeMotorState m_currentMode = IntakeMotorState.OFF;
+    
+    private double lastTime = 0.0;
 
-    public Intake() {
+    private double time;
+
+    public Intake(RobotContainer rc) {
         this.setMotorState(IntakeMotorState.OFF);
     }
-
-    // Robot
-    private double lastTime = 0.0;
 
      /**
      * set the desired intake state
@@ -41,17 +38,21 @@ public class Intake extends SubsystemBase {
      */
     public void setMotorState(IntakeMotorState state) {
         // set the current state
-        this.currentMotorState = state;
+        this.m_currentMode = state;
 
         // set motor state
         switch (state) {
             case ON:
                 // On
-                this.intakeMotor.set(ControlMode.PercentOutput, Constants.Intake.InSpeed);
+                this.m_intakeMotor.set(ControlMode.PercentOutput, Constants.Intake.InSpeed);
                 break;
             case OFF:
                 // Off
-                this.intakeMotor.set(ControlMode.PercentOutput, 0);
+                this.m_intakeMotor.set(ControlMode.PercentOutput, 0);
+                break;
+            case REVERSED:
+                // Reversed
+                this.m_intakeMotor.set(ControlMode.PercentOutput, Constants.Intake.OutSpeed);
                 break;
         }
     }
@@ -62,28 +63,6 @@ public class Intake extends SubsystemBase {
      */
     public IntakeMotorState getMotorState() {
         // return the current motor state
-        return this.currentMotorState;
-    }
-
-    /**
-     * Turn on the intake
-     */
-    public void enable() {
-        this.m_currentMode = IntakeMode.ENABLED;
-    }
-
-    /**
-     * Turn off the intake
-     */
-    public void disable() {
-        this.m_currentMode = IntakeMode.DISABLED;
-    }
-
-    /**
-     * Get the current intake mode
-     * @return IntakeMode enum
-     */
-    public IntakeMode getCurrentMode() {
         return this.m_currentMode;
     }
 
@@ -94,6 +73,12 @@ public class Intake extends SubsystemBase {
     public void periodic() {
         if (Timer.getFPGATimestamp()-this.lastTime>0.75) {
             this.lastTime = Timer.getFPGATimestamp();
+        }
+
+        // Turn off after reverse
+        if (this.time != 0 && Timer.getFPGATimestamp()-this.time > 1) {
+            this.setMotorState(IntakeMotorState.OFF);
+            this.time = 0;
         }
     }
 }
