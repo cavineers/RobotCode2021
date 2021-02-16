@@ -8,6 +8,8 @@ public final class Constants {
         public static int kRightRotateMotor  = 4;
         public static int kShooterMotor      = 5;
         public static int kIntakeMotor       = 6;
+        public static int kTransportConveyer = 7;
+        public static int kTransportFeeder   = 8;
         public static int kPowerDistributionPanel = 50;
     }
 
@@ -39,6 +41,15 @@ public final class Constants {
         public static int kIntakeID = CANIds.kIntakeMotor;
         public static double kInSpeed = 1;
         public static double kOutSpeed = -0.12;
+    }
+
+    public static class Transportation {
+        public static int kConveyerID = CANIds.kTransportConveyer;
+        public static int kFeederID = CANIds.kTransportFeeder;
+        public static double kInSpeedFeeder = 1; // TODO Update Vals
+        public static double kOutSpeedFeeder = 1; // TODO Update Vals
+        public static double kInSpeedConveyer = 1; // TODO Update Vals
+        public static double kOutSpeedConveyer = 1; // TODO Update Vals
     }
 
     public static class Sizing {
