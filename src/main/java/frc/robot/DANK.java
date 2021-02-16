@@ -32,7 +32,7 @@ public class DANK extends WebSocketServer{
     
     @Override
     public void onMessage(WebSocket conn, ByteBuffer message) {
-        Logger.getInstance().addInfo("DANK", "WS Disconnect"+message);
+        Logger.getInstance().addInfo("DANK", "WS "+message);
     }
 
     public static DANK getInstance() {
