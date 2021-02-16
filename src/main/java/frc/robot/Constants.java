@@ -7,13 +7,13 @@ public final class Constants {
         public static int kRightDriveMotor   = 3;
         public static int kRightRotateMotor  = 4;
         public static int kShooterMotor      = 5;
-        public static int kIntakeMotor      = 6;
+        public static int kIntakeMotor       = 6;
         public static int kPowerDistributionPanel = 50;
     }
 
     // DANK
     public static class DANK {
-        public static int PORT = 5808;
+        public static int kPORT = 5808;
     }
 
     // Vision
@@ -26,20 +26,20 @@ public final class Constants {
 
     // Shooter
     public static class Shooter {
-        public static int ShootID = CANIds.kShooterMotor;
-        public static double PIDp = 0.0005;
-        public static double PIDi = 0.0;
-        public static double PIDd = 0.0;
-        public static double PIDf = 0.00002;
-        public static double MaxRPM = 5500;
-        public static int CurrentLimit = 39;
+        public static int kShootID = CANIds.kShooterMotor;
+        public static double kPIDp = 0.0005;
+        public static double kPIDi = 0.0;
+        public static double kPIDd = 0.0;
+        public static double kPIDf = 0.00002;
+        public static double kMaxRPM = 5500;
+        public static int kCurrentLimit = 39;
     }
 
     // Intake
     public static class Intake {
-        public static int IntakeID = CANIds.kIntakeMotor;
-        public static double InSpeed = 1;
-        public static double OutSpeed = -0.12;
+        public static int kIntakeID = CANIds.kIntakeMotor;
+        public static double kInSpeed = 1;
+        public static double kOutSpeed = -0.12;
     }
     // Swerve
     public static class Swerve {

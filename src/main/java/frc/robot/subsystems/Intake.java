@@ -3,11 +3,9 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Logger;
-import frc.robot.RobotContainer;
 
 public class Intake extends SubsystemBase {
 
@@ -19,7 +17,7 @@ public class Intake extends SubsystemBase {
     }
 
     // Talon SRX Motor
-    private TalonSRX m_intakeMotor = new TalonSRX(Constants.Intake.IntakeID);
+    private TalonSRX m_intakeMotor = new TalonSRX(Constants.Intake.kIntakeID);
 
     // Current intake mode
     private IntakeMotorState m_currentMode = IntakeMotorState.OFF;
@@ -40,7 +38,7 @@ public class Intake extends SubsystemBase {
         switch (state) {
             case ON:
                 // On
-                this.m_intakeMotor.set(ControlMode.PercentOutput, Constants.Intake.InSpeed);
+                this.m_intakeMotor.set(ControlMode.PercentOutput, Constants.Intake.kInSpeed);
                 break;
             case OFF:
                 // Off
@@ -48,7 +46,7 @@ public class Intake extends SubsystemBase {
                 break;
             case REVERSED:
                 // Reversed
-                this.m_intakeMotor.set(ControlMode.PercentOutput, Constants.Intake.OutSpeed);
+                this.m_intakeMotor.set(ControlMode.PercentOutput, Constants.Intake.kOutSpeed);
                 break;
         }
     }

@@ -12,7 +12,7 @@ public class DANK extends WebSocketServer{
     private static DANK m_instance;
 
     public DANK() throws UnknownHostException {
-        super(new InetSocketAddress(Constants.DANK.PORT));
+        super(new InetSocketAddress(Constants.DANK.kPORT));
     }
     
     @Override

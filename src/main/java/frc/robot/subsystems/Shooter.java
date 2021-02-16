@@ -19,7 +19,7 @@ public class Shooter extends SubsystemBase {
     }
 
     // Fly wheel motor
-    private CANSparkMax m_shootMotor = new CANSparkMax(Constants.Shooter.ShootID, MotorType.kBrushless);
+    private CANSparkMax m_shootMotor = new CANSparkMax(Constants.Shooter.kShootID, MotorType.kBrushless);
 
     // Fly wheel PID
     private CANPIDController m_pidController = m_shootMotor.getPIDController();
@@ -44,16 +44,16 @@ public class Shooter extends SubsystemBase {
         this.m_shootMotor.setIdleMode(IdleMode.kCoast);
 
         // Current limit
-        this.m_shootMotor.setSmartCurrentLimit(Constants.Shooter.CurrentLimit);
+        this.m_shootMotor.setSmartCurrentLimit(Constants.Shooter.kCurrentLimit);
 
         // Add PID values to controller
         this.m_pidController.setIZone(0.0);
         this.m_pidController.setOutputRange(-1, 1);
 
         // Log to smart dashboard for debugging
-        SmartDashboard.putNumber("shooter_p", Constants.Shooter.PIDp);
-        SmartDashboard.putNumber("shooter_i", Constants.Shooter.PIDi);
-        SmartDashboard.putNumber("shooter_d", Constants.Shooter.PIDd);
+        SmartDashboard.putNumber("shooter_p", Constants.Shooter.kPIDp);
+        SmartDashboard.putNumber("shooter_i", Constants.Shooter.kPIDi);
+        SmartDashboard.putNumber("shooter_d", Constants.Shooter.kPIDd);
         SmartDashboard.putNumber("shooter_f", Math.abs(0.000182));
     }
 
