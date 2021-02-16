@@ -1,12 +1,12 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.ControlMode; 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Logger;
 import frc.robot.RobotContainer;
 
 public class Intake extends SubsystemBase {
@@ -23,10 +23,6 @@ public class Intake extends SubsystemBase {
 
     // Current intake mode
     private IntakeMotorState m_currentMode = IntakeMotorState.OFF;
-    
-    private double lastTime = 0.0;
-
-    private double time;
 
     public Intake(RobotContainer rc) {
         this.setMotorState(IntakeMotorState.OFF);
@@ -39,7 +35,7 @@ public class Intake extends SubsystemBase {
     public void setMotorState(IntakeMotorState state) {
         // set the current state
         this.m_currentMode = state;
-
+        Logger.getInstance().addInfo("Intake", "Motor State Changed To " + state);
         // set motor state
         switch (state) {
             case ON:
@@ -64,21 +60,5 @@ public class Intake extends SubsystemBase {
     public IntakeMotorState getMotorState() {
         // return the current motor state
         return this.m_currentMode;
-    }
-
-    /**
-     * Intake periodic
-     */
-    @Override
-    public void periodic() {
-        if (Timer.getFPGATimestamp()-this.lastTime>0.75) {
-            this.lastTime = Timer.getFPGATimestamp();
-        }
-
-        // Turn off after reverse
-        if (this.time != 0 && Timer.getFPGATimestamp()-this.time > 1) {
-            this.setMotorState(IntakeMotorState.OFF);
-            this.time = 0;
-        }
     }
 }
