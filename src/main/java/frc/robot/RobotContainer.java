@@ -1,15 +1,18 @@
 package frc.robot;
-
+import frc.robot.subsystems.Intake;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI.Port;
 import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-
 public class RobotContainer {
 	private static RobotContainer m_instance;
 
+	// Subsystems
+	public Intake intake = new Intake();
+
+	// Controller
 	public Joystick joy = new Joystick(0);
     public JoystickButton a_button = new JoystickButton(joy, 1);
     public JoystickButton b_button = new JoystickButton(joy, 2);
