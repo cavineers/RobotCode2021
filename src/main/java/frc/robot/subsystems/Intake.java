@@ -24,7 +24,7 @@ public class Intake extends SubsystemBase {
     // Current intake mode
     private IntakeMotorState m_currentMode = IntakeMotorState.OFF;
 
-    public Intake(RobotContainer rc) {
+    public Intake() {
         this.setMotorState(IntakeMotorState.OFF);
     }
 

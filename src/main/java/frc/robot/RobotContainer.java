@@ -10,7 +10,7 @@ public class RobotContainer {
 	private static RobotContainer m_instance;
 
 	// Subsystems
-	public Intake intake = new Intake(this);
+	public Intake intake = new Intake();
 
 	// Controller
 	public Joystick joy = new Joystick(0);
