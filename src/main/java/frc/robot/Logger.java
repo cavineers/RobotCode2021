@@ -8,6 +8,7 @@ import java.time.Instant;
 import com.google.gson.Gson;
 
 import edu.wpi.first.wpilibj.Timer;
+import frc.lib.ByteArray;
 import frc.lib.logging.LogEntry;
 
 public class Logger {
@@ -64,7 +65,7 @@ public class Logger {
     public void add(LogEntry entry) {
         if (Robot.isReal()) {
             try {
-                this.m_fout.write(new Gson().toJson(entry).getBytes());
+                this.m_fout.write(ByteArray.concatenateByteArrays(new Gson().toJson(entry).getBytes(), ",".getBytes()));
             } catch (IOException e) {
                 System.out.println(e.getStackTrace());
             }
