@@ -5,7 +5,7 @@ import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Logger;
+import frc.robot.Robot;
 
 public class Intake extends SubsystemBase {
 
@@ -24,6 +24,8 @@ public class Intake extends SubsystemBase {
 
     public Intake() {
         this.setMotorState(IntakeMotorState.OFF);
+
+        Robot.logger.addInfo("Intake", "Created Intake subsystem");
     }
 
      /**
@@ -33,7 +35,10 @@ public class Intake extends SubsystemBase {
     public void setMotorState(IntakeMotorState state) {
         // set the current state
         this.m_currentMode = state;
-        Logger.getInstance().addInfo("Intake", "Motor State Changed To " + state);
+        
+        // Log
+        Robot.logger.addInfo("Intake", "Motor State Changed To " + state);
+
         // set motor state
         switch (state) {
             case ON:

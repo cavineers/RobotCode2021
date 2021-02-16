@@ -10,6 +10,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 public class Shooter extends SubsystemBase {
     // Shooter Mode
@@ -55,6 +56,9 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putNumber("shooter_i", Constants.Shooter.kPIDi);
         SmartDashboard.putNumber("shooter_d", Constants.Shooter.kPIDd);
         SmartDashboard.putNumber("shooter_f", Math.abs(0.000182));
+
+        // Log
+        Robot.logger.addInfo("Shooter", "Created Shooter subsystem");
     }
 
     /**
@@ -62,6 +66,7 @@ public class Shooter extends SubsystemBase {
      */
     public void enable() {
         this.m_currentMode = ShooterMode.ENABLED;
+        Robot.logger.addInfo("Shooter", "Enabled shooter PID loop");
     }
 
     /**
@@ -69,6 +74,7 @@ public class Shooter extends SubsystemBase {
      */
     public void disable() {
         this.m_currentMode = ShooterMode.DISABLED;
+        Robot.logger.addInfo("Shooter", "Disabled shooter PID loop");
     }
 
     /**

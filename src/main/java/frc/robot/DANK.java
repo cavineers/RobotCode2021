@@ -17,22 +17,22 @@ public class DANK extends WebSocketServer{
     
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
-        Logger.getInstance().addInfo("DANK", "WS Connected");
+        Robot.logger.addInfo("DANK", "WS Connected");
     }
     
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-        Logger.getInstance().addInfo("DANK", "WS Disconnect");
+        Robot.logger.addInfo("DANK", "WS Disconnect");
     }
     
     @Override
     public void onMessage(WebSocket conn, String message) {
-        Logger.getInstance().addInfo("DANK", "WS "+message);
+        Robot.logger.addInfo("DANK", "WS "+message);
     }
     
     @Override
     public void onMessage(WebSocket conn, ByteBuffer message) {
-        Logger.getInstance().addInfo("DANK", "WS "+message);
+        Robot.logger.addInfo("DANK", "WS "+message);
     }
 
     public static DANK getInstance() {
@@ -41,7 +41,7 @@ public class DANK extends WebSocketServer{
                 m_instance = new DANK();
                 m_instance.start();
             } catch (UnknownHostException e) {
-                Logger.getInstance().addInfo("DANK", "Error starting WS");
+                Robot.logger.addInfo("DANK", "Error starting WS");
             }
         }
 
@@ -52,15 +52,15 @@ public class DANK extends WebSocketServer{
     public void onError(WebSocket conn, Exception ex) {
         ex.printStackTrace();
         if (conn != null) {
-            Logger.getInstance().addInfo("DANK", "Error creating connection");
+            Robot.logger.addInfo("DANK", "Error creating connection");
         } else {
-            Logger.getInstance().addInfo("DANK", "Error occurred");
+            Robot.logger.addInfo("DANK", "Error occurred");
         }
     }
     
     @Override
     public void onStart() {
-        Logger.getInstance().addInfo("DANK", "WS Server started");
+        Robot.logger.addInfo("DANK", "WS Server started");
         setConnectionLostTimeout(0);
         setConnectionLostTimeout(100);
     }

@@ -53,6 +53,8 @@ public class SwerveDrive extends SubsystemBase {
 			this.getAngle(),
 			new Pose2d(0, 0, new Rotation2d())
 		);
+
+		Robot.logger.addInfo("SwerveDrive", "Created SwerveDrive subsystem");
     }
 
 /**
