@@ -11,62 +11,50 @@ public class Limelight {
         BLINK
     }
 
-    private NetworkTable llTable;
+    private NetworkTable m_llTable;
 
-    private LEDMode currentLedMode = LEDMode.OFF;
 
-    private static Limelight m_instance;
-    
     public Limelight() {
-        this.llTable = NetworkTableInstance.getDefault().getTable("limelight");
+        Robot.logger.addInfo("Limelight", "Started Limelight...");
+        this.m_llTable = NetworkTableInstance.getDefault().getTable("limelight");
     }
 
-    public static Limelight getInstance() {
-        if (m_instance == null) {
-            m_instance = new Limelight();
-        }
-
-        return m_instance;
-    }
-    
     public NetworkTable getTable() {
-        return this.llTable;
+        return this.m_llTable;
     }
 
     public double getHorizontalOffset() {
-        double tx = this.llTable.getEntry("tx").getDouble(0.0);
+        double tx = this.m_llTable.getEntry("tx").getDouble(0.0);
         return tx;
     }
 
     public double getVerticalOffset() {
-        return this.llTable.getEntry("ty").getDouble(0.0);
+        return this.m_llTable.getEntry("ty").getDouble(0.0);
     }
 
     public double getRange() {
-        return this.llTable.getEntry("ta").getDouble(0.0);
+        return this.m_llTable.getEntry("ta").getDouble(0.0);
     }
 
     public double getScreenFill() {
-        return this.llTable.getEntry("ta").getDouble(0.0);
+        return this.m_llTable.getEntry("ta").getDouble(0.0);
     }
 
     public void setLightMode(LEDMode mode) {
-        this.currentLedMode = mode;
-    }
+        Robot.logger.addInfo("Limelight", "LED Mode set to "+mode);
 
-    private void internalLED(LEDMode mode) {
         switch (mode) {
             case ON:
-                this.llTable.getEntry("ledMode").setNumber(3);
+                this.m_llTable.getEntry("ledMode").setNumber(3);
                 break;
             case BLINK:
-                this.llTable.getEntry("ledMode").setNumber(2);
+                this.m_llTable.getEntry("ledMode").setNumber(2);
                 break;
             case OFF:
-                this.llTable.getEntry("ledMode").setNumber(1);
+                this.m_llTable.getEntry("ledMode").setNumber(1);
                 break;
             case DEFAULT:
-                this.llTable.getEntry("ledMode").setNumber(0);
+                this.m_llTable.getEntry("ledMode").setNumber(0);
                 break;
         }
     }
@@ -83,12 +71,8 @@ public class Limelight {
         double height1 = Constants.Vision.kLimelightHeightFromGround;
         double height2 = Constants.Vision.kFieldGoalHeightFromGround;
         double angle1 = Constants.Vision.kLimelightMountingAngle;
-        double angle2 = this.llTable.getEntry("ty").getDouble(0.0);
+        double angle2 = this.m_llTable.getEntry("ty").getDouble(0.0);
         double distance = (height2-height1) * (1 / Math.tan(Math.toRadians(angle1+angle2)));
         return (int)Math.round(this.llCatch(distance));
-    }
-
-    public void periodic() {
-        this.internalLED(this.currentLedMode);
     }
 }
