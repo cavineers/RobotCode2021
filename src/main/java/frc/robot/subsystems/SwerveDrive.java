@@ -14,7 +14,6 @@ import frc.lib.swerve.SwerveModule;
 import frc.lib.swerve.SwerveSettings;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.RobotContainer;
 
 public class SwerveDrive extends SubsystemBase {
 	private SwerveModule m_left = new SwerveModule(
@@ -89,7 +88,7 @@ public class SwerveDrive extends SubsystemBase {
 
 	public void swerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
 		if(isFieldOriented) {
-			double gyroAngle = RobotContainer.getInstance().gyro.getAngle();
+			double gyroAngle = Robot.gyro.getAngle();
 
 			double sin = Math.sin(Math.toRadians(gyroAngle));
 			double cos = Math.cos(Math.toRadians(gyroAngle));
@@ -127,7 +126,7 @@ public class SwerveDrive extends SubsystemBase {
 
 	public Rotation2d getAngle() {
 		if (Robot.isReal()) {
-			return Rotation2d.fromDegrees(-RobotContainer.getInstance().gyro.getAngle());
+			return Rotation2d.fromDegrees(-Robot.gyro.getAngle());
 		} else {
 			return Rotation2d.fromDegrees(-this.m_simulationAngle);
 		}

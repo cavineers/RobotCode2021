@@ -1,60 +1,43 @@
 package frc.robot;
-import frc.robot.subsystems.Intake;
-import com.kauailabs.navx.frc.AHRS;
 
-import edu.wpi.first.wpilibj.SPI.Port;
-import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
-	private static RobotContainer m_instance;
-
-	// Shared Sensors
-	public AHRS gyro;
-
-	// Subsystems
-	public Intake intake;
-	public SwerveDrive swerveDrive;
-
 	// Controller
-	public Joystick joy = new Joystick(0);
-    public JoystickButton a_button = new JoystickButton(joy, 1);
-    public JoystickButton b_button = new JoystickButton(joy, 2);
-    public JoystickButton x_button = new JoystickButton(joy, 3);
-    public JoystickButton y_button = new JoystickButton(joy, 4);
-    public JoystickButton l_bump = new JoystickButton(joy, 5);
-    public JoystickButton r_bump = new JoystickButton(joy, 6);
-    public JoystickButton left_menu = new JoystickButton(joy, 7);
-    public JoystickButton right_menu = new JoystickButton(joy, 8);
-    public JoystickButton left_stick = new JoystickButton(joy, 9);
-    public JoystickButton right_stick = new JoystickButton(joy, 10);
+	public static Joystick joy;
+    public static JoystickButton a_button;
+    public static JoystickButton b_button;
+    public static JoystickButton x_button;
+    public static JoystickButton y_button;
+    public static JoystickButton l_bump;
+    public static JoystickButton r_bump;
+    public static JoystickButton left_menu;
+    public static JoystickButton right_menu;
+    public static JoystickButton left_stick;
+    public static JoystickButton right_stick;
 
 	public RobotContainer() {
-		Logger.getInstance().addInfo("RobotContainer", "Created RobotContainer instance");
+		Logger.getInstance().addInfo("RobotContainer", "Created RobotContainer");
 
-		// Shared Sensors
-		this.gyro = new AHRS(Port.kMXP);
-
-		// Subsystems
-		this.intake = new Intake();
-		this.swerveDrive = new SwerveDrive();
+		// Setup Controller
+		joy = new Joystick(0);
+		a_button = new JoystickButton(joy, 1);
+		b_button = new JoystickButton(joy, 2);
+		x_button = new JoystickButton(joy, 3);
+		y_button = new JoystickButton(joy, 4);
+		l_bump = new JoystickButton(joy, 5);
+		r_bump = new JoystickButton(joy, 6);
+		left_menu = new JoystickButton(joy, 7);
+		right_menu = new JoystickButton(joy, 8);
+		left_stick = new JoystickButton(joy, 9);
+		right_stick = new JoystickButton(joy, 10);
 
 		// Controller Bindings
 		mapButtonBindings();
 	}
 
-
-    public static RobotContainer getInstance() {
-        if (m_instance == null) {
-            m_instance = new RobotContainer();
-        }
-
-        return m_instance;
-    }
-
 	private void mapButtonBindings() {
 		Logger.getInstance().addInfo("RobotContainer", "Start to map button bindings");
-
 
 	}
 

@@ -1,21 +1,56 @@
 package frc.robot;
 
+import com.kauailabs.navx.frc.AHRS;
+
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.TeleopDrive;
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.SwerveDrive;
 
 public class Robot extends TimedRobot {
-	private final RobotContainer m_robotContainer = RobotContainer.getInstance();
-	private final Logger m_logger = Logger.getInstance();
-	private final DANK m_dank = DANK.getInstance();
+	// Robot Container
+	public static RobotContainer robotContainer;
+
+	// Logger
+	public static Logger logger;
+
+	// Dank
+	public static DANK dank;
+
+	// Shared Sensors
+	public static AHRS gyro;
+
+	// Subsystems
+	public static Intake intake;
+	public static SwerveDrive swerveDrive;
+	public static Shooter shooter;
 
 	public Robot() {
 		super(0.02);
+
+		// Static robot container
+		robotContainer = new RobotContainer();
+
+		// Static logger
+		logger = Logger.getInstance();
+
+		// Static DANK
+		dank = DANK.getInstance();
+
+		// Shared Sensors
+		gyro = new AHRS(Port.kMXP);
+
+		// Subsystems
+		intake = new Intake();
+		swerveDrive = new SwerveDrive();
 	}
 
 	@Override
 	public void robotInit() {
-		this.m_logger.addInfo("robot", "Initializing...");
+		logger.addInfo("robot", "Initializing...");
 	}
 
 	@Override
@@ -25,7 +60,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void disabledInit() {
-		this.m_logger.addInfo("robot", "Robot Disabled");
+		logger.addInfo("robot", "Robot Disabled");
 	}
 
 	@Override
@@ -33,7 +68,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void autonomousInit() {
-		this.m_logger.addInfo("robot", "Robot running in Autonomous");
+		logger.addInfo("robot", "Robot running in Autonomous");
 		// m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
 		// if (m_autonomousCommand != null) {
@@ -46,7 +81,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		this.m_logger.addInfo("robot", "Robot running in Teleop");
+		logger.addInfo("robot", "Robot running in Teleop");
 		// if (m_autonomousCommand != null) {
 		// 	m_autonomousCommand.cancel();
 		// }
@@ -59,7 +94,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void testInit() {
-		this.m_logger.addInfo("robot", "Robot running in Test");
+		logger.addInfo("robot", "Robot running in Test");
 
 		CommandScheduler.getInstance().cancelAll();
 	}
@@ -69,7 +104,7 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void simulationInit() {
-		this.m_logger.addInfo("robot", "Robot running in Simulation");
+		logger.addInfo("robot", "Robot running in Simulation");
 		System.out.println("*** Running in Simulation ***");
 	}
 
