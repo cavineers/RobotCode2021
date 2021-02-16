@@ -9,8 +9,6 @@ import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
 public class DANK extends WebSocketServer{
-    private static DANK m_instance;
-
     public DANK() throws UnknownHostException {
         super(new InetSocketAddress(Constants.DANK.kPORT));
     }
@@ -33,19 +31,6 @@ public class DANK extends WebSocketServer{
     @Override
     public void onMessage(WebSocket conn, ByteBuffer message) {
         Robot.logger.addInfo("DANK", "WS "+message);
-    }
-
-    public static DANK getInstance() {
-        if (m_instance == null) {
-            try {
-                m_instance = new DANK();
-                m_instance.start();
-            } catch (UnknownHostException e) {
-                Robot.logger.addInfo("DANK", "Error starting WS");
-            }
-        }
-
-        return m_instance;
     }
     
     @Override

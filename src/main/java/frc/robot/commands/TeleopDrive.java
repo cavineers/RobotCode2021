@@ -2,7 +2,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.Deadzone;
-import frc.robot.Logger;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
@@ -13,7 +12,7 @@ public class TeleopDrive extends CommandBase {
 
     @Override
     public void initialize() {
-		Logger.getInstance().addInfo("TeleopDrive", "Starting Teleop Driving");
+		Robot.logger.addInfo("TeleopDrive", "Starting Teleop Driving");
     }
 
     @Override
@@ -27,7 +26,7 @@ public class TeleopDrive extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        Logger.getInstance().addInfo("TeleopDrive", "Stopped Teleop Driving");
+        Robot.logger.addInfo("TeleopDrive", "Stopped Teleop Driving");
         Robot.swerveDrive.swerve(0.0, 0.0, 0.0, false);
     }
 

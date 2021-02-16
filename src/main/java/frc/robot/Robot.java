@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.net.UnknownHostException;
+
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -36,10 +38,15 @@ public class Robot extends TimedRobot {
 		robotContainer = new RobotContainer();
 
 		// Static logger
-		logger = Logger.getInstance();
+		logger = new Logger();
 
 		// Static DANK
-		dank = DANK.getInstance();
+		try {
+			dank = new DANK();
+			dank.start();
+		} catch (UnknownHostException e) {
+			logger.addInfo("DANK", "Error starting WS");
+		}
 
 		// Shared Sensors
 		gyro = new AHRS(Port.kMXP);

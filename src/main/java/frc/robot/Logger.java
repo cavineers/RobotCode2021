@@ -12,9 +12,6 @@ import frc.lib.ByteArray;
 import frc.lib.logging.LogEntry;
 
 public class Logger {
-    // Instance
-    private static Logger m_instance;
-
     // File Stream
     private FileOutputStream m_fout;
     private String m_filename;
@@ -39,14 +36,6 @@ public class Logger {
                 e.printStackTrace();
             }
         }
-    }
-
-    public static Logger getInstance() {
-        if (m_instance == null) {
-            m_instance = new Logger();
-        }
-
-        return m_instance;
     }
 
     public String typeToString(LogType type) {

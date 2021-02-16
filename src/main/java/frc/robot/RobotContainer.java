@@ -17,7 +17,7 @@ public class RobotContainer {
     public static JoystickButton right_stick;
 
 	public RobotContainer() {
-		Logger.getInstance().addInfo("RobotContainer", "Created RobotContainer");
+		Robot.logger.addInfo("RobotContainer", "Created RobotContainer");
 
 		// Setup Controller
 		joy = new Joystick(0);
@@ -37,7 +37,7 @@ public class RobotContainer {
 	}
 
 	private void mapButtonBindings() {
-		Logger.getInstance().addInfo("RobotContainer", "Start to map button bindings");
+		Robot.logger.addInfo("RobotContainer", "Start to map button bindings");
 
 	}
 
