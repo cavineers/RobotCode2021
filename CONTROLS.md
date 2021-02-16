@@ -9,3 +9,9 @@
 **X-Axis Left Joystick** => Left & Right drive
 
 **X-Axis Right Joystick** => Bot Rotation
+
+**X-Button** => Toggle Intake
+
+**B-Button** => Reverse Intake
+
+**A-Button** => Autonomous Shoot
