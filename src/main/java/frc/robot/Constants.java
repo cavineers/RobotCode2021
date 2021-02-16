@@ -18,10 +18,9 @@ public final class Constants {
 
     // Vision
     public static class Vision {
-        // TODO: These are last years numbers, need updated for 2021
         public static double kFieldGoalHeightFromGround = 98.0; // 31 inches used for testing
         public static double kLimelightHeightFromGround = 18.0; // vertical distance from limelight to ground
-        public static double kLimelightMountingAngle    = 25.0;
+        public static double kLimelightMountingAngle    = 25.0; // TODO: Update mounting angle when complete
     }
 
     // Shooter
@@ -41,6 +40,14 @@ public final class Constants {
         public static double kInSpeed = 1;
         public static double kOutSpeed = -0.12;
     }
+
+    public static class Sizing {
+        public static double kWheelBaseInches = 29.5;   // Distance between the front and back wheels in inches
+        public static double kTrackWidthInches = 29.5; // Distance between the inside of the left and right 2 wheels in inches
+
+        public static double kWheelBaseMeters = 0.7493;   // Distance between the front and back wheels in meters
+        public static double kTrackWidthMeters = 0.7493; // Distance between the inside of the left and right 2 wheels in meters
+    }
     // Swerve
     public static class Swerve {
         // Left 
@@ -54,6 +61,7 @@ public final class Constants {
         // Kinematics & Odometry
         // TODO: GET ACTUAL MAX VELOCITY
         public static double kMaxDriveSpeed = 5.0; // In Meters Per Second
+        public static double kMaxAccel = 0.0; // In meters per second // TODO: Find max accel
 
         // Rotation PID
         // TODO: TUNE THESE
@@ -61,9 +69,7 @@ public final class Constants {
         public static double kRotationPID_I = 0.0;
         public static double kRotationPID_D = 0.0;
 
-        // Value for swerving
-        // TODO: I NEED NUMBERS
-        public static double kWheelBase = 0.0;   // Distance between the front and back wheels in inches
-        public static double kTrackWidth = 10.0; // Distance between the inside of the left and right 2 wheels in inches
+        // Track Width
+        public static double kTrackWidth = Sizing.kTrackWidthInches;
     }
 }
