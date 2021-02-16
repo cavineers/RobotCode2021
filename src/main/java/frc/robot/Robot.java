@@ -22,6 +22,7 @@ public class Robot extends TimedRobot {
 
 	// Shared Sensors
 	public static AHRS gyro;
+	public static Limelight limelight;
 
 	// Subsystems
 	public static Intake intake;
