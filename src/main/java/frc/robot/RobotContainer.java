@@ -9,8 +9,12 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer {
 	private static RobotContainer m_instance;
 
+	// Shared Sensors
+	public AHRS gyro;
+
 	// Subsystems
-	public Intake intake = new Intake();
+	public Intake intake;
+	public SwerveDrive swerveDrive;
 
 	// Controller
 	public Joystick joy = new Joystick(0);
@@ -25,10 +29,6 @@ public class RobotContainer {
     public JoystickButton left_stick = new JoystickButton(joy, 9);
     public JoystickButton right_stick = new JoystickButton(joy, 10);
 
-	public SwerveDrive swerveDrive;
-
-	public AHRS gyro;
-
 	public RobotContainer() {
 		Logger.getInstance().addInfo("RobotContainer", "Created RobotContainer instance");
 
@@ -36,7 +36,8 @@ public class RobotContainer {
 		this.gyro = new AHRS(Port.kMXP);
 
 		// Subsystems
-		this.swerveDrive = new SwerveDrive(this.gyro);
+		this.intake = new Intake();
+		this.swerveDrive = new SwerveDrive();
 
 		// Controller Bindings
 		mapButtonBindings();

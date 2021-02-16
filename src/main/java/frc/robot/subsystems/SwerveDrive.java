@@ -1,7 +1,5 @@
 package frc.robot.subsystems;
 
-import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -16,10 +14,9 @@ import frc.lib.swerve.SwerveModule;
 import frc.lib.swerve.SwerveSettings;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.RobotContainer;
 
 public class SwerveDrive extends SubsystemBase {
-	private AHRS m_gyro;
-
 	private SwerveModule m_left = new SwerveModule(
         new SwerveSettings()
             .setDriveMotorID(Constants.Swerve.kLeftDriveID)
@@ -46,9 +43,7 @@ public class SwerveDrive extends SubsystemBase {
 
 	private double m_simulationAngle = 0.0;
 
-    public SwerveDrive(AHRS gyro) {
-        this.m_gyro = gyro;
-
+    public SwerveDrive() {
 		this.m_kinematics = new SwerveDriveKinematics(
 			new Translation2d(-Constants.Swerve.kTrackWidth, 0),
 			new Translation2d(Constants.Swerve.kTrackWidth, 0)
@@ -94,7 +89,7 @@ public class SwerveDrive extends SubsystemBase {
 
 	public void swerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
 		if(isFieldOriented) {
-			double gyroAngle = this.m_gyro.getAngle();
+			double gyroAngle = RobotContainer.getInstance().gyro.getAngle();
 
 			double sin = Math.sin(Math.toRadians(gyroAngle));
 			double cos = Math.cos(Math.toRadians(gyroAngle));
@@ -132,7 +127,7 @@ public class SwerveDrive extends SubsystemBase {
 
 	public Rotation2d getAngle() {
 		if (Robot.isReal()) {
-			return Rotation2d.fromDegrees(-this.m_gyro.getAngle());
+			return Rotation2d.fromDegrees(-RobotContainer.getInstance().gyro.getAngle());
 		} else {
 			return Rotation2d.fromDegrees(-this.m_simulationAngle);
 		}
