@@ -16,15 +16,17 @@ public class Transportation extends SubsystemBase {
         REVERSED
     }
 
-    // Talon SRX Motors
-    private TalonSRX m_conveyerMotor = new TalonSRX(Constants.Transportation.kConveyerID);
+    // Motor Imports
+    private TalonSRX m_conveyorMotor = new TalonSRX(Constants.Transportation.kConveyorID);
     private TalonSRX m_feederMotor = new TalonSRX(Constants.Transportation.kFeederID);
 
     // Current transportation mode
-    private TransportMotorState m_currentMode = TransportMotorState.OFF;
+    private TransportMotorState m_currentModeFeeder = TransportMotorState.OFF;
+    private TransportMotorState m_currentModeConveyor = TransportMotorState.OFF;
 
     public Transportation() {
-        this.setMotorState(TransportMotorState.OFF);
+        this.setMotorStateConveyor(TransportMotorState.OFF);
+        this.setMotorStateFeeder(TransportMotorState.OFF);
 
         Robot.logger.addInfo("Transportation", "Created Transportation subsystem");
     }
@@ -33,28 +35,53 @@ public class Transportation extends SubsystemBase {
      * set the desired transport state
      * @param state wanted transport state
      */
-    public void setMotorState(TransportMotorState state) {
+    public void setMotorStateConveyor(TransportMotorState state) {
         // set the current state
-        this.m_currentMode = state;
+        this.m_currentModeConveyor = state;
         
         // Log
-        Robot.logger.addInfo("Transportation", "Motor State Changed To " + state);
+        Robot.logger.addInfo("Transportation", "Conveyor Motor State Changed To " + state);
 
         // set motor state
         switch (state) {
             case ON:
                 // On
-                this.m_conveyerMotor.set(ControlMode.PercentOutput, Constants.Transportation.kInSpeedConveyer);
+                this.m_conveyorMotor.set(ControlMode.PercentOutput, Constants.Transportation.kInSpeedConveyor);
+                break;
+            case OFF:
+                // Off
+                this.m_conveyorMotor.set(ControlMode.PercentOutput, 0);
+                break;
+            case REVERSED:
+                // Reversed
+                this.m_conveyorMotor.set(ControlMode.PercentOutput, Constants.Transportation.kOutSpeedConveyor);
+                break;
+        }
+    }
+
+     /**
+     * set the desired transport state
+     * @param state wanted transport state
+     */
+    public void setMotorStateFeeder(TransportMotorState state) {
+        // set the current state
+        this.m_currentModeFeeder = state;
+        
+        // Log
+        Robot.logger.addInfo("Transportation", "Feeder Motor State Changed To " + state);
+
+        // set motor state
+        switch (state) {
+            case ON:
+                // On
                 this.m_feederMotor.set(ControlMode.PercentOutput, Constants.Transportation.kInSpeedFeeder);
                 break;
             case OFF:
                 // Off
-                this.m_conveyerMotor.set(ControlMode.PercentOutput, 0);
                 this.m_feederMotor.set(ControlMode.PercentOutput, 0);
                 break;
             case REVERSED:
                 // Reversed
-                this.m_conveyerMotor.set(ControlMode.PercentOutput, Constants.Transportation.kOutSpeedConveyer);
                 this.m_feederMotor.set(ControlMode.PercentOutput, Constants.Transportation.kOutSpeedFeeder);
                 break;
         }
@@ -62,10 +89,17 @@ public class Transportation extends SubsystemBase {
 
     /**
      * get the current transport state
+     * @return conveyor state
+     */
+    public TransportMotorState getConveyorMotorState() {
+        return this.m_currentModeConveyor;
+    }
+
+    /**
+     * get the current transport state
      * @return transport state
      */
-    public TransportMotorState getMotorState() {
-        // return the current motor state
-        return this.m_currentMode;
+    public TransportMotorState getFeederMotorState() {
+        return this.m_currentModeFeeder;
     }
 }
