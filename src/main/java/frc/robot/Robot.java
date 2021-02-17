@@ -73,6 +73,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void disabledInit() {
 		logger.addInfo("robot", "Robot Disabled");
+
+		swerveDrive.swerve(0, 0, 0, false);
 	}
 
 	@Override
@@ -89,7 +91,9 @@ public class Robot extends TimedRobot {
 	}
 
 	@Override
-	public void autonomousPeriodic() {}
+	public void autonomousPeriodic() {
+		swerveDrive.swerve(0.0, 0.2, -0.0, false);
+	}
 
 	@Override
 	public void teleopInit() {
