@@ -14,6 +14,7 @@ public final class Constants {
         public static int kIntakeMotor       = 6;
         public static int kTransportConveyor = 7;
         public static int kTransportFeeder   = 8;
+        public static int kShooterHood       = 9;
         public static int kPowerDistributionPanel = 50;
     }
 
@@ -86,5 +87,16 @@ public final class Constants {
 
         // Track Width
         public static double kTrackWidth = Sizing.kTrackWidthInches;
+    }
+
+    // Hood
+    public static class Hood {
+        public static int kMotorID = CANIds.kShooterHood;
+        public static double kHomingSpeed = 0.15;
+        public static double kP = 0.0007; // TODO: Calculate PID values to make testing easier
+        public static double kI = 0.0;
+        public static double kD = 0.00000;
+        public static double kTolerance = 5.0; // ~0.5 deg
+        public static double kMaxSpeed = 0.9;
     }
 }
