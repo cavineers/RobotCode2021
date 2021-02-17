@@ -29,7 +29,7 @@ public class SwerveDrive extends SubsystemBase {
             .setDriveMotorID(Constants.Swerve.kRightDriveID)
             .setRotationMotorID(Constants.Swerve.kRightRotateID)
             .setRotationOffset(0)
-            .setInverted(true)
+            .setInverted(false)
             .setCommonName("right_")
 
     );

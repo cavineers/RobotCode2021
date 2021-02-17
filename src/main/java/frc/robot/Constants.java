@@ -1,6 +1,10 @@
 package frc.robot;
 
 public final class Constants {
+    public static class Robot {
+        public static String kYear = "2021";
+        public static String kName = "TBD";
+    }
     public static class CANIds {
         public static int kLeftDriveMotor    = 1;
         public static int kLeftRotateMotor   = 2;
@@ -10,6 +14,7 @@ public final class Constants {
         public static int kIntakeMotor       = 6;
         public static int kTransportConveyor = 7;
         public static int kTransportFeeder   = 8;
+        public static int kShooterHood       = 9;
         public static int kPowerDistributionPanel = 50;
     }
 
@@ -95,5 +100,15 @@ public final class Constants {
         public static double cameraResolutionY = 1080;
         public static double cameraResolutionX = 1920;
         public static double cameraFieldOfView = 75 * 2;
+
+    // Hood
+    public static class Hood {
+        public static int kMotorID = CANIds.kShooterHood;
+        public static double kHomingSpeed = 0.15;
+        public static double kP = 0.0007; // TODO: Calculate PID values to make testing easier
+        public static double kI = 0.0;
+        public static double kD = 0.00000;
+        public static double kTolerance = 5.0; // ~0.5 deg
+        public static double kMaxSpeed = 0.9;
     }
 }

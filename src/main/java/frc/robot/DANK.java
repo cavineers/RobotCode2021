@@ -16,6 +16,10 @@ public class DANK extends WebSocketServer{
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         Robot.logger.addInfo("DANK", "WS Connected");
+
+        conn.send("05;"+Constants.Robot.kYear);
+        conn.send("06;"+Constants.Robot.kName);
+        // conn.send("02;"+this.generateLayout()); // TODO: Setup layout
     }
     
     @Override
@@ -26,11 +30,36 @@ public class DANK extends WebSocketServer{
     @Override
     public void onMessage(WebSocket conn, String message) {
         Robot.logger.addInfo("DANK", "WS "+message);
+        this.handle(conn, message);
     }
     
     @Override
     public void onMessage(WebSocket conn, ByteBuffer message) {
         Robot.logger.addInfo("DANK", "WS "+message);
+        this.handle(conn, message.toString());
+    }
+
+    private void handle(WebSocket conn, String message) {
+        String type = message.substring(0, 2);
+        String content = message.substring(3);
+
+        switch (type) {
+            case "00":
+                conn.send("01;pong");
+                break;
+            case "01":
+                
+                break;
+            case "03":
+                Robot.logger.addInfo("DANK-WS-03", content);
+                break;
+            case "04":
+                // Robot.vision.passData(content);
+                break;
+            default:
+                Robot.logger.addInfo("DANK-WS", "Unknown type: "+type);
+                break;
+        }
     }
     
     @Override
