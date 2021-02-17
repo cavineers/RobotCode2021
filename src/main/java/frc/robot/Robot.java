@@ -36,11 +36,11 @@ public class Robot extends TimedRobot {
 	public Robot() {
 		super(0.02);
 
-		// Static robot container
-		robotContainer = new RobotContainer();
-
 		// Static logger
 		logger = new Logger();
+
+		// Static robot container
+		robotContainer = new RobotContainer();
 
 		// Static DANK
 		try {
