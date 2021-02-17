@@ -1,6 +1,10 @@
 package frc.robot;
 
 public final class Constants {
+    public static class Robot {
+        public static String kYear = "2021";
+        public static String kName = "TBD";
+    }
     public static class CANIds {
         public static int kLeftDriveMotor    = 1;
         public static int kLeftRotateMotor   = 2;
