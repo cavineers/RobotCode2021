@@ -14,6 +14,8 @@ public class Vision {
     private double cameraResolutionX;
     private double ty;
     private double distance;
+    private double height;
+    private double width;
     
     public Vision() {
         // Set variable values from Constants
@@ -25,14 +27,21 @@ public class Vision {
         this.cameraResolutionX = Constants.ObjVision.cameraResolutionX;
     }
 
-    public double calculateDistance(String[] xyxy, double height, double width) {
+    public void parseData(double[][] xyxy) {
+        for(int i = 0; i < xyxy.length; i++) {
+            calculateDistance(xyxy[i]);
+        }
+    }
+
+    public void calculateDistance(double[] xyxy) {
+        // Calculate height / width
+        this.width = xyxy[2] - xyxy[0];
+        this.height = xyxy[3] - xyxy[1];
+
         // Calculate ty value
-        ty = ((cameraResolutionY / 2) - (Double.parseDouble(xyxy[3]) + (-height / 2))) * (cameraFieldOfView / cameraResolutionY); //! If error in math try Integer.parseInt instead of double...
+         this.ty = ((cameraResolutionY / 2) - ((xyxy[3]) + (-height / 2))) * (cameraFieldOfView / cameraResolutionY); //! If error in math try Integer.parseInt instead of double...
 
         // Calculate Math using: (ballHeight-cameraHeight) / (math.tan(math.radians(cameraAngle+ty)))
-        distance = (ballHeight - cameraHeight) / (Math.tan(Math.toRadians(cameraAngle + ty)));
-
-        // Return Val
-        return distance;
+        this.distance = (ballHeight - cameraHeight) / (Math.tan(Math.toRadians(cameraAngle + ty)));
     }
 }
