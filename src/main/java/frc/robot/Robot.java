@@ -13,11 +13,11 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 
 public class Robot extends TimedRobot {
-	// Robot Container
-	public static RobotContainer robotContainer;
-
 	// Logger
 	public static Logger logger;
+	
+	// Robot Container
+	public static RobotContainer robotContainer;
 
 	// Dank
 	public static DANK dank;
