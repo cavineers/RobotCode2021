@@ -100,6 +100,7 @@ public final class Constants {
         public static double cameraResolutionY = 1080;
         public static double cameraResolutionX = 1920;
         public static double cameraFieldOfView = 75 * 2;
+    }
 
     // Hood
     public static class Hood {

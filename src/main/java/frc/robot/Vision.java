@@ -1,5 +1,7 @@
 package frc.robot;
 
+import java.util.Arrays;
+
 import frc.robot.Constants;
 import frc.robot.DANK;
 
@@ -27,21 +29,44 @@ public class Vision {
         this.cameraResolutionX = Constants.ObjVision.cameraResolutionX;
     }
 
-    public void parseData(double[][] xyxy) {
+    public void parseData(String[][] xyxy) {
         for(int i = 0; i < xyxy.length; i++) {
             calculateDistance(xyxy[i]);
         }
     }
 
-    public void calculateDistance(double[] xyxy) {
+    public void calculateDistance(String[] xyxy) {
         // Calculate height / width
-        this.width = xyxy[2] - xyxy[0];
-        this.height = xyxy[3] - xyxy[1];
+        this.width = Integer.parseInt(xyxy[2]) - Integer.parseInt(xyxy[0]);
+        this.height = Integer.parseInt(xyxy[3]) - Integer.parseInt(xyxy[1]);
 
         // Calculate ty value
-         this.ty = ((cameraResolutionY / 2) - ((xyxy[3]) + (-height / 2))) * (cameraFieldOfView / cameraResolutionY); //! If error in math try Integer.parseInt instead of double...
+         this.ty = ((cameraResolutionY / 2) - ((Integer.parseInt(xyxy[3])) + (-height / 2))) * (cameraFieldOfView / cameraResolutionY);
 
         // Calculate Math using: (ballHeight-cameraHeight) / (math.tan(math.radians(cameraAngle+ty)))
         this.distance = (ballHeight - cameraHeight) / (Math.tan(Math.toRadians(cameraAngle + ty)));
+    }
+
+    public void convertStringToArr(String s) {
+        // Split on this delimiter
+        String[] rows = s.split("], \\[");
+        for (int i = 0; i < rows.length; i++) {
+            // Remove any beginning and ending braces and any white spaces
+            rows[i] = rows[i].replace("[[", "").replace("]]", "").replaceAll(" ", "");
+        }
+
+        // Get the number of columns in a row
+        int numberOfColumns = rows[0].split(",").length;
+
+        // Setup matrix
+        String[][] matrix = new String[rows.length][numberOfColumns];
+
+        // Populate matrix
+        for (int i = 0; i < rows.length; i++) {
+            matrix[i] = rows[i].split(",");
+        }
+
+        // Run parseData
+        parseData(matrix);
     }
 }
