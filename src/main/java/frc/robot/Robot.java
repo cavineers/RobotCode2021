@@ -11,6 +11,7 @@ import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
+import frc.robot.subsystems.Transportation;
 
 public class Robot extends TimedRobot {
 	// Robot Container
@@ -30,6 +31,7 @@ public class Robot extends TimedRobot {
 	public static Intake intake;
 	public static SwerveDrive swerveDrive;
 	public static Shooter shooter;
+	public static Transportation transportation;
 
 	public Robot() {
 		super(0.02);
@@ -54,6 +56,8 @@ public class Robot extends TimedRobot {
 		// Subsystems
 		intake = new Intake();
 		swerveDrive = new SwerveDrive();
+		shooter = new Shooter();
+		transportation = new Transportation();
 	}
 
 	@Override
