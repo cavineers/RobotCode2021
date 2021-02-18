@@ -54,7 +54,7 @@ public class DANK extends WebSocketServer{
                 Robot.logger.addInfo("DANK-WS-03", content);
                 break;
             case "04":
-                // Robot.vision.passData(content);
+                Robot.vision.convertStringToArr(content);
                 break;
             default:
                 Robot.logger.addInfo("DANK-WS", "Unknown type: "+type);

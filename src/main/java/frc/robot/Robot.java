@@ -33,6 +33,9 @@ public class Robot extends TimedRobot {
 	public static Shooter shooter;
 	public static Transportation transportation;
 
+	// Vision
+	public static Vision vision;
+
 	public Robot() {
 		super(0.02);
 
@@ -58,6 +61,9 @@ public class Robot extends TimedRobot {
 		swerveDrive = new SwerveDrive();
 		shooter = new Shooter();
 		transportation = new Transportation();
+
+		// Vision
+		vision = new Vision();
 	}
 
 	@Override
