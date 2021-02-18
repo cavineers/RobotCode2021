@@ -92,14 +92,14 @@ public final class Constants {
     // Object Detection Vision
     public static class ObjVision {
         // Constants (in inches)
-        public static double cameraHeight      = 3.0;
-        public static double cameraAngle       = 0.0;
+        public static double kCameraHeight      = 3.0;
+        public static double kCameraAngle       = 0.0;
 
-        public static double ballHeight        = 3.5;
+        public static double kBallHeight        = 3.5;
 
-        public static double cameraResolutionY = 1080;
-        public static double cameraResolutionX = 1920;
-        public static double cameraFieldOfView = 75 * 2;
+        public static double kCameraResolutionY = 1080;
+        public static double kCameraResolutionX = 1920;
+        public static double kCameraFieldOfView = 75 * 2;
     }
 
     // Hood

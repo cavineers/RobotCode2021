@@ -1,50 +1,38 @@
 package frc.robot;
 
-import java.util.Arrays;
-
-import frc.robot.Constants;
-import frc.robot.DANK;
+import frc.lib.Target;
 
 public class Vision {
-
-    // Init Vars
-    private double cameraHeight;
-    private double cameraAngle;
-    private double ballHeight;
-    private double cameraFieldOfView;
-    private double cameraResolutionY;
-    private double cameraResolutionX;
-    private double ty;
-    private double distance;
-    private double height;
-    private double width;
-    
-    public Vision() {
-        // Set variable values from Constants
-        this.cameraAngle = Constants.ObjVision.cameraAngle;
-        this.cameraHeight = Constants.ObjVision.cameraHeight;
-        this.ballHeight = Constants.ObjVision.ballHeight;
-        this.cameraFieldOfView = Constants.ObjVision.cameraFieldOfView;
-        this.cameraResolutionY = Constants.ObjVision.cameraResolutionY;
-        this.cameraResolutionX = Constants.ObjVision.cameraResolutionX;
-    }
+    private Target m_target = new Target();
 
     public void parseData(String[][] xyxy) {
+        Target shortestDistance = new Target();
+
         for(int i = 0; i < xyxy.length; i++) {
-            calculateDistance(xyxy[i]);
+            Target calculatedData = calculateData(xyxy[i]);
+            
+            if(!shortestDistance.isSet() || shortestDistance.getDistance() > calculatedData.getDistance()) {
+                shortestDistance = calculatedData;
+            }
         }
+
+        this.m_target = shortestDistance;
     }
 
-    public void calculateDistance(String[] xyxy) {
+    public Target calculateData(String[] xyxy) {
         // Calculate height / width
-        this.width = Integer.parseInt(xyxy[2]) - Integer.parseInt(xyxy[0]);
-        this.height = Integer.parseInt(xyxy[3]) - Integer.parseInt(xyxy[1]);
+        double width = Double.parseDouble(xyxy[2]) - Double.parseDouble(xyxy[0]);
+        double height = Double.parseDouble(xyxy[3]) - Double.parseDouble(xyxy[1]);
 
-        // Calculate ty value
-         this.ty = ((cameraResolutionY / 2) - ((Integer.parseInt(xyxy[3])) + (-height / 2))) * (cameraFieldOfView / cameraResolutionY);
+        // Calculate ty / tx value
+        double ty = ((Constants.ObjVision.kCameraResolutionY / 2) - ((Double.parseDouble(xyxy[3])) + (-height / 2))) * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionY);
+        double tx = ((Constants.ObjVision.kCameraResolutionX / 2) - (Double.parseDouble(xyxy[2]) + (-width / 2))) * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionX);
 
         // Calculate Math using: (ballHeight-cameraHeight) / (math.tan(math.radians(cameraAngle+ty)))
-        this.distance = (ballHeight - cameraHeight) / (Math.tan(Math.toRadians(cameraAngle + ty)));
+        double distance = (Constants.ObjVision.kBallHeight - Constants.ObjVision.kCameraHeight) / (Math.tan(Math.toRadians(Constants.ObjVision.kCameraAngle + ty)));
+
+        // Target Class
+        return new Target(distance, ty, tx);
     }
 
     public void convertStringToArr(String s) {
@@ -68,5 +56,9 @@ public class Vision {
 
         // Run parseData
         parseData(matrix);
+    }
+
+    public Target getPowerCellTarget() {
+        return this.m_target;
     }
 }
