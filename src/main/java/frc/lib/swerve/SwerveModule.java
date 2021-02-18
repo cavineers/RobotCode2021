@@ -113,10 +113,10 @@ public class SwerveModule extends SubsystemBase {
         }
         
         // Current Setpoint
-        double rSetpoint = getOffset()+(difference*(4096.0/360.0));
+        this.m_rotationSetpoint = getOffset()+(difference*(4096.0/360.0));
 
         // Output rotation motor
-        this.rotationMotor.set(ControlMode.Position, rSetpoint);
+        this.rotationMotor.set(ControlMode.Position, this.m_rotationSetpoint);
 
         // Output drive motor
         this.driveMotor.set(ControlMode.PercentOutput, this.settings.isInverted() ? -speed : speed);
@@ -124,13 +124,11 @@ public class SwerveModule extends SubsystemBase {
         // Save current speed
         this.m_currentSpeed = this.settings.isInverted() ? -speed : speed;
 
-        // Save set rotation
-        this.m_rotationSetpoint = rSetpoint*(4096.0/360.0);
-
         SmartDashboard.putNumber(this.settings.commonName()+"_percentOut", this.settings.isInverted() ? -speed : speed);
-        SmartDashboard.putNumber(this.settings.commonName()+"_rotationSetpoint", rSetpoint);
+        SmartDashboard.putNumber(this.settings.commonName()+"_rotationSetpoint", this.m_rotationSetpoint);
         SmartDashboard.putNumber(this.settings.commonName()+"_rotationPosition", currentOffset);
         SmartDashboard.putNumber(this.settings.commonName()+"_encoderVal", this.getOffset());
+        SmartDashboard.putNumber(this.settings.commonName()+"_encoderDeg", this.getOffset()/(4096.0/360.0));
     }
 
     public SwerveModuleState getState() {

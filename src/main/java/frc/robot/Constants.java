@@ -76,7 +76,7 @@ public final class Constants {
 
         // Kinematics & Odometry
         // TODO: GET ACTUAL MAX VELOCITY
-        public static double kMaxDriveSpeed = 5.0; // In Meters Per Second
+        public static double kMaxDriveSpeed = 10.0; // In Meters Per Second
         public static double kMaxAccel = 0.0; // In meters per second // TODO: Find max accel
 
         // Rotation PID

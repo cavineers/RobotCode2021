@@ -100,7 +100,7 @@ public class SwerveDrive extends SubsystemBase {
 			forward = T;
 		}
 
-		this.m_simulationAngle += rotate*2.0;
+		this.m_simulationAngle += rotate*3.0;
 
 		double A = forward-rotate;
 		double B = forward+rotate;
