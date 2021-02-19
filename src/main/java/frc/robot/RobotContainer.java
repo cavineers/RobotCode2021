@@ -2,6 +2,8 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.ToggleIntake;
+import frc.robot.subsystems.Intake;
 public class RobotContainer {
 	// Controller
 	public Joystick joy = new Joystick(0);
@@ -16,6 +18,9 @@ public class RobotContainer {
     public JoystickButton left_stick = new JoystickButton(joy, 9);
     public JoystickButton right_stick = new JoystickButton(joy, 10);
 
+	// Subsystem Init
+	public Intake intake = new Intake();
+
 	public RobotContainer() {
 		Robot.logger.addInfo("RobotContainer", "Created RobotContainer");
 
@@ -26,6 +31,8 @@ public class RobotContainer {
 	private void mapButtonBindings() {
 		Robot.logger.addInfo("RobotContainer", "Start to map button bindings");
 
+		// Toggle Intake
+		x_button.whenPressed(new ToggleIntake(this.intake));
 	}
 
 	// public Command getAutonomousCommand() {
