@@ -5,22 +5,20 @@ import frc.robot.subsystems.Intake;
 import frc.robot.Robot;
 
 public class ToggleIntake extends CommandBase {
-    private Intake intake;
 
     // Constructor
-    public ToggleIntake(Intake intake) {
-        addRequirements(intake);
-        this.intake = intake;
+    public ToggleIntake() {
+        addRequirements(Robot.intake);
     }
 
     // Set Motor State to ON / OFF
     @Override
     public void initialize() {
         Robot.logger.addInfo("ToggleIntake", "Intake Toggle");
-        if (this.intake.getMotorState() == Intake.IntakeMotorState.OFF) {
-            this.intake.setMotorState(Intake.IntakeMotorState.ON);
+        if (Robot.intake.getMotorState() == Intake.IntakeMotorState.OFF) {
+            Robot.intake.setMotorState(Intake.IntakeMotorState.ON);
         } else {
-            this.intake.setMotorState(Intake.IntakeMotorState.OFF);
+            Robot.intake.setMotorState(Intake.IntakeMotorState.OFF);
         }
     }
 

@@ -28,7 +28,7 @@ public class RobotContainer {
 		Robot.logger.addInfo("RobotContainer", "Start to map button bindings");
 
 		// Toggle Intake
-		x_button.whenPressed(new ToggleIntake(Robot.intake));
+		x_button.whenPressed(new ToggleIntake());
 	}
 
 	// public Command getAutonomousCommand() {
