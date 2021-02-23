@@ -13,7 +13,7 @@ public class Hood extends PIDSubsystem {
     public WPI_TalonSRX m_hoodMotor = new WPI_TalonSRX(Constants.Hood.kMotorID);
 
     // Current setpoint
-    private int currentSetpoint;
+    private int m_currentSetpoint;
 
     /**
      * TurnTable constructor
@@ -37,11 +37,11 @@ public class Hood extends PIDSubsystem {
      * @param angle angle to turn to (in degrees)
      */
     public void turnToAngle(double angle) {
-        this.currentSetpoint = ((int)((4096/360)*angle));
+        this.m_currentSetpoint = ((int)((4096/360)*angle));
 
         // Setpoint
-        this.setSetpoint(this.currentSetpoint);
-        this.getController().setSetpoint(this.currentSetpoint);
+        this.setSetpoint(this.m_currentSetpoint);
+        this.getController().setSetpoint(this.m_currentSetpoint);
     }
 
     /**
@@ -49,7 +49,7 @@ public class Hood extends PIDSubsystem {
      * @return whether we are at target
      */
     public boolean atTarget() {
-        return (this.currentSetpoint-Constants.Hood.kTolerance<getMeasurement() && this.currentSetpoint+Constants.Hood.kTolerance > getMeasurement());
+        return (this.m_currentSetpoint-Constants.Hood.kTolerance<getMeasurement() && this.m_currentSetpoint+Constants.Hood.kTolerance > getMeasurement());
     }
 
     /**
