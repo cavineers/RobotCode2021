@@ -91,7 +91,7 @@ public class SwerveDrive extends SubsystemBase {
     }
 
 	public void swerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
-		if(isFieldOriented) {
+		if (isFieldOriented) {
 			double gyroAngle = Robot.gyro.getAngle();
 
 			double sin = Math.sin(Math.toRadians(gyroAngle));
