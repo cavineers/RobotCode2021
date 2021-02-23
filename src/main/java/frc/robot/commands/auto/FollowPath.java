@@ -2,6 +2,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.geometry.Transform2d;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.lib.PathUtil;
 import frc.lib.autonomous.Path;
 import frc.robot.Robot;
 
@@ -24,10 +25,12 @@ public class FollowPath extends CommandBase {
     }
 
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        Robot.swerveDrive.swerve(0, 0, 0, false);
+    }
 
     @Override
     public boolean isFinished() {
-        return false;
+        return (!this.m_path.next() && PathUtil.withinTolerance(Robot.swerveDrive.getPosition(), this.m_path.getCurrent(), 5, 2));
     }
 }
