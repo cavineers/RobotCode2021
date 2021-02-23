@@ -28,7 +28,7 @@ public class SwerveModule extends SubsystemBase {
 
     // Save these values for later
     private double m_currentSpeed = 0.0;
-    private double m_rotationSetpoint = 0.0;
+    private Rotation2d m_rotationSetpoint = new Rotation2d();
 
     /**
      * Constructor
@@ -65,9 +65,9 @@ public class SwerveModule extends SubsystemBase {
      * Get the current rotational offset
      * @return current offset
      */
-    public double getOffset() {
+    public Rotation2d getRotation() {
         if (Robot.isReal()) {
-            return this.m_encoder.getAbsolutePosition();
+            return Rotation2d.fromDegrees(this.m_encoder.getAbsolutePosition());
         } else {
             return this.m_rotationSetpoint;
         }
@@ -83,8 +83,8 @@ public class SwerveModule extends SubsystemBase {
         // speed = 0.0;
 
         // Current offset
-        double currentOffset = getOffset()/(4096.0/360.0);
-        
+        double currentOffset = this.getRotation().getDegrees();
+
         // Normalize offset
         while (currentOffset > 180.0) currentOffset -= 360.0;
         while (currentOffset < -180.0) currentOffset += 360.0;
@@ -106,10 +106,10 @@ public class SwerveModule extends SubsystemBase {
         }
         
         // Current Setpoint
-        this.m_rotationSetpoint = getOffset()+(difference*(4096.0/360.0));
+        this.m_rotationSetpoint = this.getRotation().plus(Rotation2d.fromDegrees(difference));
 
         // Output rotation motor
-        this.m_rotationMotor.set(ControlMode.Position, this.m_rotationSetpoint);
+        this.m_rotationMotor.set(ControlMode.Position, this.m_rotationSetpoint.getDegrees());
 
         // Output drive motor
         this.m_driveMotor.set(ControlMode.PercentOutput, this.settings.isInverted() ? -speed : speed);
@@ -118,16 +118,15 @@ public class SwerveModule extends SubsystemBase {
         this.m_currentSpeed = this.settings.isInverted() ? -speed : speed;
 
         SmartDashboard.putNumber(this.settings.commonName()+"_percentOut", this.settings.isInverted() ? -speed : speed);
-        SmartDashboard.putNumber(this.settings.commonName()+"_rotationSetpoint", this.m_rotationSetpoint);
+        SmartDashboard.putNumber(this.settings.commonName()+"_rotationSetpoint", this.m_rotationSetpoint.getDegrees());
         SmartDashboard.putNumber(this.settings.commonName()+"_rotationPosition", currentOffset);
-        SmartDashboard.putNumber(this.settings.commonName()+"_encoderVal", this.getOffset());
-        SmartDashboard.putNumber(this.settings.commonName()+"_encoderDeg", this.getOffset()/(4096.0/360.0));
+        SmartDashboard.putNumber(this.settings.commonName()+"_encoderVal", this.getRotation().getDegrees());
     }
 
     public SwerveModuleState getState() {
 		return new SwerveModuleState(
             this.m_currentSpeed*Constants.Swerve.kMaxDriveSpeed,
-            Rotation2d.fromDegrees(getOffset()/(4096.0/360.0))
+            this.getRotation()
         );
     }
 
