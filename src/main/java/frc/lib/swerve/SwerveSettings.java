@@ -3,6 +3,7 @@ package frc.lib.swerve;
 public class SwerveSettings {
     private int m_rotationMotorID;
     private int m_driveMotorID;
+    private int m_encoderID;
     private int m_offset;
     private boolean m_inverted = false;
     private String m_commonName = "";
@@ -16,6 +17,11 @@ public class SwerveSettings {
 
     public SwerveSettings setDriveMotorID(int id) {
         this.m_driveMotorID = id;
+        return this;
+    }
+
+    public SwerveSettings setRotationEncoderID(int id) {
+        this.m_encoderID = id;
         return this;
     }
 
@@ -40,6 +46,10 @@ public class SwerveSettings {
 
     public int getDriveMotorID() {
         return this.m_driveMotorID;
+    }
+
+    public int getEncoderID() {
+        return this.m_encoderID;
     }
 
     public int getRotationOffset() {
