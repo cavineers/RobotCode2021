@@ -4,17 +4,17 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.subsystems.Intake;
 import frc.robot.Robot;
 
-public class ReverseIntake extends CommandBase {
+public class ToggleReverseIntake extends CommandBase {
     
     // Constructor
-    public ReverseIntake() {
+    public ToggleReverseIntake() {
         addRequirements(Robot.intake);
     }
 
     // Set Motor State to OFF / REVERSED
     @Override
     public void initialize() {
-        Robot.logger.addInfo("ReverseIntake", "Reverse Intake Toggle");
+        Robot.logger.addInfo("ToggleReverseIntake", "Reverse Intake Toggle");
         if (Robot.intake.getMotorState() == Intake.IntakeMotorState.OFF) {
             Robot.intake.setMotorState(Intake.IntakeMotorState.REVERSED);
         } else {
