@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.TeleopDrive;
+import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
@@ -28,9 +29,10 @@ public class Robot extends TimedRobot {
 	public static Limelight limelight;
 
 	// Subsystems
+	public static Hood hood;
 	public static Intake intake;
-	public static SwerveDrive swerveDrive;
 	public static Shooter shooter;
+	public static SwerveDrive swerveDrive;
 	public static Transportation transportation;
 
 	// Vision
@@ -57,9 +59,10 @@ public class Robot extends TimedRobot {
 		gyro = new AHRS(Port.kMXP);
 
 		// Subsystems
+		hood = new Hood();
 		intake = new Intake();
-		swerveDrive = new SwerveDrive();
 		shooter = new Shooter();
+		swerveDrive = new SwerveDrive();
 		transportation = new Transportation();
 
 		// Vision
