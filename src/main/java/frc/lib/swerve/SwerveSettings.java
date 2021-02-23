@@ -1,10 +1,12 @@
 package frc.lib.swerve;
 
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
+
 public class SwerveSettings {
     private int m_rotationMotorID;
     private int m_driveMotorID;
     private int m_encoderID;
-    private int m_offset;
+    private Rotation2d m_offset;
     private boolean m_inverted = false;
     private String m_commonName = "";
 
@@ -25,7 +27,7 @@ public class SwerveSettings {
         return this;
     }
 
-    public SwerveSettings setRotationOffset(int offset) {
+    public SwerveSettings setRotationOffset(Rotation2d offset) {
         this.m_offset = offset;
         return this;
     }
@@ -52,7 +54,7 @@ public class SwerveSettings {
         return this.m_encoderID;
     }
 
-    public int getRotationOffset() {
+    public Rotation2d getRotationOffset() {
         return this.m_offset;
     }
 

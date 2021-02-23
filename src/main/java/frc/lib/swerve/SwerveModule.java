@@ -56,7 +56,7 @@ public class SwerveModule extends SubsystemBase {
         this.m_rotationMotor.config_kD(0, Constants.Swerve.kRotationPID_D);
 
         // Reset to the absolute offset
-        this.m_rotationMotor.set(ControlMode.Position, this.settings.getRotationOffset());
+        this.m_rotationMotor.set(ControlMode.Position, this.settings.getRotationOffset().getDegrees());
 
         SmartDashboard.putNumber(this.settings.commonName()+"_Angle", 0.0);
     }

@@ -72,11 +72,13 @@ public final class Constants {
         public static int kLeftDriveID = CANIds.kLeftDriveMotor;
         public static int kLeftRotateID = CANIds.kLeftRotateMotor;
         public static int kLeftEncoderID = CANIds.kLeftRotateEncoder;
+        public static int kLeftOffset = 0; // In Degrees
         
         // Right
         public static int kRightDriveID = CANIds.kRightDriveMotor;
         public static int kRightRotateID = CANIds.kRightRotateMotor;
         public static int kRightEncoderID = CANIds.kRightRotateEncoder;
+        public static int kRightOffset = 0; // In Degrees
 
         // Kinematics & Odometry
         // TODO: GET ACTUAL MAX VELOCITY
