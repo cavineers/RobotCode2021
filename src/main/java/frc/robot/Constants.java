@@ -7,17 +7,17 @@ public final class Constants {
         public static String kName = "MIG";
     }
     public static class CANIds {
-        public static int kLeftDriveMotor    = 1;
-        public static int kLeftRotateMotor   = 2;
-        public static int kLeftRotateEncoder = 3;
-        public static int kRightDriveMotor   = 4;
-        public static int kRightRotateMotor  = 5;
-        public static int kRightRotateEncoder= 6;
-        public static int kShooterMotor      = 7;
-        public static int kIntakeMotor       = 8;
-        public static int kTransportConveyor = 9;
-        public static int kTransportFeeder   = 10;
-        public static int kShooterHood       = 11;
+        public static int kLeftDriveMotor         = 1;
+        public static int kLeftRotateMotor        = 2;
+        public static int kLeftRotateEncoder      = 3;
+        public static int kRightDriveMotor        = 4;
+        public static int kRightRotateMotor       = 5;
+        public static int kRightRotateEncoder     = 6;
+        public static int kShooterMotor           = 7;
+        public static int kIntakeMotor            = 8;
+        public static int kTransportConveyor      = 9;
+        public static int kTransportFeeder        = 10;
+        public static int kShooterHood            = 11;
         public static int kPowerDistributionPanel = 50;
     }
 
