@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.util.Units;
 public final class Constants {
     public static class Robot {
         public static String kYear = "2021";
-        public static String kName = "TBD";
+        public static String kName = "MIG";
     }
     public static class CANIds {
         public static int kLeftDriveMotor    = 1;
