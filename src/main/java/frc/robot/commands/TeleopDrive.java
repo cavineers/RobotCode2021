@@ -3,14 +3,23 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.Deadzone;
 import frc.robot.Robot;
+import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
 
 public class TeleopDrive extends CommandBase {
+    private boolean m_finished = false;
+
     public TeleopDrive() {
         addRequirements(Robot.swerveDrive);
     }
 
     @Override
     public void initialize() {
+        if (Robot.swerveDrive.getState() == SwerveDriveState.PATH) {
+            Robot.logger.addInfo("TeleopDrive", "Can't start teleop swerve when a path is running.");
+            this.m_finished = true;
+            return;
+        }
+        Robot.swerveDrive.setState(SwerveDriveState.SWERVE);
 		Robot.logger.addInfo("TeleopDrive", "Starting Teleop Driving");
     }
 
@@ -31,6 +40,6 @@ public class TeleopDrive extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
+        return this.m_finished;
     }
 }
