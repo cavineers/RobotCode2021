@@ -1,7 +1,9 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.commands.auto.DeadAuto;
 public class RobotContainer {
 	// Controller
 	public Joystick joy = new Joystick(0);
@@ -16,6 +18,8 @@ public class RobotContainer {
     public JoystickButton left_stick = new JoystickButton(joy, 9);
     public JoystickButton right_stick = new JoystickButton(joy, 10);
 
+	public String selectedCommand = "";
+
 	public RobotContainer() {
 		Robot.logger.addInfo("RobotContainer", "Created RobotContainer");
 
@@ -28,7 +32,12 @@ public class RobotContainer {
 
 	}
 
-	// public Command getAutonomousCommand() {
-	// 	return m_autoCommand;
-	// }
+	public Command getAutonomousCommand() {
+		switch (this.selectedCommand) {
+			case "GALACTIC_SEARCH":
+				return new DeadAuto();
+			default:
+				return new DeadAuto();
+		}
+	}
 }

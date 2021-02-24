@@ -6,6 +6,7 @@ import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.Hood;
@@ -38,6 +39,9 @@ public class Robot extends TimedRobot {
 
 	// Vision
 	public static Vision vision;
+
+	// Autonomous command
+	private Command m_autonomousCommand;
 
 	public Robot() {
 		super(0.02);
@@ -94,11 +98,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void autonomousInit() {
 		logger.addInfo("robot", "Robot running in Autonomous");
-		// m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+		m_autonomousCommand = robotContainer.getAutonomousCommand();
 
-		// if (m_autonomousCommand != null) {
-		// 	m_autonomousCommand.schedule();
-		// }
+		if (m_autonomousCommand != null) {
+			m_autonomousCommand.schedule();
+		}
 	}
 
 	@Override
@@ -109,9 +113,9 @@ public class Robot extends TimedRobot {
 	@Override
 	public void teleopInit() {
 		logger.addInfo("robot", "Robot running in Teleop");
-		// if (m_autonomousCommand != null) {
-		// 	m_autonomousCommand.cancel();
-		// }
+		if (m_autonomousCommand != null) {
+			m_autonomousCommand.cancel();
+		}
 
 		new TeleopDrive().schedule(false);
 	}
