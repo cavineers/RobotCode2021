@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -24,6 +25,10 @@ public class Transportation extends SubsystemBase {
     private TransportMotorState m_currentModeFeeder = TransportMotorState.OFF;
     private TransportMotorState m_currentModeConveyor = TransportMotorState.OFF;
 
+    private DigitalInput m_sensorOne = new DigitalInput(Constants.DIO.kConveyorSensor1);
+    private DigitalInput m_sensorTwo = new DigitalInput(Constants.DIO.kConveyorSensor2);
+    private DigitalInput m_sensorThree = new DigitalInput(Constants.DIO.kFeederSensor);
+
     public Transportation() {
         this.setMotorStateConveyor(TransportMotorState.OFF);
         this.setMotorStateFeeder(TransportMotorState.OFF);
@@ -31,7 +36,7 @@ public class Transportation extends SubsystemBase {
         Robot.logger.addInfo("Transportation", "Created Transportation subsystem");
     }
 
-     /**
+    /**
      * set the desired transport state
      * @param state wanted transport state
      */
@@ -59,7 +64,7 @@ public class Transportation extends SubsystemBase {
         }
     }
 
-     /**
+    /**
      * set the desired transport state
      * @param state wanted transport state
      */

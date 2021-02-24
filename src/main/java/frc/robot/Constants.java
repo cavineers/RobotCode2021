@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.util.Units;
 public final class Constants {
     public static class Robot {
         public static String kYear = "2021";
@@ -20,12 +21,18 @@ public final class Constants {
         public static int kPowerDistributionPanel = 50;
     }
 
+    public static class DIO {
+        public static int kConveyorSensor1 = 0;
+        public static int kConveyorSensor2 = 1;
+        public static int kFeederSensor = 2;
+    }
+
     // DANK
     public static class DANK {
         public static int kPORT = 5808;
     }
 
-    // Vision
+    // Visione
     public static class Vision {
         public static double kFieldGoalHeightFromGround = 98.0; // 31 inches used for testing
         public static double kLimelightHeightFromGround = 18.0; // vertical distance from limelight to ground
@@ -57,6 +64,10 @@ public final class Constants {
         public static double kOutSpeedFeeder = -0.12;
         public static double kInSpeedConveyor = 1;
         public static double kOutSpeedConveyor = -0.12;
+        public static double kBeltLength = (2.0*15.748)*Math.PI;
+        public static double kPulleyCircumference = 2 * Math.PI;
+        public static double kGearRatio = 1;
+        public static double kDistancePerRotation = (1*kGearRatio)*(kPulleyCircumference*kBeltLength);
     }
 
     public static class Sizing {
