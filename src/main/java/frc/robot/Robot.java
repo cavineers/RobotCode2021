@@ -13,6 +13,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.Transportation;
+import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
 
 public class Robot extends TimedRobot {
 	// Logger
@@ -83,6 +84,7 @@ public class Robot extends TimedRobot {
 	public void disabledInit() {
 		logger.addInfo("robot", "Robot Disabled");
 
+		swerveDrive.setState(SwerveDriveState.SWERVE);
 		swerveDrive.swerve(0, 0, 0, false);
 	}
 
