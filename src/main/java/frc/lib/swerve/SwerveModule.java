@@ -125,7 +125,7 @@ public class SwerveModule extends SubsystemBase {
 
     public SwerveModuleState getState() {
 		return new SwerveModuleState(
-            this.m_currentSpeed*Constants.Swerve.kMaxDriveSpeed,
+            this.m_currentSpeed*Constants.Swerve.kMaxVelocity,
             this.getRotation()
         );
     }
