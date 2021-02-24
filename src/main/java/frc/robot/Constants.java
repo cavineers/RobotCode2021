@@ -82,8 +82,11 @@ public final class Constants {
 
         // Kinematics & Odometry
         // TODO: GET ACTUAL MAX VELOCITY
-        public static double kMaxDriveSpeed = 10.0; // In Meters Per Second
-        public static double kMaxAccel = 0.0; // In meters per second // TODO: Find max accel
+        public static double kMaxVelocity = 10.0; // In Meters Per Second
+        public static double kMaxAcceleration = 0.0; // In meters per second // TODO: Find max accel
+
+        public static double kMaxRotateSpeed = 2.0; // In Meters Per Second
+        public static double kMaxRotateAcceleration = 1.0;
 
         // Rotation PID
         // TODO: TUNE THESE
@@ -117,5 +120,10 @@ public final class Constants {
         public static double kD = 0.00000;
         public static double kTolerance = 5.0; // ~0.5 deg
         public static double kMaxSpeed = 0.9;
+    }
+
+    public static class AutoPath {
+        public static double kTranslationTolerance = 5.0;
+        public static double kRotationalTolerance = 2.0;
     }
 }
