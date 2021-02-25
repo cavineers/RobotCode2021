@@ -96,8 +96,8 @@ public final class Constants {
         public static double kMaxVelocity = Units.feetToMeters(5.0); // In Meters Per Second
         public static double kMaxAcceleration = Units.feetToMeters(2.0); // In meters per second // TODO: Find max accel
 
-        public static double kMaxRotateSpeed = 2.0; // In Degrees Per Second
-        public static double kMaxRotateAcceleration = 1.0;
+        public static double kMaxRotateSpeed = 150.0; // In Degrees Per Second
+        public static double kMaxRotateAcceleration = 30.0;
 
         // Rotation PID
         // TODO: TUNE THESE
@@ -136,6 +136,6 @@ public final class Constants {
     public static class AutoPath {
         public static double kTranslationTolerance = Units.inchesToMeters(4);
         public static double kRotationalTolerance = 1.0;
-        public static double kSmoothTransition = 0.20;
+        public static double kSmoothTransition = 0.80;
     }
 }

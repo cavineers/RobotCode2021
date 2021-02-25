@@ -61,9 +61,9 @@ public class SwerveDrive extends SubsystemBase {
 	private TrapezoidProfile.Constraints m_translationalConstraints = new TrapezoidProfile.Constraints(Constants.Swerve.kMaxVelocity, Constants.Swerve.kMaxAcceleration);
     private TrapezoidProfile.Constraints m_rotationalConstraints = new TrapezoidProfile.Constraints(Constants.Swerve.kMaxRotateSpeed, Constants.Swerve.kMaxRotateAcceleration);
 
-    private TrapezoidProfile.State m_xSetpoint = new TrapezoidProfile.State();
-    private TrapezoidProfile.State m_ySetpoint = new TrapezoidProfile.State();
-    private TrapezoidProfile.State m_rSetpoint = new TrapezoidProfile.State();
+    private TrapezoidProfile.State m_xSetpoint;
+    private TrapezoidProfile.State m_ySetpoint;
+    private TrapezoidProfile.State m_rSetpoint;
 
 	private TrapezoidProfile m_xProfile;
 	private TrapezoidProfile m_yProfile;
@@ -140,12 +140,9 @@ public class SwerveDrive extends SubsystemBase {
 	private void localSwerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
 		// If the robot is field oriented
 		if (isFieldOriented) {
-			// Get gyro angle
-			double gyroAngle = Robot.gyro.getAngle();
-
 			// Find conversions based on gyro angles
-			double sin = Math.sin(Math.toRadians(gyroAngle));
-			double cos = Math.cos(Math.toRadians(gyroAngle));
+			double sin = Math.sin(this.getAngle().getRadians());
+			double cos = Math.cos(this.getAngle().getRadians());
 
 			// Translate forward/strafe based on conversions
 			double T = (forward * cos) + (strafe * sin);
@@ -326,7 +323,7 @@ public class SwerveDrive extends SubsystemBase {
 				this.m_rSetpoint = this.m_rFinish ? new TrapezoidProfile.State() : this.m_rProfile.calculate(Timer.getFPGATimestamp()-this.m_time);
 
 				// Pass to swerve
-				this.localSwerve(this.m_ySetpoint.velocity/Constants.Swerve.kMaxVelocity, this.m_xSetpoint.velocity/Constants.Swerve.kMaxVelocity, this.m_rSetpoint.velocity/Constants.Swerve.kMaxRotateSpeed, false);
+				this.localSwerve(this.m_ySetpoint.velocity/Constants.Swerve.kMaxVelocity, this.m_xSetpoint.velocity/Constants.Swerve.kMaxVelocity, this.m_rSetpoint.velocity/Constants.Swerve.kMaxRotateSpeed, true);
 	
 				// Log to SmartDashboard
 				SmartDashboard.putNumber("z_fwd", this.m_ySetpoint.velocity/Constants.Swerve.kMaxVelocity);

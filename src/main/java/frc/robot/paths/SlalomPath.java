@@ -3,15 +3,13 @@ package frc.robot.paths;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import frc.lib.PathUtil;
 import frc.lib.autonomous.Path;
+import edu.wpi.first.wpilibj.util.Units;
 
-public class ExamplePath {
+public class SlalomPath {
     public static Path getPath() {
         Pose2d[] route = new Pose2d[]{
-            PathUtil.plot(5.0, 5.0, 0.0),
-            PathUtil.plot(2.0, 5.0, 90.0),
-            PathUtil.plot(-3.0, -6.0, 180.0),
-            PathUtil.plot(2.0, 2.0, -45.0),
-            PathUtil.plot(1.0, 0.0, 0.0)
+            PathUtil.plot(Units.feetToMeters(30), Units.feetToMeters(30), 0.0), // Star
+            PathUtil.plot(Units.feetToMeters(30), Units.feetToMeters(30), 0.0),
         };
 
         return new Path(route);
