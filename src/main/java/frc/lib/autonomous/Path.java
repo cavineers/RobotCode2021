@@ -36,10 +36,4 @@ public class Path {
     public boolean next() {
         return this.m_current+1 != this.m_plots.length;
     }
-
-    public void applyOffset(Pose2d offset) {
-        for (int i = 0; i < m_plots.length; i++) {
-            this.m_plots[i] = this.m_plots[i].plus(new Transform2d(offset, new Pose2d()));
-        }
-    }
 }

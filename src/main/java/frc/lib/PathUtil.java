@@ -5,7 +5,22 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 
 public class PathUtil {
     public static boolean withinTolerance(Pose2d current, Pose2d goal, double tTolerance, double rTolerance) {
-        return (Math.abs(current.getX()-goal.getX())<=tTolerance) && (Math.abs(current.getRotation().getDegrees()-goal.getRotation().getDegrees())<=rTolerance);
+        // System.out.println("wt_x" + Math.abs(current.getX()-goal.getX()));
+        // System.out.println("wt_y" + );
+        // System.out.println("wt_r" + );
+        return (Math.abs(current.getX()-goal.getX())<=tTolerance) && (Math.abs(current.getY()-goal.getY())<=tTolerance) && (Math.abs(current.getRotation().getDegrees()-goal.getRotation().getDegrees())<=rTolerance);
+    }
+
+    public static boolean withinTolerance2(double initial, double current, double goal, double tolerance) {
+        return (Math.abs(current-(initial+goal))<=tolerance);
+    }
+
+    public static boolean withinTolerance3(double initial, double current, double goal, double tolerance) {
+        System.out.println("i "+initial);
+        System.out.println("c "+current);
+        System.out.println("g "+goal);
+        System.out.println("a "+Math.abs(current-(initial+goal)));
+        return (Math.abs(current-(initial+goal))<=tolerance);
     }
 
     public static Pose2d plot(double x, double y, double rotation) {

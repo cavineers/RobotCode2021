@@ -93,10 +93,10 @@ public final class Constants {
 
         // Kinematics & Odometry
         // TODO: GET ACTUAL MAX VELOCITY
-        public static double kMaxVelocity = 10.0; // In Meters Per Second
-        public static double kMaxAcceleration = 5.0; // In meters per second // TODO: Find max accel
+        public static double kMaxVelocity = Units.feetToMeters(5.0); // In Meters Per Second
+        public static double kMaxAcceleration = Units.feetToMeters(2.0); // In meters per second // TODO: Find max accel
 
-        public static double kMaxRotateSpeed = 2.0; // In Meters Per Second
+        public static double kMaxRotateSpeed = 2.0; // In Degrees Per Second
         public static double kMaxRotateAcceleration = 1.0;
 
         // Rotation PID
@@ -134,8 +134,8 @@ public final class Constants {
     }
 
     public static class AutoPath {
-        public static double kTranslationTolerance = 0.25;
+        public static double kTranslationTolerance = Units.inchesToMeters(4);
         public static double kRotationalTolerance = 1.0;
-        public static double kSmoothTransition = 0.25;
+        public static double kSmoothTransition = 0.20;
     }
 }
