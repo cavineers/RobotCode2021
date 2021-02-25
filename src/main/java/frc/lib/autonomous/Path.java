@@ -38,8 +38,8 @@ public class Path {
     }
 
     public void applyOffset(Pose2d offset) {
-        for (Pose2d pose2d : m_plots) {
-            pose2d.plus(new Transform2d(offset, new Pose2d()));
+        for (int i = 0; i < m_plots.length; i++) {
+            this.m_plots[i] = this.m_plots[i].plus(new Transform2d(offset, new Pose2d()));
         }
     }
 }

@@ -85,7 +85,7 @@ public class SwerveDrive extends SubsystemBase {
 		Robot.logger.addInfo("SwerveDrive", "Created SwerveDrive subsystem");
     }
 
-/**
+	/**
      * Drive the swerve motors like a differential drive using curvature. (Used for autonomous purposes)
      * @param speed Drive Speed
      * @param rotation Turning speed
@@ -125,100 +125,168 @@ public class SwerveDrive extends SubsystemBase {
 	}
 
 	private void localSwerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
+		// If the robot is field oriented
 		if (isFieldOriented) {
+			// Get gyro agnle
 			double gyroAngle = Robot.gyro.getAngle();
 
+			// Find conversions based on gyro angles
 			double sin = Math.sin(Math.toRadians(gyroAngle));
 			double cos = Math.cos(Math.toRadians(gyroAngle));
 
+			// Translate forward/strafe based on conversions
 			double T = (forward * cos) + (strafe * sin);
 			strafe = (-forward * sin) + (strafe * cos);
 			forward = T;
 		}
 
+		// Update simulation angle
 		this.m_simulationAngle += rotate*3.0;
 
+		// Get A/B
 		double A = forward-rotate;
 		double B = forward+rotate;
 
+		// Get motor speeds
 		double rSpeed = Math.sqrt(Math.pow(strafe, 2)+Math.pow(A, 2));
 		double lSpeed = Math.sqrt(Math.pow(strafe, 2)+Math.pow(B, 2));
 
+		// Get max of the two
 		double max = Math.max(rSpeed, lSpeed);
 
+		// Normalize speeds
 		if (max > 1.0) {
 			rSpeed /= max;
 			lSpeed /= max;
 		}
 
+		// Get the rotation angles
 		double rAngle = Math.atan2(strafe, A) * 180 / Math.PI;
 		double lAngle = Math.atan2(strafe, B) * 180 / Math.PI;
 
+		// Send to modules
 		this.m_right.set(rAngle, rSpeed);
 		this.m_left.set(lAngle, lSpeed);
 	}
 
-	public void followPath(Path path) {
-		this.m_state = SwerveDriveState.PATH;
-
-		this.m_path = path;
-	}
-
 	public Pose2d getPosition() {
+		// Get the robot's position from odometry
 		return this.m_odometry.getPoseMeters();
 	}
 
 	public Rotation2d getAngle() {
+		// If the robot is not in simulation
 		if (Robot.isReal()) {
+			// Print the negative value of the gyroscope
 			return Rotation2d.fromDegrees(-Robot.gyro.getAngle());
 		} else {
+			// Print the negative value of the simulation gyro
 			return Rotation2d.fromDegrees(-this.m_simulationAngle);
 		}
 	}
 
 	public void setState(SwerveDriveState state) {
+		// Update subsystem state
 		this.m_state = state;
 	}
 
 	public SwerveDriveState getState() {
+		// Return subsystem state
 		return this.m_state;
+	}
+
+	public void followPath(Path path) {
+		// Set the state to PATH (disables teleop swerve and backup curvature)
+		this.m_state = SwerveDriveState.PATH;
+
+		// Save path
+		this.m_path = path;
+
+		// Get transformation needed from current position to the desired setpoint
+		Transform2d transform = Robot.swerveDrive.getPosition().minus(this.m_path.getCurrent());
+
+		// Determine velocity trapezoids for x,y,rot
+		this.m_xGoal = new TrapezoidProfile.State(transform.getX(), this.m_path.next() ? Constants.AutoPath.kSmoothTransition : 0.0);
+		this.m_yGoal = new TrapezoidProfile.State(transform.getY(), this.m_path.next() ? Constants.AutoPath.kSmoothTransition : 0.0);
+		this.m_rGoal = new TrapezoidProfile.State(transform.getRotation().getDegrees(), 0.0);
+
+		// Save current time for calculating position in profile
+		this.m_time = Timer.getFPGATimestamp();
 	}
 
 	@Override
 	public void periodic() {
+		// If swerve is following a path
 		if (this.m_state == SwerveDriveState.PATH) {
+			// If the robot is in the tolerance of the desired setpoint along the route
 			if (PathUtil.withinTolerance(Robot.swerveDrive.getPosition(), this.m_path.getCurrent(), Constants.AutoPath.kTranslationTolerance, Constants.AutoPath.kRotationalTolerance)) {
+				// If so, check if there is another point to target
 				if (this.m_path.next()) {
+					System.out.println("Next");
+					
+					// Increment route
 					this.m_path.up();
+
+					// Get transformation needed from current position to the desired setpoint
 					Transform2d transform = Robot.swerveDrive.getPosition().minus(this.m_path.getCurrent());
-					// double distance = Math.sqrt(Math.pow(transform.getX(), 2)+Math.pow(transform.getY(), 2));
-					this.m_xGoal = new TrapezoidProfile.State(transform.getX(), this.m_path.next() ? 0.25 : 0.0);
-					this.m_yGoal = new TrapezoidProfile.State(transform.getY(), this.m_path.next() ? 0.25 : 0.0);
+
+					// Determine velocity trapezoids for x,y,rot
+					this.m_xGoal = new TrapezoidProfile.State(transform.getX(), this.m_path.next() ? Constants.AutoPath.kSmoothTransition : 0.0);
+					this.m_yGoal = new TrapezoidProfile.State(transform.getY(), this.m_path.next() ? Constants.AutoPath.kSmoothTransition : 0.0);
 					this.m_rGoal = new TrapezoidProfile.State(transform.getRotation().getDegrees(), 0.0);
+
+					// Save current time for calculating position in profile
 					this.m_time = Timer.getFPGATimestamp();
 				} else {
+					// Since the robot is finished
+					System.out.println("Path finished");
+
+					// Stop the bot
 					this.localSwerve(0, 0, 0, false);
+
+					// Reset state to SWERVE, allowing teleop to take over when ready
 					this.m_state = SwerveDriveState.SWERVE;
-					return;
 				}
 			}
-			TrapezoidProfile xProfile = new TrapezoidProfile(this.m_translationalConstraints, this.m_xGoal, this.m_xSetpoint);
-			TrapezoidProfile yProfile = new TrapezoidProfile(this.m_translationalConstraints, this.m_yGoal, this.m_ySetpoint);
-			TrapezoidProfile rProfile = new TrapezoidProfile(this.m_rotationalConstraints, this.m_rGoal, this.m_rSetpoint);
-			this.m_xSetpoint = xProfile.calculate(this.m_time);
-			this.m_ySetpoint = yProfile.calculate(this.m_time);
-			this.m_rSetpoint = rProfile.calculate(this.m_time);
-			this.localSwerve(this.m_ySetpoint.velocity/Constants.Swerve.kMaxVelocity, this.m_xSetpoint.velocity/Constants.Swerve.kMaxVelocity, this.m_rSetpoint.velocity/Constants.Swerve.kMaxRotateSpeed, false);
+
+			// Re-check if the robot is still in the PATH state since state is reset above if the path ends
+			if (this.m_state == SwerveDriveState.PATH) {
+				// Create profiles from current position and desired position using max accl/max vel
+				TrapezoidProfile xProfile = new TrapezoidProfile(this.m_translationalConstraints, this.m_xGoal, this.m_xSetpoint);
+				TrapezoidProfile yProfile = new TrapezoidProfile(this.m_translationalConstraints, this.m_yGoal, this.m_ySetpoint);
+				TrapezoidProfile rProfile = new TrapezoidProfile(this.m_rotationalConstraints, this.m_rGoal, this.m_rSetpoint);
+
+				// Get the setpoint along the route at desired time
+				this.m_xSetpoint = xProfile.calculate(Timer.getFPGATimestamp()-this.m_time);
+				this.m_ySetpoint = yProfile.calculate(Timer.getFPGATimestamp()-this.m_time);
+				this.m_rSetpoint = rProfile.calculate(Timer.getFPGATimestamp()-this.m_time);
+
+				// Pass to swerve
+				this.localSwerve(this.m_ySetpoint.velocity/Constants.Swerve.kMaxVelocity, this.m_xSetpoint.velocity/Constants.Swerve.kMaxVelocity, this.m_rSetpoint.velocity/Constants.Swerve.kMaxRotateSpeed, false);
+	
+				// Log to SmartDashboard
+				SmartDashboard.putNumber("z_fwd", this.m_ySetpoint.velocity/Constants.Swerve.kMaxVelocity);
+				SmartDashboard.putNumber("z_str", this.m_xSetpoint.velocity/Constants.Swerve.kMaxVelocity);
+				SmartDashboard.putNumber("z_rot", this.m_rSetpoint.velocity/Constants.Swerve.kMaxRotateSpeed);
+			}
 		}
 
+		// Update odometry
 		this.m_odometry.update(
 			this.getAngle(),
 			this.m_left.getState(),
 			this.m_right.getState()
 		);
 
+		// Update 2d field with robot position
 		this.m_field.setRobotPose(this.getPosition());
 
+		// Save to SmartDashboard
+		SmartDashboard.putNumber("zr_x", this.getPosition().getX());
+		SmartDashboard.putNumber("zr_y", this.getPosition().getY());
+		SmartDashboard.putNumber("zr_rot", this.getPosition().getRotation().getDegrees());
+
+		// Send field
 		SmartDashboard.putData(this.m_field);
 	}
 }

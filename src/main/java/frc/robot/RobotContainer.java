@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.auto.DeadAuto;
+import frc.robot.commands.auto.AutonomousExample;
 public class RobotContainer {
 	// Controller
 	public Joystick joy = new Joystick(0);
@@ -37,7 +38,7 @@ public class RobotContainer {
 			case "GALACTIC_SEARCH":
 				return new DeadAuto();
 			default:
-				return new DeadAuto();
+				return new AutonomousExample();
 		}
 	}
 }
