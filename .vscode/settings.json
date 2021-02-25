@@ -20,6 +20,8 @@
         "Gson",
         "Odometry",
         "fout",
-        "lvuser"
+        "lvuser",
+        "setpoint",
+        "accl"
     ]
 }

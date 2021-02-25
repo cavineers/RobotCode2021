@@ -8,7 +8,7 @@ public class DeadAuto extends CommandBase {
 
     @Override
     public void initialize() {
-        Robot.logger.addWarn("DeadAuto", "Dead autonomous command executed");
+        Robot.logger.addWarn("DeadAuto", "Dead autonomous command initialized");
     }
 
     @Override

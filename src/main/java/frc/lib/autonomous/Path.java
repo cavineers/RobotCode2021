@@ -4,8 +4,10 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Transform2d;
 
 public class Path {
-    private Pose2d[] m_plots;
+    protected Pose2d[] m_plots;
     private int m_current = 0;
+
+    public Path() {}
 
     public Path(Pose2d[] path) {
         this.m_plots = path;
@@ -35,11 +37,5 @@ public class Path {
 
     public boolean next() {
         return this.m_current+1 != this.m_plots.length;
-    }
-
-    public void applyOffset(Pose2d offset) {
-        for (Pose2d pose2d : m_plots) {
-            pose2d.plus(new Transform2d(offset, new Pose2d()));
-        }
     }
 }

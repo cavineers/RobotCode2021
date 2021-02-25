@@ -32,7 +32,7 @@ public final class Constants {
         public static int kPORT = 5808;
     }
 
-    // Visione
+    // Vision
     public static class Vision {
         public static double kFieldGoalHeightFromGround = 98.0; // 31 inches used for testing
         public static double kLimelightHeightFromGround = 18.0; // vertical distance from limelight to ground
@@ -93,11 +93,11 @@ public final class Constants {
 
         // Kinematics & Odometry
         // TODO: GET ACTUAL MAX VELOCITY
-        public static double kMaxVelocity = 10.0; // In Meters Per Second
-        public static double kMaxAcceleration = 0.0; // In meters per second // TODO: Find max accel
+        public static double kMaxVelocity = Units.feetToMeters(5.0); // In Meters Per Second
+        public static double kMaxAcceleration = Units.feetToMeters(2.0); // In meters per second // TODO: Find max accel
 
-        public static double kMaxRotateSpeed = 2.0; // In Meters Per Second
-        public static double kMaxRotateAcceleration = 1.0;
+        public static double kMaxRotateSpeed = 150.0; // In Degrees Per Second
+        public static double kMaxRotateAcceleration = 30.0;
 
         // Rotation PID
         // TODO: TUNE THESE
@@ -134,7 +134,8 @@ public final class Constants {
     }
 
     public static class AutoPath {
-        public static double kTranslationTolerance = 5.0;
-        public static double kRotationalTolerance = 2.0;
+        public static double kTranslationTolerance = Units.inchesToMeters(4);
+        public static double kRotationalTolerance = 1.0;
+        public static double kSmoothTransition = 0.80;
     }
 }

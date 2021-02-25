@@ -106,6 +106,8 @@ public class Shooter extends SubsystemBase {
      */
     @Override
     public void periodic() {
+        // System.out.println("speriodic");
+
         this.m_pidController.setReference(-this.m_speed, ControlType.kVelocity);
 
         if (this.m_currentMode == ShooterMode.ENABLED && this.m_speed != 0) {
