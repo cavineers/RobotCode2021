@@ -105,6 +105,12 @@ public final class Constants {
         public static double kRotationPID_I = 0.0;
         public static double kRotationPID_D = 0.0;
 
+        // Position PID
+        // TODO: TUNE THESE
+        public static double kPositionPID_P = 1.0;
+        public static double kPositionPID_I = 0.0;
+        public static double kPositionPID_D = 0.0;
+
         // Track Width
         public static double kTrackWidth = Sizing.kTrackWidthInches;
     }
