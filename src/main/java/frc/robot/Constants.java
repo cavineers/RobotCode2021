@@ -32,7 +32,7 @@ public final class Constants {
         public static int kPORT = 5808;
     }
 
-    // Visione
+    // Vision
     public static class Vision {
         public static double kFieldGoalHeightFromGround = 98.0; // 31 inches used for testing
         public static double kLimelightHeightFromGround = 18.0; // vertical distance from limelight to ground

@@ -61,9 +61,11 @@ public class SwerveDrive extends SubsystemBase {
 
 	private TrapezoidProfile.Constraints m_translationalConstraints = new TrapezoidProfile.Constraints(Constants.Swerve.kMaxVelocity, Constants.Swerve.kMaxAcceleration);
     private TrapezoidProfile.Constraints m_rotationalConstraints = new TrapezoidProfile.Constraints(Constants.Swerve.kMaxRotateSpeed, Constants.Swerve.kMaxRotateAcceleration);
+
     private TrapezoidProfile.State m_xSetpoint = new TrapezoidProfile.State();
     private TrapezoidProfile.State m_ySetpoint = new TrapezoidProfile.State();
     private TrapezoidProfile.State m_rSetpoint = new TrapezoidProfile.State();
+
     private TrapezoidProfile.State m_xGoal;
     private TrapezoidProfile.State m_yGoal;
     private TrapezoidProfile.State m_rGoal;
@@ -127,7 +129,7 @@ public class SwerveDrive extends SubsystemBase {
 	private void localSwerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
 		// If the robot is field oriented
 		if (isFieldOriented) {
-			// Get gyro agnle
+			// Get gyro angle
 			double gyroAngle = Robot.gyro.getAngle();
 
 			// Find conversions based on gyro angles
