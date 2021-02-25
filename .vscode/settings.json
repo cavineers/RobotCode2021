@@ -21,6 +21,7 @@
         "Odometry",
         "fout",
         "lvuser",
-        "setpoint"
+        "setpoint",
+        "accl"
     ]
 }
