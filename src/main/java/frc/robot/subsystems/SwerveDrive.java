@@ -179,6 +179,16 @@ public class SwerveDrive extends SubsystemBase {
 		this.m_left.set(lAngle, lSpeed);
 	}
 
+	public void resetPosition(double x, double y) {
+		this.m_odometry = new SwerveDriveOdometry(
+			this.m_kinematics,
+			this.getAngle(),
+			new Pose2d(x, y, new Rotation2d())
+		);
+		this.m_simulationAngle = 0.0;
+		Robot.logger.addInfo("Swerve", "Reset robot's position");
+	}
+
 	public Pose2d getPosition() {
 		// Get the robot's position from odometry
 		return this.m_odometry.getPoseMeters();
@@ -212,6 +222,11 @@ public class SwerveDrive extends SubsystemBase {
 		// Save path
 		this.m_path = path;
 
+		// Generate profiles
+		this.generateProfile();
+	}
+
+	private void generateProfile() {
 		// Determine velocity trapezoids for x,y,rot
 		this.m_xGoal = new TrapezoidProfile.State(Robot.swerveDrive.getPosition().getX()+this.m_path.getCurrent().getX(), (this.m_path.getCurrent().getX() != 0.0 && this.m_path.getAhead().getX() != 0.0 && this.m_path.next()) ? Constants.AutoPath.kSmoothTransition : 0.0);
 		this.m_yGoal = new TrapezoidProfile.State(Robot.swerveDrive.getPosition().getY()+this.m_path.getCurrent().getY(), (this.m_path.getCurrent().getY() != 0.0 && this.m_path.getAhead().getY() != 0.0 && this.m_path.next()) ? Constants.AutoPath.kSmoothTransition : 0.0);
@@ -227,8 +242,25 @@ public class SwerveDrive extends SubsystemBase {
 		this.m_yProfile = new TrapezoidProfile(this.m_translationalConstraints, this.m_yGoal, this.m_yInitial);
 		this.m_rProfile = new TrapezoidProfile(this.m_rotationalConstraints, this.m_rGoal, this.m_rInitial);
 
+		// Initial times
 		System.out.println("xt"+this.m_xProfile.totalTime());
 		System.out.println("yt"+this.m_yProfile.totalTime());
+
+		// Normalize Profiles
+		double max = Math.max(this.m_xProfile.totalTime(), this.m_yProfile.totalTime());
+
+		double xRatio = this.m_xProfile.totalTime() == max ? 1.0 : Math.pow(this.m_xProfile.totalTime()/max, 2.035);
+		double yRatio = this.m_yProfile.totalTime() == max ? 1.0 : Math.pow(this.m_yProfile.totalTime()/max, 2.035);
+
+		System.out.println("xr "+xRatio);
+		System.out.println("yr "+yRatio);
+
+		this.m_xProfile = new TrapezoidProfile(new TrapezoidProfile.Constraints(Constants.Swerve.kMaxVelocity*xRatio, Constants.Swerve.kMaxAcceleration*xRatio), this.m_xGoal, this.m_xInitial);
+		this.m_yProfile = new TrapezoidProfile(new TrapezoidProfile.Constraints(Constants.Swerve.kMaxVelocity*yRatio, Constants.Swerve.kMaxAcceleration*yRatio), this.m_yGoal, this.m_yInitial);
+
+		// Normalized times
+		System.out.println("nxt"+this.m_xProfile.totalTime());
+		System.out.println("nyt"+this.m_yProfile.totalTime());
 
 		// Save current time for calculating position in profile
 		this.m_time = Timer.getFPGATimestamp();
@@ -236,11 +268,8 @@ public class SwerveDrive extends SubsystemBase {
 
 	@Override
 	public void periodic() {
-		// System.out.println("periodic");
 		// If swerve is following a path
 		if (this.m_state == SwerveDriveState.PATH) {
-			System.out.println("test"+Timer.getFPGATimestamp());
-
 			// If the robot is in the tolerance of the desired setpoint along the route
 			// if (this.m_xFinish == false && PathUtil.withinTolerance2(this.m_xInitial.position, Robot.swerveDrive.getPosition().getX(), this.m_path.getCurrent().getX(), Constants.AutoPath.kTranslationTolerance)) {
 			// 	this.m_xFinish = true;
@@ -267,9 +296,9 @@ public class SwerveDrive extends SubsystemBase {
 			}
 			
 
-			System.out.println("xF " + this.m_xFinish);
-			System.out.println("yF " + this.m_yFinish);
-			System.out.println("rF " + this.m_rFinish);
+			// System.out.println("xF " + this.m_xFinish);
+			// System.out.println("yF " + this.m_yFinish);
+			// System.out.println("rF " + this.m_rFinish);
 
 			// If all movement is finished
 			if(this.m_xFinish == true && this.m_yFinish == true && this.m_rFinish == true) {
@@ -280,26 +309,7 @@ public class SwerveDrive extends SubsystemBase {
 					// Increment route
 					this.m_path.up();
 
-					// Determine velocity trapezoids for x,y,rot
-					this.m_xGoal = new TrapezoidProfile.State(Robot.swerveDrive.getPosition().getX()+this.m_path.getCurrent().getX(), (this.m_path.getCurrent().getX() != 0.0 && this.m_path.getAhead().getX() != 0.0 && this.m_path.next()) ? Constants.AutoPath.kSmoothTransition : 0.0);
-					this.m_yGoal = new TrapezoidProfile.State(Robot.swerveDrive.getPosition().getY()+this.m_path.getCurrent().getY(), (this.m_path.getCurrent().getY() != 0.0 && this.m_path.getAhead().getY() != 0.0 && this.m_path.next()) ? Constants.AutoPath.kSmoothTransition : 0.0);
-					this.m_rGoal = new TrapezoidProfile.State(Robot.swerveDrive.getPosition().getRotation().getDegrees()+this.m_path.getCurrent().getRotation().getDegrees(), 0.0);
-
-					// Save current position of x,y,rot
-					this.m_xInitial = new TrapezoidProfile.State(Robot.swerveDrive.getPosition().getX(), 0);
-					this.m_yInitial = new TrapezoidProfile.State(Robot.swerveDrive.getPosition().getY(), 0);
-					this.m_rInitial = new TrapezoidProfile.State(Robot.swerveDrive.getPosition().getRotation().getDegrees(), 0);
-
-					// Create profiles from current position and desired position using max accl/max vel
-					this.m_xProfile = new TrapezoidProfile(this.m_translationalConstraints, this.m_xGoal, this.m_xInitial);
-					this.m_yProfile = new TrapezoidProfile(this.m_translationalConstraints, this.m_yGoal, this.m_yInitial);
-					this.m_rProfile = new TrapezoidProfile(this.m_rotationalConstraints, this.m_rGoal, this.m_rInitial);
-
-					System.out.println("xt"+this.m_xProfile.totalTime());
-					System.out.println("yt"+this.m_yProfile.totalTime());
-
-					// Save current time for calculating position in profile
-					this.m_time = Timer.getFPGATimestamp();
+					this.generateProfile();
 				} else {
 					// Since the robot is finished
 					System.out.println("Path finished");

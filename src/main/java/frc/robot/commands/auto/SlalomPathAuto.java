@@ -3,6 +3,7 @@ package frc.robot.commands.auto;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.paths.SlalomPath;
+import frc.robot.paths.SlalomPathSimple;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
 
 public class SlalomPathAuto extends CommandBase {
@@ -12,7 +13,7 @@ public class SlalomPathAuto extends CommandBase {
     public void initialize() {
         Robot.logger.addInfo("SlalomPathAuto", "Autonomous slalom path command initialized");
 
-        Robot.swerveDrive.followPath(new SlalomPath());
+        Robot.swerveDrive.followPath(new SlalomPathSimple());
     }
 
     @Override

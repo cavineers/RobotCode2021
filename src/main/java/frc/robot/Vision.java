@@ -20,18 +20,19 @@ public class Vision {
     }
 
     public Target calculateData(String[] xyxy) {
-        // Calculate height / width
+        // Calculate height / width | xyxy is in pixels / rep lines around pc | xyxy[0] = left line; xyxy[1] = top line; xyxy[2] = right line; xyxy[3] = bottom line;
         double width = Double.parseDouble(xyxy[2]) - Double.parseDouble(xyxy[0]);
         double height = Double.parseDouble(xyxy[3]) - Double.parseDouble(xyxy[1]);
 
-        // Calculate ty / tx value
+        // Calculate ty / tx value | tx / ty in degrees (after conversion)
         double ty = ((Constants.ObjVision.kCameraResolutionY / 2) - ((Double.parseDouble(xyxy[3])) + (-height / 2))) * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionY);
         double tx = ((Constants.ObjVision.kCameraResolutionX / 2) - (Double.parseDouble(xyxy[2]) + (-width / 2))) * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionX);
 
-        // Calculate Math using: (ballHeight-cameraHeight) / (math.tan(math.radians(cameraAngle+ty)))
+        // Calculate distance using: (ballHeight-cameraHeight) / (math.tan(math.radians(cameraAngle+ty))) | distance represents line b in law of sines
+        // Values shown here: http://share.brycecary.dev/1EF2 with td = distance
         double distance = (Constants.ObjVision.kBallHeight - Constants.ObjVision.kCameraHeight) / (Math.tan(Math.toRadians(Constants.ObjVision.kCameraAngle + ty)));
 
-        // Target Class
+        // Return new Target Class
         return new Target(distance, ty, tx);
     }
 

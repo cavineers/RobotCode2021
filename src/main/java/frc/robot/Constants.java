@@ -112,14 +112,14 @@ public final class Constants {
     // Object Detection Vision
     public static class ObjVision {
         // Constants (in inches)
-        public static double kCameraHeight      = 3.0;
-        public static double kCameraAngle       = 0.0;
+        public static double kCameraHeight      = Units.inchesToMeters(3.0);
+        public static double kCameraAngle       = 0.0; // In degrees
 
-        public static double kBallHeight        = 3.5;
+        public static double kBallHeight        = Units.inchesToMeters(3.5);
 
-        public static double kCameraResolutionY = 1080;
-        public static double kCameraResolutionX = 1920;
-        public static double kCameraFieldOfView = 75 * 2;
+        public static double kCameraResolutionY = 1080; // In pixels
+        public static double kCameraResolutionX = 1920; // In pixels
+        public static double kCameraFieldOfView = 75 * 2; // In degrees
     }
 
     // Hood
@@ -136,6 +136,6 @@ public final class Constants {
     public static class AutoPath {
         public static double kTranslationTolerance = Units.inchesToMeters(4);
         public static double kRotationalTolerance = 1.0;
-        public static double kSmoothTransition = 0.80;
+        public static double kSmoothTransition = 0.0;
     }
 }

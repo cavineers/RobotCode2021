@@ -15,13 +15,16 @@ public class ExactPath extends Path {
 
     public void add(Pose2d point) {
         this.m_points.add(new Pose2d(point.getX()-this.m_dx, point.getY()-this.m_dy, Rotation2d.fromDegrees(point.getRotation().getDegrees()-this.m_dr)));
-        this.m_dx += point.getX();
-        this.m_dy += point.getY();
-        this.m_dr += point.getRotation().getDegrees();
+        System.out.println("xdiff "+(point.getX()-this.m_dx));
+        System.out.println("ydiff "+(point.getY()-this.m_dy));
+        this.m_dx += point.getX()-this.m_dx;
+        this.m_dy += point.getY()-this.m_dy;
+        this.m_dr += point.getRotation().getDegrees()-this.m_dr;
     }
 
     public void addPlot(double x, double y, double r) {
-        this.add(new Pose2d(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(r)));
+        // this.add(new Pose2d(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(r)));
+        this.add(new Pose2d(x, y, Rotation2d.fromDegrees(r))); // inches to debug
     }
 
     public void finish() {
