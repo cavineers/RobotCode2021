@@ -2,7 +2,7 @@ package frc.lib;
 
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
-
+import edu.wpi.first.wpilibj.util.Units;
 public class PathUtil {
     public static boolean withinTolerance(Pose2d current, Pose2d goal, double tTolerance, double rTolerance) {
         // System.out.println("wt_x" + Math.abs(current.getX()-goal.getX()));
@@ -25,5 +25,9 @@ public class PathUtil {
 
     public static Pose2d plot(double x, double y, double rotation) {
         return new Pose2d(x, y, Rotation2d.fromDegrees(rotation));
+    }
+
+    public static Pose2d plotInches(double x, double y, double rotation) {
+        return new Pose2d(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(rotation));
     }
 }

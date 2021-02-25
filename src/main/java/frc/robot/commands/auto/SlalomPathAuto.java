@@ -12,7 +12,7 @@ public class SlalomPathAuto extends CommandBase {
     public void initialize() {
         Robot.logger.addInfo("SlalomPathAuto", "Autonomous slalom path command initialized");
 
-        Robot.swerveDrive.followPath(SlalomPath.getPath());
+        Robot.swerveDrive.followPath(new SlalomPath());
     }
 
     @Override
@@ -20,7 +20,7 @@ public class SlalomPathAuto extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        Robot.logger.addWarn("SlalomPathAuto", "Autonomous slalom path command ended");
+        Robot.logger.addInfo("SlalomPathAuto", "Autonomous slalom path command ended");
     }
 
     @Override

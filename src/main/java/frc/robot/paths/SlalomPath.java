@@ -1,17 +1,24 @@
 package frc.robot.paths;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import frc.lib.PathUtil;
-import frc.lib.autonomous.Path;
-import edu.wpi.first.wpilibj.util.Units;
+import frc.lib.autonomous.ExactPath;
 
-public class SlalomPath {
-    public static Path getPath() {
-        Pose2d[] route = new Pose2d[]{
-            PathUtil.plot(Units.feetToMeters(30), Units.feetToMeters(30), 0.0), // Star
-            PathUtil.plot(Units.feetToMeters(30), Units.feetToMeters(30), 0.0),
-        };
+public class SlalomPath extends ExactPath {
+    public SlalomPath() {
+        super();
 
-        return new Path(route);
+        this.addPlot(30.0, 30.0, 0.0); // Starting position
+        this.addPlot(36.0, 72.0, 0.0);
+        this.addPlot(90.0, 120.0, 0.0);
+        this.addPlot(108.0, 180.0, 0.0);
+        this.addPlot(84.0, 252.0, 0.0);
+        this.addPlot(30.0, 300.0, 0.0);
+        this.addPlot(60.0, 348.0, 0.0);
+        this.addPlot(90.0, 300.0, 0.0);
+        this.addPlot(48.0, 252.0, 0.0);
+        this.addPlot(30.0, 186.0, 0.0);
+        this.addPlot(36.0, 120.0, 0.0);
+        this.addPlot(90.0, 30.0, 0.0);
+
+        this.finish();
     }
 }

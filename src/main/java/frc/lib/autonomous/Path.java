@@ -4,8 +4,10 @@ import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Transform2d;
 
 public class Path {
-    private Pose2d[] m_plots;
+    protected Pose2d[] m_plots;
     private int m_current = 0;
+
+    public Path() {}
 
     public Path(Pose2d[] path) {
         this.m_plots = path;
