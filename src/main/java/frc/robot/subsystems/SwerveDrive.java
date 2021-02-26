@@ -236,7 +236,7 @@ public class SwerveDrive extends SubsystemBase {
 	public void periodic() {
 		// If swerve is following a path
 		if (this.m_state == SwerveDriveState.PATH) {
-			System.out.println("Check: "+this.m_xPIDController.atSetpoint()+" "+this.m_yPIDController.atSetpoint());
+			System.out.println("Check: "+this.m_xPIDController.atSetpoint()+" "+this.m_yPIDController.atSetpoint()+" "+this.m_rPIDController.atSetpoint());
 			// If all movement is finished
 			if(this.m_xPIDController.atSetpoint() && this.m_yPIDController.atSetpoint() && this.m_rPIDController.atSetpoint()) {
 				// If so, check if there is another point to target
@@ -268,7 +268,7 @@ public class SwerveDrive extends SubsystemBase {
 				System.out.println("Current: "+this.getPosition().getX()+" "+this.getPosition().getY()+" "+this.getPosition().getRotation().getDegrees());
 				System.out.println("Output: "+xOutput+" "+yOutput+" "+rOutput);
 				System.out.println("Percent: "+xOutput/Constants.Swerve.kMaxVelocity+" "+yOutput/Constants.Swerve.kMaxVelocity+" "+rOutput);
-				this.localSwerve(xOutput/Constants.Swerve.kMaxVelocity, yOutput/Constants.Swerve.kMaxVelocity, rOutput, true);
+				this.localSwerve(xOutput/Constants.Swerve.kMaxVelocity, yOutput/Constants.Swerve.kMaxVelocity, MathUtil.clamp(rOutput, -1, 1), true);
 			}
 		}
 
