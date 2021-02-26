@@ -5,14 +5,14 @@ import edu.wpi.first.wpilibj.geometry.Transform2d;
 import edu.wpi.first.wpilibj.util.Units;
 
 public class Path {
-    protected Pose2d[] m_plots;
+    protected Plot[] m_plots;
     private int m_current = 0;
     public double m_TranslationTolerance;
     public double m_RotationalTolerance;
 
     public Path() {}
 
-    public Path(Pose2d[] path) {
+    public Path(Plot[] path) {
         this.m_plots = path;
     }
 
