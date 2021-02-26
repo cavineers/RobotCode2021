@@ -12,8 +12,12 @@ public class GalacticSearch extends CommandBase {
 
     @Override
     public void initialize() {
+        Robot.logger.addInfo("GalacticSearch", "Galactic Search Autonomous Command Activated.");
+
         double cameraLengthToBall = m_closestPowerCell.getDistance() / Math.sin(90 - m_closestPowerCell.getTx()); // hypotenuse (c) value in law of sines
 
+        // TODO initialize set path
+        // TODO initialize dynamic path based on incoming distances that will change over time
     }
 
     @Override
