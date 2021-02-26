@@ -205,10 +205,6 @@ public class SwerveDrive extends SubsystemBase {
 		// Save path
 		this.m_path = path;
 
-		//this.m_path.getRotationalTolerance()
-		this.m_xPIDController.setTolerance(this.m_path.getTranslationTolerance());
-		this.m_yPIDController.setTolerance(this.m_path.getTranslationTolerance());	
-
 		// Save relative vs absolute
 		this.m_isRelative = isRelative;
 
@@ -222,7 +218,8 @@ public class SwerveDrive extends SubsystemBase {
 	private void generateProfile() {
 		System.out.println(this.m_path.getCurrent().getX());
 		System.out.println(this.m_path.getCurrent().getY());
-
+		this.m_xPIDController.setTolerance(this.m_path.getCurrent().getTranslationTolerance());
+		this.m_yPIDController.setTolerance(this.m_path.getCurrent().getTranslationTolerance());
 		if (this.m_isRelative) {
 			this.m_xPIDController.setSetpoint(this.getPosition().getX()+this.m_path.getCurrent().getX());
 			this.m_yPIDController.setSetpoint(this.getPosition().getY()+this.m_path.getCurrent().getY());

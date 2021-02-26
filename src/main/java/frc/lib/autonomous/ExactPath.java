@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.util.Units;
 
 public class ExactPath extends Path {
-    private ArrayList<Pose2d> m_points = new ArrayList<Pose2d>(0);
+    private ArrayList<Plot> m_points = new ArrayList<Plot>(0);
 
     private double m_dx = 0.0;
     private double m_dy = 0.0;
@@ -25,18 +25,18 @@ public class ExactPath extends Path {
     //     this.m_dr += point.getRotation().getDegrees()-this.m_dr;
     // }
 
-    public void add(Pose2d point) {
+    public void add(Plot point) {
         this.m_points.add(point);
     }
 
-    public void addPlot(double x, double y, double r) {
-        this.add(new Pose2d(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(r)));
+    public void addPlot(double x, double y, double r, double transitionTolerance, double rotationalTolerance) {
+        this.add(new Plot(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(r), transitionTolerance, rotationalTolerance));
         // this.add(new Pose2d(x, y, Rotation2d.fromDegrees(r))); // inches to debug
     }
 
     public void finish() {
         // this.m_plots = this.m_points;
-        this.m_plots = this.m_points.toArray(new Pose2d[this.m_points.size()]);
+        this.m_plots = this.m_points.toArray(new Plot[this.m_points.size()]);
 
         for (Pose2d pose2d : m_plots) {
             System.out.println("plot "+pose2d.getX()+" "+pose2d.getY());
