@@ -7,10 +7,10 @@ public class Plot extends Pose2d {
     private double m_transitionTolerance;
     private double m_rotationalTolerance;
 
-    public Plot(double x, double y, Rotation2d rotation2d, double RotationTolerance, double TransitionTolerance) {
+    public Plot(double x, double y, Rotation2d rotation2d, double transitionTolerance, double rotationTolerance) {
         super(x, y, rotation2d);
-        setTransitionTolerance(TransitionTolerance);
-        setRotationTolerance(RotationTolerance);
+        setTransitionTolerance(transitionTolerance);
+        setRotationTolerance(rotationTolerance);
     }
 
     public void setTransitionTolerance(double tolerance) {

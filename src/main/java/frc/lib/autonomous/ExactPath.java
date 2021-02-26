@@ -30,7 +30,7 @@ public class ExactPath extends Path {
     }
 
     public void addPlot(double x, double y, double r, double transitionTolerance, double rotationalTolerance) {
-        this.add(new Plot(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(r), transitionTolerance, rotationalTolerance));
+        this.add(new Plot(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(r), Units.inchesToMeters(transitionTolerance), rotationalTolerance));
         // this.add(new Pose2d(x, y, Rotation2d.fromDegrees(r))); // inches to debug
     }
 
