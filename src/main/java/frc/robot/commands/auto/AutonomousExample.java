@@ -12,7 +12,7 @@ public class AutonomousExample extends CommandBase {
     public void initialize() {
         Robot.logger.addInfo("AutonomousExample", "Autonomous example command initialized");
 
-        Robot.swerveDrive.followPath(new ExamplePath2());
+        Robot.swerveDrive.followPath(new ExamplePath2(), false);
     }
 
     @Override

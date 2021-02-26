@@ -66,10 +66,6 @@ public class SwerveDrive extends SubsystemBase {
 	private boolean m_isRelative = false;
 	private Pose2d m_initial;
 
-	private boolean m_xFinish = false;
-	private boolean m_yFinish = false;
-	private boolean m_rFinish = false;
-
     public SwerveDrive() {
 		this.m_kinematics = new SwerveDriveKinematics(
 			new Translation2d(-Constants.Swerve.kTrackWidth, 0),
@@ -215,18 +211,23 @@ public class SwerveDrive extends SubsystemBase {
 		// Save relative vs absolute
 		this.m_isRelative = isRelative;
 
+		// Save initial position
+		this.m_initial = this.getPosition();
+
 		// Generate profiles
 		this.generateProfile();
 	}
 
 	private void generateProfile() {
+		System.out.println(this.m_path.getCurrent().getX());
+		System.out.println(this.m_path.getCurrent().getY());
+		
 		if (this.m_isRelative) {
-
+			this.m_xPIDController.setSetpoint(this.getPosition().getX()+this.m_path.getCurrent().getX());
+			this.m_yPIDController.setSetpoint(this.getPosition().getY()+this.m_path.getCurrent().getY());
 		} else {
-			// Absolute
-			this.m_initial = this.getPosition();
-			this.m_xPIDController.setSetpoint(this.m_path.getCurrent().getX());
-			this.m_yPIDController.setSetpoint(this.m_path.getCurrent().getX());
+			this.m_xPIDController.setSetpoint(this.m_initial.getX()+this.m_path.getCurrent().getX());
+			this.m_yPIDController.setSetpoint(this.m_initial.getY()+this.m_path.getCurrent().getY());
 		}
 	}
 
@@ -234,8 +235,9 @@ public class SwerveDrive extends SubsystemBase {
 	public void periodic() {
 		// If swerve is following a path
 		if (this.m_state == SwerveDriveState.PATH) {
+			System.out.println("Check: "+this.m_xPIDController.atSetpoint()+" "+this.m_yPIDController.atSetpoint());
 			// If all movement is finished
-			if(this.m_xFinish == true && this.m_yFinish == true && this.m_rFinish == true) {
+			if(this.m_xPIDController.atSetpoint() && this.m_yPIDController.atSetpoint()) {
 				// If so, check if there is another point to target
 				if (this.m_path.next()) {
 					System.out.println("Next");
@@ -254,14 +256,16 @@ public class SwerveDrive extends SubsystemBase {
 					// Reset state to SWERVE, allowing teleop to take over when ready
 					this.m_state = SwerveDriveState.SWERVE;
 				}
-				this.m_xFinish = false;
-				this.m_yFinish = false;
-				this.m_rFinish = false;
 			}
 
 			// Re-check if the robot is still in the PATH state since state is reset above if the path ends
 			if (this.m_state == SwerveDriveState.PATH) {
-				
+				double xOutput = this.m_xPIDController.calculate(this.getPosition().getX());
+				double yOutput = this.m_yPIDController.calculate(this.getPosition().getY());
+				System.out.println("Setpoint: "+this.m_xPIDController.getSetpoint()+" "+this.m_yPIDController.getSetpoint());
+				System.out.println("Output: "+xOutput+" "+yOutput);
+				System.out.println("Percent: "+xOutput/Constants.Swerve.kMaxVelocity+" "+yOutput/Constants.Swerve.kMaxVelocity);
+				this.localSwerve(xOutput/Constants.Swerve.kMaxVelocity, yOutput/Constants.Swerve.kMaxVelocity, 0, true);
 			}
 		}
 
