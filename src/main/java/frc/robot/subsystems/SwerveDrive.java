@@ -205,10 +205,6 @@ public class SwerveDrive extends SubsystemBase {
 		// Save path
 		this.m_path = path;
 
-		//this.m_path.getRotationalTolerance()
-		// this.m_xPIDController.setTolerance(this.m_path.getTranslationTolerance());
-		// this.m_yPIDController.setTolerance(this.m_path.getTranslationTolerance());	
-
 		// Save relative vs absolute
 		this.m_isRelative = isRelative;
 

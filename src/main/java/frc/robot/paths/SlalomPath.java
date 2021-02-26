@@ -6,8 +6,6 @@ public class SlalomPath extends ExactPath {
     public SlalomPath() {
         super();
 
-        this.setTolerance(10, 1);
-
         this.addPlot(50.0, 0.0, 0.0, 10, 1);
         this.addPlot(95.0, 65.0, 0.0, 10, 1);
         this.addPlot(150.0, 80.0, 0.0, 10, 1);

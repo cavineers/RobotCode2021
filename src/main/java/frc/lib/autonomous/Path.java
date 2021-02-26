@@ -1,9 +1,5 @@
 package frc.lib.autonomous;
 
-import edu.wpi.first.wpilibj.geometry.Pose2d;
-import edu.wpi.first.wpilibj.geometry.Transform2d;
-import edu.wpi.first.wpilibj.util.Units;
-
 public class Path {
     protected Plot[] m_plots;
     private int m_current = 0;
@@ -40,18 +36,5 @@ public class Path {
 
     public boolean next() {
         return this.m_current+1 != this.m_plots.length;
-    }
-
-    public void setTolerance(double TransitionTolerance, double RotationalTolerance) {
-        this.m_TranslationTolerance = Units.inchesToMeters(TransitionTolerance);
-        this.m_RotationalTolerance = Units.inchesToMeters(RotationalTolerance);
-    }
-
-    public double getRotationalTolerance() {
-        return m_RotationalTolerance;
-    }
-
-    public double getTranslationTolerance() {
-        return m_TranslationTolerance;
     }
 }
