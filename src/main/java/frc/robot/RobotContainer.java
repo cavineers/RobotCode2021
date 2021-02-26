@@ -49,7 +49,7 @@ public class RobotContainer {
 		this.pov_down.whenPressed(new InstantCommand() {
 			@Override
 			public void initialize() {
-				if (Robot.robotContainer.simMenu == true) {
+				if (Robot.robotContainer.simMenu) {
 					new ResetRobot(0,0).schedule();
 				}
 				Robot.robotContainer.simMenu = false;
@@ -59,7 +59,7 @@ public class RobotContainer {
 		this.pov_left.whenPressed(new InstantCommand() {
 			@Override
 			public void initialize() {
-				if (Robot.robotContainer.simMenu == true) {
+				if (Robot.robotContainer.simMenu) {
 					new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(30)).schedule();
 				}
 				Robot.robotContainer.simMenu = false;

@@ -8,6 +8,8 @@ public class SimMenu extends InstantCommand {
 
     @Override
     public void initialize() {
-        Robot.robotContainer.simMenu = true;
+        if (Robot.isSimulation()) {
+            Robot.robotContainer.simMenu = !Robot.robotContainer.simMenu;
+        }
     }
 }
