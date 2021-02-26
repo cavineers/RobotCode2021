@@ -16,7 +16,7 @@ public class Path {
         this.m_plots = path;
     }
 
-    public Pose2d getCurrent() {
+    public Plot getCurrent() {
         return this.m_plots[this.m_current];
     }
 
@@ -24,7 +24,7 @@ public class Path {
         this.m_current = 0;
     }
 
-    public Pose2d getAhead() {
+    public Plot getAhead() {
         if (this.m_current+1 != this.m_plots.length) {
             return this.m_plots[this.m_current+1];
         } else {
