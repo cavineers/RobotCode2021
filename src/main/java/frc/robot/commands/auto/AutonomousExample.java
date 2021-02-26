@@ -2,7 +2,7 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.paths.SlalomPath;
+import frc.robot.paths.ExamplePath;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
 
 public class AutonomousExample extends CommandBase {
@@ -12,7 +12,7 @@ public class AutonomousExample extends CommandBase {
     public void initialize() {
         Robot.logger.addInfo("AutonomousExample", "Autonomous example command initialized");
 
-        Robot.swerveDrive.followPath(new SlalomPath(), false);
+        Robot.swerveDrive.followPath(new ExamplePath(), false);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class AutonomousExample extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        Robot.logger.addWarn("AutonomousExample", "Autonomous example command ended");
+        Robot.logger.addInfo("AutonomousExample", "Autonomous example command ended");
     }
 
     @Override

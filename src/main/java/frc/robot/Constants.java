@@ -111,6 +111,12 @@ public final class Constants {
         public static double kPositionPID_I = 0.0;
         public static double kPositionPID_D = 0.00000005;
 
+        // Angle PID
+        // TODO: TUNE THESE
+        public static double kAnglePID_P = 0.03;
+        public static double kAnglePID_I = 0.0;
+        public static double kAnglePID_D = 0.0;
+
         // Track Width
         public static double kTrackWidth = Sizing.kTrackWidthInches;
     }

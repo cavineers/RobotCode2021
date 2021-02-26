@@ -29,7 +29,7 @@ public class RobotContainer {
 	public POVButton pov_right = new POVButton(joy, 90, 0);
 	public POVButton pov_down = new POVButton(joy, 180, 0);
 	public POVButton pov_left = new POVButton(joy, 270, 0);
-	public String selectedCommand = "SLALOM";
+	public String selectedCommand = "TEST";
 
 	public boolean simMenu = false;
 	public boolean fieldOriented = false;
