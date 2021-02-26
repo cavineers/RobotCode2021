@@ -107,9 +107,9 @@ public final class Constants {
 
         // Position PID
         // TODO: TUNE THESE
-        public static double kPositionPID_P = 1.0;
+        public static double kPositionPID_P = 10.0;
         public static double kPositionPID_I = 0.0;
-        public static double kPositionPID_D = 0.0;
+        public static double kPositionPID_D = 0.00000005;
 
         // Track Width
         public static double kTrackWidth = Sizing.kTrackWidthInches;
@@ -140,8 +140,8 @@ public final class Constants {
     }
 
     public static class AutoPath {
-        public static double kTranslationTolerance = Units.inchesToMeters(4);
-        public static double kRotationalTolerance = 1.0;
+        // public static double kTranslationTolerance = Units.inchesToMeters(1);
+        // public static double kRotationalTolerance = 1.0;
         public static double kSmoothTransition = 0.0;
     }
 }

@@ -79,9 +79,6 @@ public class SwerveDrive extends SubsystemBase {
 		);
 
 		Robot.logger.addInfo("SwerveDrive", "Created SwerveDrive subsystem");
-
-		this.m_xPIDController.setTolerance(Constants.AutoPath.kTranslationTolerance);
-		this.m_yPIDController.setTolerance(Constants.AutoPath.kTranslationTolerance);
     }
 
 	/**
@@ -208,6 +205,10 @@ public class SwerveDrive extends SubsystemBase {
 		// Save path
 		this.m_path = path;
 
+		//this.m_path.getRotationalTolerance()
+		this.m_xPIDController.setTolerance(this.m_path.getTranslationTolerance());
+		this.m_yPIDController.setTolerance(this.m_path.getTranslationTolerance());	
+
 		// Save relative vs absolute
 		this.m_isRelative = isRelative;
 
@@ -221,7 +222,7 @@ public class SwerveDrive extends SubsystemBase {
 	private void generateProfile() {
 		System.out.println(this.m_path.getCurrent().getX());
 		System.out.println(this.m_path.getCurrent().getY());
-		
+
 		if (this.m_isRelative) {
 			this.m_xPIDController.setSetpoint(this.getPosition().getX()+this.m_path.getCurrent().getX());
 			this.m_yPIDController.setSetpoint(this.getPosition().getY()+this.m_path.getCurrent().getY());
@@ -263,6 +264,7 @@ public class SwerveDrive extends SubsystemBase {
 				double xOutput = this.m_xPIDController.calculate(this.getPosition().getX());
 				double yOutput = this.m_yPIDController.calculate(this.getPosition().getY());
 				System.out.println("Setpoint: "+this.m_xPIDController.getSetpoint()+" "+this.m_yPIDController.getSetpoint());
+				System.out.println("Current: "+this.getPosition().getX()+" "+this.getPosition().getY());
 				System.out.println("Output: "+xOutput+" "+yOutput);
 				System.out.println("Percent: "+xOutput/Constants.Swerve.kMaxVelocity+" "+yOutput/Constants.Swerve.kMaxVelocity);
 				this.localSwerve(xOutput/Constants.Swerve.kMaxVelocity, yOutput/Constants.Swerve.kMaxVelocity, 0, true);
