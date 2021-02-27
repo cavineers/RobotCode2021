@@ -29,9 +29,14 @@ public class RobotContainer {
 	public POVButton pov_right = new POVButton(joy, 90, 0);
 	public POVButton pov_down = new POVButton(joy, 180, 0);
 	public POVButton pov_left = new POVButton(joy, 270, 0);
-	public String selectedCommand = "TEST";
 
+	// Selected Auto Command
+	public String selectedCommand = "SLALOM";
+
+	// Simulation Menu
 	public boolean simMenu = false;
+
+	// If the robot is field oriented
 	public boolean fieldOriented = false;
 
 	public RobotContainer() {

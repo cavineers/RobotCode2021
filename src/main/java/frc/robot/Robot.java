@@ -43,6 +43,8 @@ public class Robot extends TimedRobot {
 	// Autonomous command
 	private Command m_autonomousCommand;
 
+	private static double m_matchTime;
+
 	public Robot() {
 		super(0.02);
 
@@ -82,6 +84,8 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotPeriodic() {
 		CommandScheduler.getInstance().run();
+
+		m_matchTime = this.m_ds.getMatchTime();
 	}
 
 	@Override
@@ -141,4 +145,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void simulationPeriodic() {}
+
+	public static double getMatchTime() {
+		return m_matchTime;
+	}
 }

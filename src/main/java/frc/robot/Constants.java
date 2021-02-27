@@ -93,8 +93,8 @@ public final class Constants {
 
         // Kinematics & Odometry
         // TODO: GET ACTUAL MAX VELOCITY
-        public static double kMaxVelocity = Units.feetToMeters(5.0); // In Meters Per Second
-        public static double kMaxAcceleration = Units.feetToMeters(2.0); // In meters per second // TODO: Find max accel
+        public static double kMaxVelocity = Units.feetToMeters(10.0); // In Meters Per Second
+        // public static double kMaxAcceleration = Units.feetToMeters(2.0); // In meters per second // TODO: Find max accel
 
         public static double kMaxRotateSpeed = 150.0; // In Degrees Per Second
         public static double kMaxRotateAcceleration = 30.0;
@@ -118,7 +118,7 @@ public final class Constants {
         public static double kAnglePID_D = 0.0;
 
         // Track Width
-        public static double kTrackWidth = Sizing.kTrackWidthInches;
+        public static double kTrackWidth = Sizing.kTrackWidthMeters;
     }
 
     // Object Detection Vision

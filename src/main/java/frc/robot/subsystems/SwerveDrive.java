@@ -254,6 +254,11 @@ public class SwerveDrive extends SubsystemBase {
 
 					// Reset state to SWERVE, allowing teleop to take over when ready
 					this.m_state = SwerveDriveState.SWERVE;
+
+					// DEBUG ONLY
+					if (Robot.isSimulation()) {
+						System.out.println("Finished at: "+Robot.getMatchTime());
+					}
 				}
 			}
 
