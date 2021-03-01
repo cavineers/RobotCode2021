@@ -2,17 +2,17 @@ package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
-import frc.robot.paths.SlalomPath;
+import frc.robot.paths.BarrelRacingPath;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
 
-public class SlalomPathAuto extends CommandBase {
-    public SlalomPathAuto() {}
+public class BarrelRacingAuto extends CommandBase {
+    public BarrelRacingAuto() {}
 
     @Override
     public void initialize() {
-        Robot.logger.addInfo("SlalomPathAuto", "Autonomous slalom path command initialized");
+        Robot.logger.addInfo("BarrelRacingAuto", "Autonomous barrel racing path command initialized");
 
-        Robot.swerveDrive.followPath(new SlalomPath(), false);
+        Robot.swerveDrive.followPath(new BarrelRacingPath(), false);
     }
 
     @Override
@@ -20,7 +20,7 @@ public class SlalomPathAuto extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        Robot.logger.addInfo("SlalomPathAuto", "Autonomous slalom path command ended");
+        Robot.logger.addInfo("BarrelRacingAuto", "Autonomous barrel racing path command ended");
     }
 
     @Override

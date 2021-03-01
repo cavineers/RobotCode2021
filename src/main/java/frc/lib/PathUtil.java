@@ -30,4 +30,14 @@ public class PathUtil {
     public static Pose2d plotInches(double x, double y, double rotation) {
         return new Pose2d(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(rotation));
     }
+
+    public static double fixDegreeOverflow(double value, boolean wrap) {
+        if (wrap) {
+            if (value <= -180) {
+                
+            }
+        }
+
+        return value;
+    }
 }

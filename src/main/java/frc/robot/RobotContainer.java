@@ -7,6 +7,8 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.auto.AutonomousExample;
+import frc.robot.commands.auto.BarrelRacingAuto;
+import frc.robot.commands.auto.BouncePathAuto;
 import frc.robot.commands.auto.DeadAuto;
 import frc.robot.commands.auto.GalacticSearch;
 import frc.robot.commands.auto.SlalomPathAuto;
@@ -31,7 +33,7 @@ public class RobotContainer {
 	public POVButton pov_left = new POVButton(joy, 270, 0);
 
 	// Selected Auto Command
-	public String selectedCommand = "SLALOM";
+	public String selectedCommand = "BARREL_RACING";
 
 	// Simulation Menu
 	public boolean simMenu = false;
@@ -55,7 +57,7 @@ public class RobotContainer {
 			@Override
 			public void initialize() {
 				if (Robot.robotContainer.simMenu) {
-					new ResetRobot(0,0).schedule();
+					new ResetRobot(0, 0).schedule();
 				}
 				Robot.robotContainer.simMenu = false;
 			}
@@ -66,6 +68,16 @@ public class RobotContainer {
 			public void initialize() {
 				if (Robot.robotContainer.simMenu) {
 					new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(30)).schedule();
+				}
+				Robot.robotContainer.simMenu = false;
+			}
+		});
+
+		this.pov_up.whenPressed(new InstantCommand() {
+			@Override
+			public void initialize() {
+				if (Robot.robotContainer.simMenu) {
+					new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(90)).schedule();
 				}
 				Robot.robotContainer.simMenu = false;
 			}
@@ -84,7 +96,11 @@ public class RobotContainer {
 			case "GALACTIC_SEARCH":
 				return new GalacticSearch();
 			case "SLALOM":
-				return new SlalomPathAuto();				
+				return new SlalomPathAuto();	
+			case "BOUNCE":
+				return new BouncePathAuto();
+			case "BARREL_RACING":
+				return new BarrelRacingAuto();
 			case "TEST":
 				return new AutonomousExample();
 			default:

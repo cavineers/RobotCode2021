@@ -1,5 +1,6 @@
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -8,6 +9,7 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.lib.Deadzone;
@@ -61,7 +63,8 @@ public class SwerveDrive extends SubsystemBase {
 	private PIDController m_rPIDController = new PIDController(Constants.Swerve.kAnglePID_P, Constants.Swerve.kAnglePID_I, Constants.Swerve.kAnglePID_D);
 
 	private boolean m_isRelative = false;
-	private Pose2d m_initial;
+	private Pose2d m_initialPosition;
+	private Rotation2d m_initialRotation;
 
     public SwerveDrive() {
 		this.m_kinematics = new SwerveDriveKinematics(
@@ -206,7 +209,10 @@ public class SwerveDrive extends SubsystemBase {
 		this.m_isRelative = isRelative;
 
 		// Save initial position
-		this.m_initial = this.getPosition();
+		this.m_initialPosition = this.getPosition();
+
+		// Save initial rotation
+		this.m_initialRotation = this.getAngle();
 
 		// Generate profiles
 		this.generateProfile();
@@ -223,9 +229,9 @@ public class SwerveDrive extends SubsystemBase {
 			this.m_yPIDController.setSetpoint(this.getPosition().getY()+this.m_path.getCurrent().getY());
 			this.m_rPIDController.setSetpoint(this.getPosition().getRotation().getDegrees()+this.m_path.getCurrent().getRotation().getDegrees());
 		} else {
-			this.m_xPIDController.setSetpoint(this.m_initial.getX()+this.m_path.getCurrent().getX());
-			this.m_yPIDController.setSetpoint(this.m_initial.getY()+this.m_path.getCurrent().getY());
-			this.m_rPIDController.setSetpoint(this.m_initial.getRotation().getDegrees()+this.m_path.getCurrent().getRotation().getDegrees());
+			this.m_xPIDController.setSetpoint(this.m_initialPosition.getX()+this.m_path.getCurrent().getX());
+			this.m_yPIDController.setSetpoint(this.m_initialPosition.getY()+this.m_path.getCurrent().getY());
+			this.m_rPIDController.setSetpoint(this.m_initialRotation.getDegrees()+this.m_path.getCurrent().getRotation().getDegrees());
 		}
 	}
 
@@ -266,11 +272,11 @@ public class SwerveDrive extends SubsystemBase {
 			if (this.m_state == SwerveDriveState.PATH) {
 				double xOutput = this.m_xPIDController.calculate(this.getPosition().getX());
 				double yOutput = this.m_yPIDController.calculate(this.getPosition().getY());
-				double rOutput = this.m_rPIDController.calculate(-this.getPosition().getRotation().getDegrees());
-				System.out.println("Setpoint: "+this.m_xPIDController.getSetpoint()+" "+this.m_yPIDController.getSetpoint()+" "+this.m_rPIDController.getSetpoint());
-				System.out.println("Current: "+this.getPosition().getX()+" "+this.getPosition().getY()+" "+(-this.getPosition().getRotation().getDegrees()));
-				System.out.println("Output: "+xOutput+" "+yOutput+" "+rOutput);
-				System.out.println("Percent: "+xOutput/Constants.Swerve.kMaxVelocity+" "+yOutput/Constants.Swerve.kMaxVelocity+" "+rOutput);
+				double rOutput = this.m_rPIDController.calculate(-this.getAngle().getDegrees());
+				// System.out.println("Setpoint: "+this.m_xPIDController.getSetpoint()+" "+this.m_yPIDController.getSetpoint()+" "+this.m_rPIDController.getSetpoint());
+				// System.out.println("Current: "+this.getPosition().getX()+" "+this.getPosition().getY()+" "+this.getAngle().getDegrees());
+				// System.out.println("Output: "+xOutput+" "+yOutput+" "+rOutput);
+				// System.out.println("Percent: "+xOutput/Constants.Swerve.kMaxVelocity+" "+yOutput/Constants.Swerve.kMaxVelocity+" "+rOutput);
 				this.localSwerve(xOutput/Constants.Swerve.kMaxVelocity, yOutput/Constants.Swerve.kMaxVelocity, MathUtil.clamp(rOutput, -1, 1), true);
 			}
 		}
@@ -292,5 +298,14 @@ public class SwerveDrive extends SubsystemBase {
 
 		// Send field
 		SmartDashboard.putData(this.m_field);
+	}
+
+	public void testPeriodic() {
+		if (DriverStation.getInstance().isTest() && Robot.isSimulation()) {
+			System.out.println("Simulated X: " + Units.metersToInches(this.m_field.getRobotPose().getX()-Units.inchesToMeters(30)));
+			System.out.println("Simulated Y: " + Units.metersToInches(this.m_field.getRobotPose().getY()-Units.inchesToMeters(90)));
+			System.out.println("Simulated R: " + this.m_field.getRobotPose().getRotation().getDegrees());
+			return;
+		}
 	}
 }

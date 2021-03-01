@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.SPI.Port;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -131,11 +132,15 @@ public class Robot extends TimedRobot {
 	public void testInit() {
 		logger.addInfo("robot", "Robot running in Test");
 
+		System.out.println(Rotation2d.fromDegrees(190).getDegrees());
+
 		CommandScheduler.getInstance().cancelAll();
 	}
 
 	@Override
-	public void testPeriodic() {}
+	public void testPeriodic() {
+		swerveDrive.testPeriodic();
+	}
 
 	@Override
 	public void simulationInit() {

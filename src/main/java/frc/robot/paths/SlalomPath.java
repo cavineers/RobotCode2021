@@ -6,7 +6,7 @@ public class SlalomPath extends ExactPath {
     public SlalomPath() {
         super();
 
-        // TIME: 13.95
+        // TIME: 10.xx
 
         this.addPlot(50.0, 0.0, 0.0, 5.0, 1.0);
         this.addPlot(60.0, 0.0, 0.0, 5.0, 1.0);

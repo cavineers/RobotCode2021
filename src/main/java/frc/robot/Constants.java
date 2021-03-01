@@ -74,8 +74,14 @@ public final class Constants {
         public static double kWheelBaseInches = 29.5;   // Distance between the front and back wheels in inches
         public static double kTrackWidthInches = 29.5; // Distance between the inside of the left and right 2 wheels in inches
 
-        public static double kWheelBaseMeters = 0.7493;   // Distance between the front and back wheels in meters
-        public static double kTrackWidthMeters = 0.7493; // Distance between the inside of the left and right 2 wheels in meters
+        public static double kWheelBaseInchesBumpered = 36.0;   // Distance between the front and back wheels in inches
+        public static double kTrackWidthInchesBumpered = 36.0; 
+
+        public static double kWheelBaseMeters = Units.inchesToMeters(kWheelBaseInches);   // Distance between the front and back wheels in meters
+        public static double kTrackWidthMeters = Units.inchesToMeters(kTrackWidthInches); // Distance between the inside of the left and right 2 wheels in meters
+
+        public static double kWheelBaseMetersBumpered = Units.inchesToMeters(kWheelBaseInchesBumpered);   // Distance between the front and back wheels in meters
+        public static double kTrackWidthMetersBumpered = Units.inchesToMeters(kTrackWidthInchesBumpered); // Distance between the inside of the left and right 2 wheels in meters
     }
     // Swerve
     public static class Swerve {
