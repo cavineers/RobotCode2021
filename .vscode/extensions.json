@@ -1,3 +1,7 @@
 {
-    "recommendations": ["aaron-bond.better-comments", "streetsidesoftware.code-spell-checker"]
+    "recommendations": [
+        "aaron-bond.better-comments",
+        "streetsidesoftware.code-spell-checker",
+        "shengchen.vscode-checkstyle"
+    ]
 }
