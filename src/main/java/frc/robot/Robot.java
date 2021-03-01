@@ -1,12 +1,10 @@
 package frc.robot;
 
-import java.net.UnknownHostException;
 
 import com.kauailabs.navx.frc.AHRS;
-
 import edu.wpi.first.wpilibj.SPI.Port;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.TeleopDrive;
@@ -14,144 +12,156 @@ import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
-import frc.robot.subsystems.Transportation;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
+import frc.robot.subsystems.Transportation;
+import java.net.UnknownHostException;
 
+/**
+ * Main Robot class that contains all Subsystems and periodic methods.
+ */
 public class Robot extends TimedRobot {
-	// Logger
-	public static Logger logger;
-	
-	// Robot Container
-	public static RobotContainer robotContainer;
+    // Logger
+    public static Logger logger;
 
-	// Dank
-	public static DANK dank;
+    // Robot Container
+    public static RobotContainer robotContainer;
 
-	// Shared Sensors
-	public static AHRS gyro;
-	public static Limelight limelight;
+    // Dank
+    public static Dank dank;
 
-	// Subsystems
-	public static Hood hood;
-	public static Intake intake;
-	public static Shooter shooter;
-	public static SwerveDrive swerveDrive;
-	public static Transportation transportation;
+    // Shared Sensors
+    public static AHRS gyro;
+    public static Limelight limelight;
 
-	// Vision
-	public static Vision vision;
+    // Subsystems
+    public static Hood hood;
+    public static Intake intake;
+    public static Shooter shooter;
+    public static SwerveDrive swerveDrive;
+    public static Transportation transportation;
 
-	// Autonomous command
-	private Command m_autonomousCommand;
+    // Vision
+    public static Vision vision;
 
-	private static double m_matchTime;
+    // Autonomous command
+    private Command m_autonomousCommand;
 
-	public Robot() {
-		super(0.02);
+    private static double m_matchTime;
 
-		// Static logger
-		logger = new Logger();
+    /**
+     * Robot constructor.
+     * 
+     * <p>Used to create all subsystems and start various services.
+     */
+    public Robot() {
+        super(0.02);
 
-		// Static robot container
-		robotContainer = new RobotContainer();
+        // Static logger
+        logger = new Logger();
 
-		// Static DANK
-		try {
-			dank = new DANK();
-			dank.start();
-		} catch (UnknownHostException e) {
-			logger.addInfo("DANK", "Error starting WS");
-		}
+        // Static robot container
+        robotContainer = new RobotContainer();
 
-		// Shared Sensors
-		gyro = new AHRS(Port.kMXP);
+        // Static DANK
+        try {
+            dank = new Dank();
+            dank.start();
+        } catch (UnknownHostException e) {
+            logger.addInfo("DANK", "Error starting WS");
+        }
 
-		// Subsystems
-		hood = new Hood();
-		intake = new Intake();
-		shooter = new Shooter();
-		swerveDrive = new SwerveDrive();
-		transportation = new Transportation();
+        // Shared Sensors
+        gyro = new AHRS(Port.kMXP);
 
-		// Vision
-		vision = new Vision();
-	}
+        // Subsystems
+        hood = new Hood();
+        intake = new Intake();
+        shooter = new Shooter();
+        swerveDrive = new SwerveDrive();
+        transportation = new Transportation();
 
-	@Override
-	public void robotInit() {
-		logger.addInfo("robot", "Initializing...");
-	}
+        // Vision
+        vision = new Vision();
+    }
 
-	@Override
-	public void robotPeriodic() {
-		CommandScheduler.getInstance().run();
+    @Override
+    public void robotInit() {
+        logger.addInfo("robot", "Initializing...");
+    }
 
-		m_matchTime = this.m_ds.getMatchTime();
-	}
+    @Override
+    public void robotPeriodic() {
+        CommandScheduler.getInstance().run();
 
-	@Override
-	public void disabledInit() {
-		logger.addInfo("robot", "Robot Disabled");
+        m_matchTime = this.m_ds.getMatchTime();
+    }
 
-		swerveDrive.setState(SwerveDriveState.SWERVE);
-		swerveDrive.swerve(0, 0, 0, false);
-	}
+    @Override
+    public void disabledInit() {
+        logger.addInfo("robot", "Robot Disabled");
 
-	@Override
-	public void disabledPeriodic() {}
+        swerveDrive.setState(SwerveDriveState.SWERVE);
+        swerveDrive.swerve(0, 0, 0, false);
+    }
 
-	@Override
-	public void autonomousInit() {
-		logger.addInfo("robot", "Robot running in Autonomous");
-		m_autonomousCommand = robotContainer.getAutonomousCommand();
+    @Override
+    public void disabledPeriodic() {
+    }
 
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.schedule();
-		}
-	}
+    @Override
+    public void autonomousInit() {
+        logger.addInfo("robot", "Robot running in Autonomous");
+        m_autonomousCommand = robotContainer.getAutonomousCommand();
 
-	@Override
-	public void autonomousPeriodic() {
-		// swerveDrive.swerve(0.2, -0.2, -0.0, false);
-	}
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.schedule();
+        }
+    }
 
-	@Override
-	public void teleopInit() {
-		logger.addInfo("robot", "Robot running in Teleop");
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
-		}
+    @Override
+    public void autonomousPeriodic() {
+        // swerveDrive.swerve(0.2, -0.2, -0.0, false);
+    }
 
-		new TeleopDrive().schedule(false);
-	}
+    @Override
+    public void teleopInit() {
+        logger.addInfo("robot", "Robot running in Teleop");
+        if (m_autonomousCommand != null) {
+            m_autonomousCommand.cancel();
+        }
 
-	@Override
-	public void teleopPeriodic() {}
+        new TeleopDrive().schedule(false);
+    }
 
-	@Override
-	public void testInit() {
-		logger.addInfo("robot", "Robot running in Test");
+    @Override
+    public void teleopPeriodic() {
+    }
 
-		System.out.println(Rotation2d.fromDegrees(190).getDegrees());
+    @Override
+    public void testInit() {
+        logger.addInfo("robot", "Robot running in Test");
 
-		CommandScheduler.getInstance().cancelAll();
-	}
+        System.out.println(Rotation2d.fromDegrees(190).getDegrees());
 
-	@Override
-	public void testPeriodic() {
-		swerveDrive.testPeriodic();
-	}
+        CommandScheduler.getInstance().cancelAll();
+    }
 
-	@Override
-	public void simulationInit() {
-		logger.addInfo("robot", "Robot running in Simulation");
-		System.out.println("*** Running in Simulation ***");
-	}
+    @Override
+    public void testPeriodic() {
+        swerveDrive.testPeriodic();
+    }
 
-	@Override
-	public void simulationPeriodic() {}
+    @Override
+    public void simulationInit() {
+        logger.addInfo("robot", "Robot running in Simulation");
+        System.out.println("*** Running in Simulation ***");
+    }
 
-	public static double getMatchTime() {
-		return m_matchTime;
-	}
+    @Override
+    public void simulationPeriodic() {
+    }
+
+    public static double getMatchTime() {
+        return m_matchTime;
+    }
 }

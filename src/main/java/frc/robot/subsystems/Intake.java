@@ -2,14 +2,17 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 
+/**
+ * Intake subsystem.
+ */
 public class Intake extends SubsystemBase {
-
-    // Intake motor state
+    /**
+     * Intake subsystem motor state.
+     */
     public enum IntakeMotorState {
         ON,
         OFF,
@@ -22,14 +25,18 @@ public class Intake extends SubsystemBase {
     // Current intake mode
     private IntakeMotorState m_currentMode = IntakeMotorState.OFF;
 
+    /**
+     * Intake constructor.
+     */
     public Intake() {
         this.setMotorState(IntakeMotorState.OFF);
 
         Robot.logger.addInfo("Intake", "Created Intake subsystem");
     }
 
-     /**
-     * set the desired intake state
+    /**
+     * Set the desired intake state.
+
      * @param state wanted intake state
      */
     public void setMotorState(IntakeMotorState state) {
@@ -53,11 +60,14 @@ public class Intake extends SubsystemBase {
                 // Reversed
                 this.m_intakeMotor.set(ControlMode.PercentOutput, Constants.Intake.kOutSpeed);
                 break;
+            default:
+                this.setMotorState(IntakeMotorState.OFF);
         }
     }
 
     /**
-     * get the current intake state
+     * Get the current intake state.
+
      * @return intake state
      */
     public IntakeMotorState getMotorState() {

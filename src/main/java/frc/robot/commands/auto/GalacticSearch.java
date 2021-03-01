@@ -1,10 +1,12 @@
 package frc.robot.commands.auto;
 
-import frc.robot.Robot;
-import frc.lib.Target;
-import frc.robot.subsystems.SwerveDrive;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.lib.Target;
+import frc.robot.Robot;
 
+/**
+ * Galactic Search autonomous command.
+ */
 public class GalacticSearch extends CommandBase {
     private Target m_closestPowerCell = Robot.vision.getPowerCellTarget();
 

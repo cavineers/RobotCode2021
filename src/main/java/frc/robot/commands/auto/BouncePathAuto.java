@@ -5,6 +5,9 @@ import frc.robot.Robot;
 import frc.robot.paths.BouncePath;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
 
+/**
+ * Bounce path autonomous command.
+ */
 public class BouncePathAuto extends CommandBase {
     public BouncePathAuto() {}
 

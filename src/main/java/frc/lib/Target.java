@@ -1,5 +1,8 @@
 package frc.lib;
 
+/**
+ * Target data.
+ */
 public class Target {
     private boolean m_set = false;
 
@@ -11,6 +14,13 @@ public class Target {
 
     }
 
+    /**
+     * Create target.
+
+     * @param distance Distance from robot.
+     * @param ty X in degrees.
+     * @param tx Y in degrees.
+     */
     public Target(double distance, double ty, double tx) {
         this.m_ty = ty;
         this.m_tx = tx;

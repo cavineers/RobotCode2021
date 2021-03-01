@@ -1,9 +1,12 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.subsystems.Transportation;
 import frc.robot.Robot;
+import frc.robot.subsystems.Transportation;
 
+/**
+ * Toggle the conveyor.
+ */
 public class ToggleConveyor extends CommandBase {
 
     // Constructor

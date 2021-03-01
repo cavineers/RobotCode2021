@@ -3,39 +3,41 @@ package frc.robot;
 import java.net.InetSocketAddress;
 import java.net.UnknownHostException;
 import java.nio.ByteBuffer;
-
 import org.java_websocket.WebSocket;
 import org.java_websocket.handshake.ClientHandshake;
 import org.java_websocket.server.WebSocketServer;
 
-public class DANK extends WebSocketServer{
-    public DANK() throws UnknownHostException {
-        super(new InetSocketAddress(Constants.DANK.kPORT));
+/**
+ * Dashboard and Navigation Kit.
+ */
+public class Dank extends WebSocketServer {
+    public Dank() throws UnknownHostException {
+        super(new InetSocketAddress(Constants.Dank.kPORT));
     }
-    
+
     @Override
     public void onOpen(WebSocket conn, ClientHandshake handshake) {
         Robot.logger.addInfo("DANK", "WS Connected");
 
-        conn.send("05;"+Constants.Robot.kYear);
-        conn.send("06;"+Constants.Robot.kName);
+        conn.send("05;" + Constants.Robot.kYear);
+        conn.send("06;" + Constants.Robot.kName);
         // conn.send("02;"+this.generateLayout()); // TODO: Setup layout
     }
-    
+
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
         Robot.logger.addInfo("DANK", "WS Disconnect");
     }
-    
+
     @Override
     public void onMessage(WebSocket conn, String message) {
-        Robot.logger.addInfo("DANK", "WS "+message);
+        Robot.logger.addInfo("DANK", "WS " + message);
         this.handle(conn, message);
     }
-    
+
     @Override
     public void onMessage(WebSocket conn, ByteBuffer message) {
-        Robot.logger.addInfo("DANK", "WS "+message);
+        Robot.logger.addInfo("DANK", "WS " + message);
         this.handle(conn, message.toString());
     }
 
@@ -57,11 +59,11 @@ public class DANK extends WebSocketServer{
                 Robot.vision.convertStringToArr(content);
                 break;
             default:
-                Robot.logger.addInfo("DANK-WS", "Unknown type: "+type);
+                Robot.logger.addInfo("DANK-WS", "Unknown type: " + type);
                 break;
         }
     }
-    
+
     @Override
     public void onError(WebSocket conn, Exception ex) {
         ex.printStackTrace();
@@ -71,7 +73,7 @@ public class DANK extends WebSocketServer{
             Robot.logger.addInfo("DANK", "Error occurred");
         }
     }
-    
+
     @Override
     public void onStart() {
         Robot.logger.addInfo("DANK", "WS Server started");

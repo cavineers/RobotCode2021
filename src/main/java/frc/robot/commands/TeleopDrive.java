@@ -5,6 +5,9 @@ import frc.lib.Deadzone;
 import frc.robot.Robot;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
 
+/**
+ * Teleop Drive command.
+ */
 public class TeleopDrive extends CommandBase {
     private boolean m_finished = false;
 
@@ -20,16 +23,14 @@ public class TeleopDrive extends CommandBase {
             return;
         }
         Robot.swerveDrive.setState(SwerveDriveState.SWERVE);
-		Robot.logger.addInfo("TeleopDrive", "Starting Teleop Driving");
+        Robot.logger.addInfo("TeleopDrive", "Starting Teleop Driving");
     }
 
     @Override
     public void execute() {
-        Robot.swerveDrive.swerve(
-            -Deadzone.apply(Robot.robotContainer.joy.getRawAxis(1), 0.1), 
-            -Deadzone.apply(Robot.robotContainer.joy.getRawAxis(0), 0.1), 
-            Deadzone.apply(Robot.robotContainer.joy.getRawAxis(4), 0.1), 
-            Robot.robotContainer.fieldOriented);
+        Robot.swerveDrive.swerve(-Deadzone.apply(Robot.robotContainer.m_joy.getRawAxis(1), 0.1),
+                -Deadzone.apply(Robot.robotContainer.m_joy.getRawAxis(0), 0.1),
+                Deadzone.apply(Robot.robotContainer.m_joy.getRawAxis(4), 0.1), Robot.robotContainer.m_fieldOriented);
     }
 
     @Override

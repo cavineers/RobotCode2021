@@ -3,16 +3,18 @@ package frc.robot;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
+/**
+ * Limelight module for the robot.
+ */
 public class Limelight {
-    public enum LEDMode {
-        ON,
-        OFF,
-        DEFAULT,
-        BLINK
+    /**
+     * LED Modes used by the limelight.
+     */
+    public enum LedMode {
+        ON, OFF, DEFAULT, BLINK
     }
 
     private NetworkTable m_llTable;
-
 
     public Limelight() {
         Robot.logger.addInfo("Limelight", "Started Limelight...");
@@ -40,8 +42,13 @@ public class Limelight {
         return this.m_llTable.getEntry("ta").getDouble(0.0);
     }
 
-    public void setLightMode(LEDMode mode) {
-        Robot.logger.addInfo("Limelight", "LED Mode set to "+mode);
+    /**
+     * Set the LED mode of the Limelight.
+
+     * @param mode The mode to use
+     */
+    public void setLightMode(LedMode mode) {
+        Robot.logger.addInfo("Limelight", "LED Mode set to " + mode);
 
         switch (mode) {
             case ON:
@@ -56,6 +63,9 @@ public class Limelight {
             case DEFAULT:
                 this.m_llTable.getEntry("ledMode").setNumber(0);
                 break;
+            default:
+                this.m_llTable.getEntry("ledMode").setNumber(0);
+                break;
         }
     }
 
@@ -67,12 +77,17 @@ public class Limelight {
         }
     }
 
+    /**
+     * Find the distance to the target.
+
+     * @return Distance in inches.
+     */
     public int getDistance() {
         double height1 = Constants.Vision.kLimelightHeightFromGround;
         double height2 = Constants.Vision.kFieldGoalHeightFromGround;
         double angle1 = Constants.Vision.kLimelightMountingAngle;
         double angle2 = this.m_llTable.getEntry("ty").getDouble(0.0);
-        double distance = (height2-height1) * (1 / Math.tan(Math.toRadians(angle1+angle2)));
-        return (int)Math.round(this.llCatch(distance));
+        double distance = (height2 - height1) * (1 / Math.tan(Math.toRadians(angle1 + angle2)));
+        return (int) Math.round(this.llCatch(distance)); // TODO: Convert to meters
     }
 }

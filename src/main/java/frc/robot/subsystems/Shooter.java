@@ -3,17 +3,21 @@ package frc.robot.subsystems;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.ControlType;
-import com.revrobotics.CANSparkMax.IdleMode;
-
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 
+/**
+ * Shooter subsystem.
+ */
 public class Shooter extends SubsystemBase {
-    // Shooter Mode
+    /**
+     * Shooter mode enum.
+     */
     public enum ShooterMode {
         ENABLED,
         DISABLED
@@ -35,7 +39,7 @@ public class Shooter extends SubsystemBase {
     private double m_speed = 0;
 
     /**
-     * Shooter constructor
+     * Shooter constructor.
      */
     public Shooter() {
         // Restore factory defaults
@@ -62,7 +66,7 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Turn on the shooter
+     * Turn on the shooter.
      */
     public void enable() {
         this.m_currentMode = ShooterMode.ENABLED;
@@ -70,7 +74,7 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Turn off the shooter
+     * Turn off the shooter.
      */
     public void disable() {
         this.m_currentMode = ShooterMode.DISABLED;
@@ -78,7 +82,8 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Get the current shooting mode
+     * Get the current shooting mode.
+
      * @return ShooterMode enum
      */
     public ShooterMode getCurrentMode() {
@@ -86,7 +91,8 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Set the shooter speed
+     * Set the shooter speed.
+
      * @param speed wanted speed
      */
     public void setSpeed(double speed) {
@@ -94,15 +100,16 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
-     * Is the speed at the setpoint
+     * Is the speed at the setpoint.
+
      * @return at setpoint
      */
     public boolean closeEnough() {
-        return (Math.abs(this.m_speed-Math.abs(this.m_encoder.getVelocity()))<120);
+        return (Math.abs(this.m_speed - Math.abs(this.m_encoder.getVelocity())) < 120);
     }
 
     /**
-     * Shooter periodic
+     * Shooter periodic.
      */
     @Override
     public void periodic() {

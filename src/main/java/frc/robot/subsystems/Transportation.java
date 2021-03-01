@@ -2,15 +2,19 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
 
+/**
+ * Transport subsystem.
+ */
 public class Transportation extends SubsystemBase {
 
-    // Transport motor state
+    /**
+     * Motor state of the transport subsystem.
+     */
     public enum TransportMotorState {
         ON,
         OFF,
@@ -25,10 +29,13 @@ public class Transportation extends SubsystemBase {
     private TransportMotorState m_currentModeFeeder = TransportMotorState.OFF;
     private TransportMotorState m_currentModeConveyor = TransportMotorState.OFF;
 
-    private DigitalInput m_sensorOne = new DigitalInput(Constants.DIO.kConveyorSensor1);
-    private DigitalInput m_sensorTwo = new DigitalInput(Constants.DIO.kConveyorSensor2);
-    private DigitalInput m_sensorThree = new DigitalInput(Constants.DIO.kFeederSensor);
+    private DigitalInput m_sensorOne = new DigitalInput(Constants.Dio.kConveyorSensor1);
+    private DigitalInput m_sensorTwo = new DigitalInput(Constants.Dio.kConveyorSensor2);
+    private DigitalInput m_sensorThree = new DigitalInput(Constants.Dio.kFeederSensor);
 
+    /**
+     * Transportation constructor.
+     */
     public Transportation() {
         this.setMotorStateConveyor(TransportMotorState.OFF);
         this.setMotorStateFeeder(TransportMotorState.OFF);
@@ -37,7 +44,8 @@ public class Transportation extends SubsystemBase {
     }
 
     /**
-     * set the desired transport state
+     * Set the desired transport state.
+
      * @param state wanted transport state
      */
     public void setMotorStateConveyor(TransportMotorState state) {
@@ -61,11 +69,15 @@ public class Transportation extends SubsystemBase {
                 // Reversed
                 this.m_conveyorMotor.set(ControlMode.PercentOutput, Constants.Transportation.kOutSpeedConveyor);
                 break;
+            default:
+                this.setMotorStateConveyor(TransportMotorState.OFF);
+                break;
         }
     }
 
     /**
-     * set the desired transport state
+     * Set the desired transport state.
+
      * @param state wanted transport state
      */
     public void setMotorStateFeeder(TransportMotorState state) {
@@ -89,11 +101,15 @@ public class Transportation extends SubsystemBase {
                 // Reversed
                 this.m_feederMotor.set(ControlMode.PercentOutput, Constants.Transportation.kOutSpeedFeeder);
                 break;
+            default:
+                this.setMotorStateFeeder(TransportMotorState.OFF);
+                break;
         }
     }
 
     /**
-     * get the current transport state
+     * Get the current transport state.
+
      * @return conveyor state
      */
     public TransportMotorState getConveyorMotorState() {
@@ -101,7 +117,8 @@ public class Transportation extends SubsystemBase {
     }
 
     /**
-     * get the current transport state
+     * Get the current transport state.
+
      * @return transport state
      */
     public TransportMotorState getFeederMotorState() {

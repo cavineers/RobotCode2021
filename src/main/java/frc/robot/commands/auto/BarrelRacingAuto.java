@@ -5,6 +5,9 @@ import frc.robot.Robot;
 import frc.robot.paths.BarrelRacingPath;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
 
+/**
+ * Barrel Racing autonomous command.
+ */
 public class BarrelRacingAuto extends CommandBase {
     public BarrelRacingAuto() {}
 

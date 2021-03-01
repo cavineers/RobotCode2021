@@ -5,6 +5,9 @@ import frc.robot.Robot;
 import frc.robot.paths.SlalomPath;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
 
+/**
+ * Slalom autonomous path command.
+ */
 public class SlalomPathAuto extends CommandBase {
     public SlalomPathAuto() {}
 

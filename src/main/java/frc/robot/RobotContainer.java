@@ -14,97 +14,109 @@ import frc.robot.commands.auto.GalacticSearch;
 import frc.robot.commands.auto.SlalomPathAuto;
 import frc.robot.commands.sim.ResetRobot;
 import frc.robot.commands.sim.SimMenu;
+
+/**
+ * RobotContainer stores all controls and autonomous routines.
+ */
 public class RobotContainer {
-	// Controller
-	public Joystick joy = new Joystick(0);
-    public JoystickButton a_button = new JoystickButton(joy, 1);
-    public JoystickButton b_button = new JoystickButton(joy, 2);
-    public JoystickButton x_button = new JoystickButton(joy, 3);
-    public JoystickButton y_button = new JoystickButton(joy, 4);
-    public JoystickButton l_bump = new JoystickButton(joy, 5);
-    public JoystickButton r_bump = new JoystickButton(joy, 6);
-    public JoystickButton left_menu = new JoystickButton(joy, 7);
-    public JoystickButton right_menu = new JoystickButton(joy, 8);
-    public JoystickButton left_stick = new JoystickButton(joy, 9);
-    public JoystickButton right_stick = new JoystickButton(joy, 10);
-	public POVButton pov_up = new POVButton(joy, 0, 0);
-	public POVButton pov_right = new POVButton(joy, 90, 0);
-	public POVButton pov_down = new POVButton(joy, 180, 0);
-	public POVButton pov_left = new POVButton(joy, 270, 0);
+    // Controller
+    public Joystick m_joy = new Joystick(0);
+    public JoystickButton m_abutton = new JoystickButton(m_joy, 1);
+    public JoystickButton m_bbutton = new JoystickButton(m_joy, 2);
+    public JoystickButton m_xbutton = new JoystickButton(m_joy, 3);
+    public JoystickButton m_ybutton = new JoystickButton(m_joy, 4);
+    public JoystickButton m_lbump = new JoystickButton(m_joy, 5);
+    public JoystickButton m_rbump = new JoystickButton(m_joy, 6);
+    public JoystickButton m_leftmenu = new JoystickButton(m_joy, 7);
+    public JoystickButton m_rightmenu = new JoystickButton(m_joy, 8);
+    public JoystickButton m_leftstick = new JoystickButton(m_joy, 9);
+    public JoystickButton m_rightstick = new JoystickButton(m_joy, 10);
+    public POVButton m_povup = new POVButton(m_joy, 0, 0);
+    public POVButton m_povright = new POVButton(m_joy, 90, 0);
+    public POVButton m_povdown = new POVButton(m_joy, 180, 0);
+    public POVButton m_povleft = new POVButton(m_joy, 270, 0);
 
-	// Selected Auto Command
-	public String selectedCommand = "BARREL_RACING";
+    // Selected Auto Command
+    public String m_selectedCommand = "BARREL_RACING";
 
-	// Simulation Menu
-	public boolean simMenu = false;
+    // Simulation Menu
+    public boolean m_simMenu = false;
 
-	// If the robot is field oriented
-	public boolean fieldOriented = false;
+    // If the robot is field oriented
+    public boolean m_fieldOriented = false;
 
-	public RobotContainer() {
-		Robot.logger.addInfo("RobotContainer", "Created RobotContainer");
+    /**
+     * Constructor for RobotContainer.
+     */
+    public RobotContainer() {
+        Robot.logger.addInfo("RobotContainer", "Created RobotContainer");
 
-		// Controller Bindings
-		mapButtonBindings();
-	}
+        // Controller Bindings
+        mapButtonBindings();
+    }
 
-	private void mapButtonBindings() {
-		Robot.logger.addInfo("RobotContainer", "Start to map button bindings");
+    private void mapButtonBindings() {
+        Robot.logger.addInfo("RobotContainer", "Start to map button bindings");
 
-		left_menu.whenPressed(new SimMenu());
+        this.m_leftmenu.whenPressed(new SimMenu());
 
-		this.pov_down.whenPressed(new InstantCommand() {
-			@Override
-			public void initialize() {
-				if (Robot.robotContainer.simMenu) {
-					new ResetRobot(0, 0).schedule();
-				}
-				Robot.robotContainer.simMenu = false;
-			}
-		});
+        this.m_povdown.whenPressed(new InstantCommand() {
+            @Override
+            public void initialize() {
+                if (Robot.robotContainer.m_simMenu) {
+                    new ResetRobot(0, 0).schedule();
+                }
+                Robot.robotContainer.m_simMenu = false;
+            }
+        });
 
-		this.pov_left.whenPressed(new InstantCommand() {
-			@Override
-			public void initialize() {
-				if (Robot.robotContainer.simMenu) {
-					new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(30)).schedule();
-				}
-				Robot.robotContainer.simMenu = false;
-			}
-		});
+        this.m_povleft.whenPressed(new InstantCommand() {
+            @Override
+            public void initialize() {
+                if (Robot.robotContainer.m_simMenu) {
+                    new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(30)).schedule();
+                }
+                Robot.robotContainer.m_simMenu = false;
+            }
+        });
 
-		this.pov_up.whenPressed(new InstantCommand() {
-			@Override
-			public void initialize() {
-				if (Robot.robotContainer.simMenu) {
-					new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(90)).schedule();
-				}
-				Robot.robotContainer.simMenu = false;
-			}
-		});
+        this.m_povup.whenPressed(new InstantCommand() {
+            @Override
+            public void initialize() {
+                if (Robot.robotContainer.m_simMenu) {
+                    new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(90)).schedule();
+                }
+                Robot.robotContainer.m_simMenu = false;
+            }
+        });
 
-		this.right_stick.whenPressed(new InstantCommand() {
-			@Override
-			public void initialize() {
-				Robot.robotContainer.fieldOriented = !Robot.robotContainer.fieldOriented;
-			}
-		});
-	}
+        this.m_rightstick.whenPressed(new InstantCommand() {
+            @Override
+            public void initialize() {
+                Robot.robotContainer.m_fieldOriented = !Robot.robotContainer.m_fieldOriented;
+            }
+        });
+    }
 
-	public Command getAutonomousCommand() {
-		switch (this.selectedCommand) {
-			case "GALACTIC_SEARCH":
-				return new GalacticSearch();
-			case "SLALOM":
-				return new SlalomPathAuto();	
-			case "BOUNCE":
-				return new BouncePathAuto();
-			case "BARREL_RACING":
-				return new BarrelRacingAuto();
-			case "TEST":
-				return new AutonomousExample();
-			default:
-				return new DeadAuto();				
-		}
-	}
+    /**
+     * Getter for the autonomous command selected in DANK.
+
+     * @return The selected command.
+     */
+    public Command getAutonomousCommand() {
+        switch (this.m_selectedCommand) {
+            case "GALACTIC_SEARCH":
+                return new GalacticSearch();
+            case "SLALOM":
+                return new SlalomPathAuto();
+            case "BOUNCE":
+                return new BouncePathAuto();
+            case "BARREL_RACING":
+                return new BarrelRacingAuto();
+            case "TEST":
+                return new AutonomousExample();
+            default:
+                return new DeadAuto();
+        }
+    }
 }
