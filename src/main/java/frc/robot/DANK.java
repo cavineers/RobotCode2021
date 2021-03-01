@@ -48,7 +48,7 @@ public class DANK extends WebSocketServer{
                 conn.send("01;pong");
                 break;
             case "01":
-                conn.send("00;ping");
+                conn.send("01;ping");
                 break;
             case "03":
                 Robot.logger.addInfo("DANK-WS-03", content);
