@@ -23,7 +23,8 @@
         "lvuser",
         "setpoint",
         "accl",
-        "whitesmoke"
+        "whitesmoke",
+        "xyxy"
     ],
     "java.checkstyle.configuration": "${workspaceFolder}\\checkstyle.xml",
     "java.checkstyle.version": "8.41",
