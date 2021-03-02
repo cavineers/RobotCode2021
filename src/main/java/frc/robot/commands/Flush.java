@@ -13,7 +13,8 @@ public class Flush extends CommandBase {
 
     // Constructor
     public Flush() {
-
+        addRequirements(Robot.transportation);
+        addRequirements(Robot.intake);
     }
 
     // Set Motor State to OFF / REVERSED
