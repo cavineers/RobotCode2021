@@ -290,9 +290,9 @@ public class SwerveDrive extends SubsystemBase {
             // Re-check if the robot is still in the PATH state since state is reset above
             // if the path ends
             if (this.m_state == SwerveDriveState.PATH) {
-                double xoutput = this.m_xPidController.calculate(this.getPosition().getX());
-                double youtput = this.m_yPidController.calculate(this.getPosition().getY());
-                double routput = this.m_rPidController.calculate(-this.getAngle().getDegrees());
+                double xOutput = this.m_xPidController.calculate(this.getPosition().getX());
+                double yOutput = this.m_yPidController.calculate(this.getPosition().getY());
+                double rOutput = this.m_rPidController.calculate(-this.getAngle().getDegrees());
                 // System.out.println("Setpoint: "+this.m_xPIDController.getSetpoint()+"
                 // "+this.m_yPIDController.getSetpoint()+"
                 // "+this.m_rPIDController.getSetpoint());
@@ -301,8 +301,8 @@ public class SwerveDrive extends SubsystemBase {
                 // System.out.println("Output: "+xOutput+" "+yOutput+" "+rOutput);
                 // System.out.println("Percent: "+xOutput/Constants.Swerve.kMaxVelocity+"
                 // "+yOutput/Constants.Swerve.kMaxVelocity+" "+rOutput);
-                this.localSwerve(xoutput / Constants.Swerve.kMaxVelocity, youtput / Constants.Swerve.kMaxVelocity,
-                        MathUtil.clamp(routput, -1, 1), true);
+                this.localSwerve(xOutput / Constants.Swerve.kMaxVelocity, yOutput / Constants.Swerve.kMaxVelocity,
+                        MathUtil.clamp(rOutput, -1, 1), true);
             }
         }
 
