@@ -62,6 +62,12 @@ public class RobotContainer {
 
         this.m_leftMenu.whenPressed(new SimMenu());
 
+        // // Toggle Intake
+        // this.m_xButton.whenPressed(new ToggleIntake());
+
+        // // ReverseIntake on bButton
+        // this.m_bButton.whenPressed(new ToggleReverseIntake());
+
         this.m_povDown.whenPressed(new InstantCommand() {
             @Override
             public void initialize() {
@@ -98,12 +104,6 @@ public class RobotContainer {
                 Robot.robotContainer.m_fieldOriented = !Robot.robotContainer.m_fieldOriented;
             }
         });
-
-        // Toggle Intake
-        this.m_xButton.whenPressed(new ToggleIntake());
-
-        // ReverseIntake on bButton
-        this.m_bButton.whenPressed(new ToggleReverseIntake());
     }
 
     /**
