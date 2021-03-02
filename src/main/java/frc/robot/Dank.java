@@ -11,6 +11,8 @@ import org.java_websocket.server.WebSocketServer;
  * Dashboard and Navigation Kit.
  */
 public class Dank extends WebSocketServer {
+    private WebSocket m_visionAddress;
+    
     public Dank() throws UnknownHostException {
         super(new InetSocketAddress(Constants.Dank.kPORT));
     }
@@ -27,7 +29,22 @@ public class Dank extends WebSocketServer {
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
+        System.out.println(conn.toString().split("@")[1]);
+
         Robot.logger.addInfo("DANK", "WS Disconnect");
+
+        // if (this.m_visionAddress != null) {
+        //     if (conn.toString().split("@")[1] == this.m_visionAddress) {
+        //         conn.send("03;Vision Disconnected");
+        //         Robot.logger.addInfo("DANK", "Vision Disconnected");
+        //         this.m_visionAddress = null;
+        //     } else {
+        //         System.out.println(conn.toString().split("@")[1]);
+        //         System.out.println(this.m_visionAddress);
+        //     }
+        // } else {
+        //     System.out.println("vision address null");
+        // }
     }
 
     @Override
@@ -59,6 +76,12 @@ public class Dank extends WebSocketServer {
             case "04":
                 Robot.vision.convertStringToArr(content);
                 break;
+            case "08":
+                // this.m_visionAddress = conn.toString().split("@")[1];
+                this.m_visionAddress = conn;
+                Robot.logger.addInfo("DANK", "Vision Connected");
+                this.broadcast("03;Vision Connected");
+                break;
             default:
                 Robot.logger.addInfo("DANK-WS", "Unknown type: " + type);
                 break;
@@ -80,5 +103,13 @@ public class Dank extends WebSocketServer {
         Robot.logger.addInfo("DANK", "WS Server started");
         setConnectionLostTimeout(0);
         setConnectionLostTimeout(100);
+    }
+
+    public void periodic() {
+        if (this.m_visionAddress.isClosed()) {
+            this.broadcast("03;Vision Disconnected");
+            Robot.logger.addInfo("DANK", "Vision Disconnected");
+            this.m_visionAddress = null;
+        }
     }
 }

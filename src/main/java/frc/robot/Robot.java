@@ -94,6 +94,8 @@ public class Robot extends TimedRobot {
         CommandScheduler.getInstance().run();
 
         m_matchTime = this.m_ds.getMatchTime();
+
+        dank.periodic();
     }
 
     @Override
