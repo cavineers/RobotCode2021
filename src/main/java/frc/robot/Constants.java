@@ -111,6 +111,13 @@ public final class Constants {
         public static double kWheelBaseMetersBumpered = Units.inchesToMeters(kWheelBaseInchesBumpered);   // Distance between the front and back wheels in meters
         public static double kTrackWidthMetersBumpered = Units.inchesToMeters(kTrackWidthInchesBumpered); // Distance between the inside of the left and right 2 wheels in meters
     }
+
+    /**
+     * Constants in direct reference with the flush command
+     */
+    public static class Flush {
+        public static int kFlushTimer = 1000; // In milliseconds
+    }
     
     /**
      * Constants in direct reference to the Swerve subsystem.

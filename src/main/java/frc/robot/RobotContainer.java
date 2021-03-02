@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.commands.ToggleIntake;
+import frc.robot.commands.ToggleReverseIntake;
 import frc.robot.commands.auto.AutonomousExample;
 import frc.robot.commands.auto.BarrelRacingAuto;
 import frc.robot.commands.auto.BouncePathAuto;
@@ -96,6 +98,12 @@ public class RobotContainer {
                 Robot.robotContainer.m_fieldOriented = !Robot.robotContainer.m_fieldOriented;
             }
         });
+
+        // Toggle Intake
+        this.m_xButton.whenPressed(new ToggleIntake());
+
+        // ReverseIntake on bButton
+        this.m_bButton.whenPressed(new ToggleReverseIntake());
     }
 
     /**
