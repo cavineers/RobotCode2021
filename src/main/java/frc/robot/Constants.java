@@ -52,8 +52,8 @@ public final class Constants {
      * Constants in direct reference to the Vision system.
      */
     public static class Vision {
-        public static double kFieldGoalHeightFromGround = 98.0; // 31 inches used for testing
-        public static double kLimelightHeightFromGround = 18.0; // vertical distance from limelight to ground
+        public static double kFieldGoalHeightFromGround = Units.inchesToMeters(98.0); // 31 inches used for testing
+        public static double kLimelightHeightFromGround = Units.inchesToMeters(18.0); // vertical distance from limelight to ground
         public static double kLimelightMountingAngle    = 25.0; // TODO: Update mounting angle when complete
     }
 

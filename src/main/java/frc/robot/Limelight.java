@@ -88,6 +88,6 @@ public class Limelight {
         double angle1 = Constants.Vision.kLimelightMountingAngle;
         double angle2 = this.m_llTable.getEntry("ty").getDouble(0.0);
         double distance = (height2 - height1) * (1 / Math.tan(Math.toRadians(angle1 + angle2)));
-        return (int) Math.round(this.llCatch(distance)); // TODO: Convert to meters
+        return (int) Math.round(this.llCatch(distance));
     }
 }
