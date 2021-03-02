@@ -2,7 +2,13 @@ package frc.robot.paths;
 
 import frc.lib.autonomous.ExactPath;
 
+/**
+ * Example path.
+ */
 public class ExamplePath extends ExactPath {
+    /**
+     * Create example path.
+     */
     public ExamplePath() {
         super();
 

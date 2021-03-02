@@ -2,7 +2,13 @@ package frc.robot.paths;
 
 import frc.lib.autonomous.ExactPath;
 
+/**
+ * Bounce path.
+ */
 public class BouncePath extends ExactPath {
+    /**
+     * Bounce path.
+     */
     public BouncePath() {
         super();
 

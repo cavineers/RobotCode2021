@@ -19,293 +19,319 @@ import frc.lib.swerve.SwerveSettings;
 import frc.robot.Constants;
 import frc.robot.Robot;
 
+/**
+ * Swerve Drive Subsystem.
+ */
 public class SwerveDrive extends SubsystemBase {
-	private SwerveModule m_left = new SwerveModule(
-        new SwerveSettings()
-            .setDriveMotorID(Constants.Swerve.kLeftDriveID)
-            .setRotationMotorID(Constants.Swerve.kLeftRotateID)
-			.setRotationEncoderID(Constants.Swerve.kLeftEncoderID)
-            .setRotationOffset(Rotation2d.fromDegrees(Constants.Swerve.kLeftOffset))
-            .setInverted(false)
-            .setCommonName("left_")
-    );
-    private SwerveModule m_right = new SwerveModule(
-        new SwerveSettings()
-            .setDriveMotorID(Constants.Swerve.kRightDriveID)
-            .setRotationMotorID(Constants.Swerve.kRightRotateID)
-			.setRotationEncoderID(Constants.Swerve.kRightEncoderID)
-            .setRotationOffset(Rotation2d.fromDegrees(Constants.Swerve.kRightOffset))
-            .setInverted(false)
+    private SwerveModule m_left = new SwerveModule(new SwerveSettings().setDriveMotorID(Constants.Swerve.kLeftDriveID)
+            .setRotationMotorID(Constants.Swerve.kLeftRotateID).setRotationEncoderID(Constants.Swerve.kLeftEncoderID)
+            .setRotationOffset(Rotation2d.fromDegrees(Constants.Swerve.kLeftOffset)).setInverted(false)
+            .setCommonName("left_"));
+    private SwerveModule m_right = new SwerveModule(new SwerveSettings().setDriveMotorID(Constants.Swerve.kRightDriveID)
+            .setRotationMotorID(Constants.Swerve.kRightRotateID).setRotationEncoderID(Constants.Swerve.kRightEncoderID)
+            .setRotationOffset(Rotation2d.fromDegrees(Constants.Swerve.kRightOffset)).setInverted(false)
             .setCommonName("right_")
 
     );
 
-	public enum SwerveDriveState {
-		SWERVE,
-		CURVATURE,
-		PATH
-	}
-
-	private SwerveDriveState m_state = SwerveDriveState.SWERVE;
-
-	private SwerveDriveKinematics m_kinematics;
-
-	private SwerveDriveOdometry m_odometry;
-
-	private Field2d m_field = new Field2d();
-
-	private double m_simulationAngle = 0.0;
-
-    private Path m_path; 
-
-	private PIDController m_xPIDController = new PIDController(Constants.Swerve.kPositionPID_P, Constants.Swerve.kPositionPID_I, Constants.Swerve.kPositionPID_D);
-	private PIDController m_yPIDController = new PIDController(Constants.Swerve.kPositionPID_P, Constants.Swerve.kPositionPID_I, Constants.Swerve.kPositionPID_D);
-	private PIDController m_rPIDController = new PIDController(Constants.Swerve.kAnglePID_P, Constants.Swerve.kAnglePID_I, Constants.Swerve.kAnglePID_D);
-
-	private boolean m_isRelative = false;
-	private Pose2d m_initialPosition;
-	private Rotation2d m_initialRotation;
-
-    public SwerveDrive() {
-		this.m_kinematics = new SwerveDriveKinematics(
-			new Translation2d(-Constants.Swerve.kTrackWidth, 0),
-			new Translation2d(Constants.Swerve.kTrackWidth, 0)
-		);
-
-		this.m_odometry = new SwerveDriveOdometry(
-			this.m_kinematics,
-			this.getAngle(),
-			new Pose2d(0, 0, new Rotation2d())
-		);
-
-		Robot.logger.addInfo("SwerveDrive", "Created SwerveDrive subsystem");
+    /**
+     * Swerve Drive state.
+     */
+    public enum SwerveDriveState {
+        SWERVE, CURVATURE, PATH
     }
 
-	/**
-     * Drive the swerve motors like a differential drive using curvature. (Used for autonomous purposes)
-     * @param speed Drive Speed
+    private SwerveDriveState m_state = SwerveDriveState.SWERVE;
+
+    private SwerveDriveKinematics m_kinematics;
+
+    private SwerveDriveOdometry m_odometry;
+
+    private Field2d m_field = new Field2d();
+
+    private double m_simulationAngle = 0.0;
+
+    private Path m_path;
+
+    private PIDController m_xPidController = new PIDController(Constants.Swerve.kPositionPID_P,
+            Constants.Swerve.kPositionPID_I, Constants.Swerve.kPositionPID_D);
+    private PIDController m_yPidController = new PIDController(Constants.Swerve.kPositionPID_P,
+            Constants.Swerve.kPositionPID_I, Constants.Swerve.kPositionPID_D);
+    private PIDController m_rPidController = new PIDController(Constants.Swerve.kAnglePID_P,
+            Constants.Swerve.kAnglePID_I, Constants.Swerve.kAnglePID_D);
+
+    private boolean m_isRelative = false;
+    private Pose2d m_initialPosition;
+    private Rotation2d m_initialRotation;
+
+    /**
+     * Swerve Drive Constructor.
+    */
+    public SwerveDrive() {
+        this.m_kinematics = new SwerveDriveKinematics(new Translation2d(-Constants.Swerve.kTrackWidth, 0),
+                new Translation2d(Constants.Swerve.kTrackWidth, 0));
+
+        this.m_odometry = new SwerveDriveOdometry(this.m_kinematics, this.getAngle(),
+                new Pose2d(0, 0, new Rotation2d()));
+
+        Robot.logger.addInfo("SwerveDrive", "Created SwerveDrive subsystem");
+    }
+
+    /**
+     * Drive the swerve motors like a differential drive using curvature. (Used for
+     * autonomous purposes)
+
+     * @param speed    Drive Speed
      * @param rotation Turning speed
      */
     public void curvatureDrive(double speed, double rotation) {
-		if (this.m_state == SwerveDriveState.CURVATURE) {
-			// Prep speed
-			speed = MathUtil.clamp(Deadzone.apply(speed, 0.05), -1.0, 1.0);
+        if (this.m_state == SwerveDriveState.CURVATURE) {
+            // Prep speed
+            speed = MathUtil.clamp(Deadzone.apply(speed, 0.05), -1.0, 1.0);
 
-			// Prep rotation
-			rotation = MathUtil.clamp(Deadzone.apply(rotation, 0.05), -1.0, 1.0);
+            // Prep rotation
+            rotation = MathUtil.clamp(Deadzone.apply(rotation, 0.05), -1.0, 1.0);
 
-			// Ang power
-			double angularPower = Math.abs(speed) * rotation;
+            // Ang power
+            double angularPower = Math.abs(speed) * rotation;
 
-			// Left & right
-			double leftMotorOutput = speed + angularPower;
-			double rightMotorOutput = speed - angularPower;
+            // Left & right
+            double leftMotorOutput = speed + angularPower;
+            double rightMotorOutput = speed - angularPower;
 
-			// Verify we don't overpower
-			double maxMagnitude = Math.max(Math.abs(leftMotorOutput), Math.abs(rightMotorOutput));
-			if (maxMagnitude > 1.0) {
-				leftMotorOutput /= maxMagnitude;
-				rightMotorOutput /= maxMagnitude;
-			}
+            // Verify we don't overpower
+            double maxMagnitude = Math.max(Math.abs(leftMotorOutput), Math.abs(rightMotorOutput));
+            if (maxMagnitude > 1.0) {
+                leftMotorOutput /= maxMagnitude;
+                rightMotorOutput /= maxMagnitude;
+            }
 
-			// Set motor output
-			this.m_left.set(0, leftMotorOutput);
-			this.m_right.set(0, leftMotorOutput);
-		}
+            // Set motor output
+            this.m_left.set(0, leftMotorOutput);
+            this.m_right.set(0, leftMotorOutput);
+        }
     }
 
-	public void swerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
-		if (this.m_state == SwerveDriveState.SWERVE) {
-			this.localSwerve(forward, strafe, rotate, isFieldOriented);
-		}
-	}
+    /**
+     * Drive subsystem with swerve.
 
-	private void localSwerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
-		// If the robot is field oriented
-		if (isFieldOriented) {
-			// Find conversions based on gyro angles
-			double sin = Math.sin(this.getAngle().getRadians());
-			double cos = Math.cos(this.getAngle().getRadians());
+     * @param forward Forward values (-1...1)
+     * @param strafe Strafe value (-1...1)
+     * @param rotate Rotate value (-1...1)
+     * @param isFieldOriented Whether it's based on the field or robot
+     */
+    public void swerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
+        if (this.m_state == SwerveDriveState.SWERVE) {
+            this.localSwerve(forward, strafe, rotate, isFieldOriented);
+        }
+    }
 
-			// Translate forward/strafe based on conversions
-			double T = (forward * cos) + (strafe * sin);
-			strafe = (-forward * sin) + (strafe * cos);
-			forward = T;
-		}
+    private void localSwerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
+        // If the robot is field oriented
+        if (isFieldOriented) {
+            // Find conversions based on gyro angles
+            double sin = Math.sin(this.getAngle().getRadians());
+            double cos = Math.cos(this.getAngle().getRadians());
 
-		// Update simulation angle
-		this.m_simulationAngle += rotate*3.0;
+            // Translate forward/strafe based on conversions
+            double tval = (forward * cos) + (strafe * sin);
+            strafe = (-forward * sin) + (strafe * cos);
+            forward = tval;
+        }
 
-		// Get A/B
-		double A = forward-rotate;
-		double B = forward+rotate;
+        // Update simulation angle
+        this.m_simulationAngle += rotate * 3.0;
 
-		// Get motor speeds
-		double rSpeed = Math.sqrt(Math.pow(strafe, 2)+Math.pow(A, 2));
-		double lSpeed = Math.sqrt(Math.pow(strafe, 2)+Math.pow(B, 2));
+        // Get A/B
+        double avalue = forward - rotate;
+        double bvalue = forward + rotate;
 
-		// Get max of the two
-		double max = Math.max(rSpeed, lSpeed);
+        // Get motor speeds
+        double rspeed = Math.sqrt(Math.pow(strafe, 2) + Math.pow(avalue, 2));
+        double lspeed = Math.sqrt(Math.pow(strafe, 2) + Math.pow(bvalue, 2));
 
-		// Normalize speeds
-		if (max > 1.0) {
-			rSpeed /= max;
-			lSpeed /= max;
-		}
+        // Get max of the two
+        double max = Math.max(rspeed, lspeed);
 
-		// Get the rotation angles
-		double rAngle = Math.atan2(strafe, A) * 180 / Math.PI;
-		double lAngle = Math.atan2(strafe, B) * 180 / Math.PI;
+        // Normalize speeds
+        if (max > 1.0) {
+            rspeed /= max;
+            lspeed /= max;
+        }
 
-		// Send to modules
-		this.m_right.set(rAngle, rSpeed);
-		this.m_left.set(lAngle, lSpeed);
-	}
+        // Get the rotation angles
+        double rangle = Math.atan2(strafe, avalue) * 180 / Math.PI;
+        double langle = Math.atan2(strafe, bvalue) * 180 / Math.PI;
 
-	public void resetPosition(double x, double y) {
-		this.m_odometry = new SwerveDriveOdometry(
-			this.m_kinematics,
-			this.getAngle(),
-			new Pose2d(x, y, new Rotation2d())
-		);
-		this.m_simulationAngle = 0.0;
-		Robot.logger.addInfo("Swerve", "Reset robot's position");
-	}
+        // Send to modules
+        this.m_right.set(rangle, rspeed);
+        this.m_left.set(langle, lspeed);
+    }
 
-	public Pose2d getPosition() {
-		// Get the robot's position from odometry
-		return this.m_odometry.getPoseMeters();
-	}
+    /**
+     * Reset the position of the robot.
+     */
+    public void resetPosition(double x, double y) {
+        this.m_odometry = new SwerveDriveOdometry(this.m_kinematics, this.getAngle(),
+                new Pose2d(x, y, new Rotation2d()));
+        this.m_simulationAngle = 0.0;
+        Robot.logger.addInfo("Swerve", "Reset robot's position");
+    }
 
-	public Rotation2d getAngle() {
-		// If the robot is not in simulation
-		if (Robot.isReal()) {
-			// Print the negative value of the gyroscope
-			return Rotation2d.fromDegrees(-Robot.gyro.getAngle());
-		} else {
-			// Print the negative value of the simulation gyro
-			return Rotation2d.fromDegrees(-this.m_simulationAngle);
-		}
-	}
+    public Pose2d getPosition() {
+        // Get the robot's position from odometry
+        return this.m_odometry.getPoseMeters();
+    }
 
-	public void setState(SwerveDriveState state) {
-		// Update subsystem state
-		this.m_state = state;
-	}
+    /**
+     * Retrieve the Angle.
+     */
+    public Rotation2d getAngle() {
+        // If the robot is not in simulation
+        if (Robot.isReal()) {
+            // Print the negative value of the gyroscope
+            return Rotation2d.fromDegrees(-Robot.gyro.getAngle());
+        } else {
+            // Print the negative value of the simulation gyro
+            return Rotation2d.fromDegrees(-this.m_simulationAngle);
+        }
+    }
 
-	public SwerveDriveState getState() {
-		// Return subsystem state
-		return this.m_state;
-	}
+    public void setState(SwerveDriveState state) {
+        // Update subsystem state
+        this.m_state = state;
+    }
 
-	public void followPath(Path path, boolean isRelative) {
-		// Set the state to PATH (disables teleop swerve and backup curvature)
-		this.m_state = SwerveDriveState.PATH;
+    public SwerveDriveState getState() {
+        // Return subsystem state
+        return this.m_state;
+    }
 
-		// Save path
-		this.m_path = path;
+    /**
+     * Follow a path.
 
-		// Save relative vs absolute
-		this.m_isRelative = isRelative;
+     * @param path Path to follow
+     * @param isRelative Relative to robot
+     */
+    public void followPath(Path path, boolean isRelative) {
+        // Set the state to PATH (disables teleop swerve and backup curvature)
+        this.m_state = SwerveDriveState.PATH;
 
-		// Save initial position
-		this.m_initialPosition = this.getPosition();
+        // Save path
+        this.m_path = path;
 
-		// Save initial rotation
-		this.m_initialRotation = this.getAngle();
+        // Save relative vs absolute
+        this.m_isRelative = isRelative;
 
-		// Generate profiles
-		this.generateProfile();
-	}
+        // Save initial position
+        this.m_initialPosition = this.getPosition();
 
-	private void generateProfile() {
-		System.out.println(this.m_path.getCurrent().getX());
-		System.out.println(this.m_path.getCurrent().getY());
-		this.m_xPIDController.setTolerance(this.m_path.getCurrent().getTranslationTolerance());
-		this.m_yPIDController.setTolerance(this.m_path.getCurrent().getTranslationTolerance());
-		this.m_rPIDController.setTolerance(this.m_path.getCurrent().getRotationTolerance());
-		if (this.m_isRelative) {
-			this.m_xPIDController.setSetpoint(this.getPosition().getX()+this.m_path.getCurrent().getX());
-			this.m_yPIDController.setSetpoint(this.getPosition().getY()+this.m_path.getCurrent().getY());
-			this.m_rPIDController.setSetpoint(this.getPosition().getRotation().getDegrees()+this.m_path.getCurrent().getRotation().getDegrees());
-		} else {
-			this.m_xPIDController.setSetpoint(this.m_initialPosition.getX()+this.m_path.getCurrent().getX());
-			this.m_yPIDController.setSetpoint(this.m_initialPosition.getY()+this.m_path.getCurrent().getY());
-			this.m_rPIDController.setSetpoint(this.m_initialRotation.getDegrees()+this.m_path.getCurrent().getRotation().getDegrees());
-		}
-	}
+        // Save initial rotation
+        this.m_initialRotation = this.getAngle();
 
-	@Override
-	public void periodic() {
-		// If swerve is following a path
-		if (this.m_state == SwerveDriveState.PATH) {
-			System.out.println(this.m_path.getCurrent().getRotationTolerance());
-			System.out.println("Check: "+this.m_xPIDController.atSetpoint()+" "+this.m_yPIDController.atSetpoint()+" "+this.m_rPIDController.atSetpoint());
-			// If all movement is finished
-			if(this.m_xPIDController.atSetpoint() && this.m_yPIDController.atSetpoint() && this.m_rPIDController.atSetpoint()) {
-				// If so, check if there is another point to target
-				if (this.m_path.next()) {
-					System.out.println("Next");
-					
-					// Increment route
-					this.m_path.up();
+        // Generate profiles
+        this.generateProfile();
+    }
 
-					this.generateProfile();
-				} else {
-					// Since the robot is finished
-					System.out.println("Path finished");
+    private void generateProfile() {
+        System.out.println(this.m_path.getCurrent().getX());
+        System.out.println(this.m_path.getCurrent().getY());
+        this.m_xPidController.setTolerance(this.m_path.getCurrent().getTranslationTolerance());
+        this.m_yPidController.setTolerance(this.m_path.getCurrent().getTranslationTolerance());
+        this.m_rPidController.setTolerance(this.m_path.getCurrent().getRotationTolerance());
+        if (this.m_isRelative) {
+            this.m_xPidController.setSetpoint(this.getPosition().getX() + this.m_path.getCurrent().getX());
+            this.m_yPidController.setSetpoint(this.getPosition().getY() + this.m_path.getCurrent().getY());
+            this.m_rPidController.setSetpoint(this.getPosition().getRotation().getDegrees()
+                    + this.m_path.getCurrent().getRotation().getDegrees());
+        } else {
+            this.m_xPidController.setSetpoint(this.m_initialPosition.getX() + this.m_path.getCurrent().getX());
+            this.m_yPidController.setSetpoint(this.m_initialPosition.getY() + this.m_path.getCurrent().getY());
+            this.m_rPidController.setSetpoint(
+                    this.m_initialRotation.getDegrees() + this.m_path.getCurrent().getRotation().getDegrees());
+        }
+    }
 
-					// Stop the bot
-					this.localSwerve(0, 0, 0, false);
+    @Override
+    public void periodic() {
+        // If swerve is following a path
+        if (this.m_state == SwerveDriveState.PATH) {
+            System.out.println(this.m_path.getCurrent().getRotationTolerance());
+            System.out.println("Check: " + this.m_xPidController.atSetpoint() + " " + this.m_yPidController.atSetpoint()
+                    + " " + this.m_rPidController.atSetpoint());
+            // If all movement is finished
+            if (this.m_xPidController.atSetpoint() && this.m_yPidController.atSetpoint()
+                    && this.m_rPidController.atSetpoint()) {
+                // If so, check if there is another point to target
+                if (this.m_path.next()) {
+                    System.out.println("Next");
 
-					// Reset state to SWERVE, allowing teleop to take over when ready
-					this.m_state = SwerveDriveState.SWERVE;
+                    // Increment route
+                    this.m_path.up();
 
-					// DEBUG ONLY
-					if (Robot.isSimulation()) {
-						System.out.println("Finished at: "+Robot.getMatchTime());
-					}
-				}
-			}
+                    this.generateProfile();
+                } else {
+                    // Since the robot is finished
+                    System.out.println("Path finished");
 
-			// Re-check if the robot is still in the PATH state since state is reset above if the path ends
-			if (this.m_state == SwerveDriveState.PATH) {
-				double xOutput = this.m_xPIDController.calculate(this.getPosition().getX());
-				double yOutput = this.m_yPIDController.calculate(this.getPosition().getY());
-				double rOutput = this.m_rPIDController.calculate(-this.getAngle().getDegrees());
-				// System.out.println("Setpoint: "+this.m_xPIDController.getSetpoint()+" "+this.m_yPIDController.getSetpoint()+" "+this.m_rPIDController.getSetpoint());
-				// System.out.println("Current: "+this.getPosition().getX()+" "+this.getPosition().getY()+" "+this.getAngle().getDegrees());
-				// System.out.println("Output: "+xOutput+" "+yOutput+" "+rOutput);
-				// System.out.println("Percent: "+xOutput/Constants.Swerve.kMaxVelocity+" "+yOutput/Constants.Swerve.kMaxVelocity+" "+rOutput);
-				this.localSwerve(xOutput/Constants.Swerve.kMaxVelocity, yOutput/Constants.Swerve.kMaxVelocity, MathUtil.clamp(rOutput, -1, 1), true);
-			}
-		}
+                    // Stop the bot
+                    this.localSwerve(0, 0, 0, false);
 
-		// Update odometry
-		this.m_odometry.update(
-			this.getAngle(),
-			this.m_left.getState(),
-			this.m_right.getState()
-		);
+                    // Reset state to SWERVE, allowing teleop to take over when ready
+                    this.m_state = SwerveDriveState.SWERVE;
 
-		// Update 2d field with robot position
-		this.m_field.setRobotPose(this.getPosition());
+                    // DEBUG ONLY
+                    if (Robot.isSimulation()) {
+                        System.out.println("Finished at: " + Robot.getMatchTime());
+                    }
+                }
+            }
 
-		// Save to SmartDashboard
-		SmartDashboard.putNumber("zr_x", this.getPosition().getX());
-		SmartDashboard.putNumber("zr_y", this.getPosition().getY());
-		SmartDashboard.putNumber("zr_rot", this.getPosition().getRotation().getDegrees());
+            // Re-check if the robot is still in the PATH state since state is reset above
+            // if the path ends
+            if (this.m_state == SwerveDriveState.PATH) {
+                double xoutput = this.m_xPidController.calculate(this.getPosition().getX());
+                double youtput = this.m_yPidController.calculate(this.getPosition().getY());
+                double routput = this.m_rPidController.calculate(-this.getAngle().getDegrees());
+                // System.out.println("Setpoint: "+this.m_xPIDController.getSetpoint()+"
+                // "+this.m_yPIDController.getSetpoint()+"
+                // "+this.m_rPIDController.getSetpoint());
+                // System.out.println("Current: "+this.getPosition().getX()+"
+                // "+this.getPosition().getY()+" "+this.getAngle().getDegrees());
+                // System.out.println("Output: "+xOutput+" "+yOutput+" "+rOutput);
+                // System.out.println("Percent: "+xOutput/Constants.Swerve.kMaxVelocity+"
+                // "+yOutput/Constants.Swerve.kMaxVelocity+" "+rOutput);
+                this.localSwerve(xoutput / Constants.Swerve.kMaxVelocity, youtput / Constants.Swerve.kMaxVelocity,
+                        MathUtil.clamp(routput, -1, 1), true);
+            }
+        }
 
-		// Send field
-		SmartDashboard.putData(this.m_field);
-	}
+        // Update odometry
+        this.m_odometry.update(this.getAngle(), this.m_left.getState(), this.m_right.getState());
 
-	public void testPeriodic() {
-		if (DriverStation.getInstance().isTest() && Robot.isSimulation()) {
-			System.out.println("Simulated X: " + Units.metersToInches(this.m_field.getRobotPose().getX()-Units.inchesToMeters(30)));
-			System.out.println("Simulated Y: " + Units.metersToInches(this.m_field.getRobotPose().getY()-Units.inchesToMeters(90)));
-			System.out.println("Simulated R: " + this.m_field.getRobotPose().getRotation().getDegrees());
-			return;
-		}
-	}
+        // Update 2d field with robot position
+        this.m_field.setRobotPose(this.getPosition());
+
+        // Save to SmartDashboard
+        SmartDashboard.putNumber("zr_x", this.getPosition().getX());
+        SmartDashboard.putNumber("zr_y", this.getPosition().getY());
+        SmartDashboard.putNumber("zr_rot", this.getPosition().getRotation().getDegrees());
+
+        // Send field
+        SmartDashboard.putData(this.m_field);
+    }
+    
+    /** 
+     * Periodic Method. 
+    */
+    public void testPeriodic() {
+        if (DriverStation.getInstance().isTest() && Robot.isSimulation()) {
+            System.out.println("Simulated X: "
+                    + Units.metersToInches(this.m_field.getRobotPose().getX() - Units.inchesToMeters(30)));
+            System.out.println("Simulated Y: "
+                    + Units.metersToInches(this.m_field.getRobotPose().getY() - Units.inchesToMeters(90)));
+            System.out.println("Simulated R: " + this.m_field.getRobotPose().getRotation().getDegrees());
+            return;
+        }
+    }
 }

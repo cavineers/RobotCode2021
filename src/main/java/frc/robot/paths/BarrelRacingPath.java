@@ -2,7 +2,13 @@ package frc.robot.paths;
 
 import frc.lib.autonomous.ExactPath;
 
+/**
+ * Barrel racing path.
+ */
 public class  BarrelRacingPath extends ExactPath {
+    /**
+     * Create barrel racing path.
+     */
     public BarrelRacingPath() {
         super();
 
