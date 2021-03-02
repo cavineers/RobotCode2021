@@ -21,20 +21,20 @@ import frc.robot.commands.sim.SimMenu;
 public class RobotContainer {
     // Controller
     public Joystick m_joy = new Joystick(0);
-    public JoystickButton m_abutton = new JoystickButton(m_joy, 1);
-    public JoystickButton m_bbutton = new JoystickButton(m_joy, 2);
-    public JoystickButton m_xbutton = new JoystickButton(m_joy, 3);
-    public JoystickButton m_ybutton = new JoystickButton(m_joy, 4);
-    public JoystickButton m_lbump = new JoystickButton(m_joy, 5);
-    public JoystickButton m_rbump = new JoystickButton(m_joy, 6);
-    public JoystickButton m_leftmenu = new JoystickButton(m_joy, 7);
-    public JoystickButton m_rightmenu = new JoystickButton(m_joy, 8);
-    public JoystickButton m_leftstick = new JoystickButton(m_joy, 9);
-    public JoystickButton m_rightstick = new JoystickButton(m_joy, 10);
-    public POVButton m_povup = new POVButton(m_joy, 0, 0);
-    public POVButton m_povright = new POVButton(m_joy, 90, 0);
-    public POVButton m_povdown = new POVButton(m_joy, 180, 0);
-    public POVButton m_povleft = new POVButton(m_joy, 270, 0);
+    public JoystickButton m_aButton = new JoystickButton(m_joy, 1);
+    public JoystickButton m_bButton = new JoystickButton(m_joy, 2);
+    public JoystickButton m_xButton = new JoystickButton(m_joy, 3);
+    public JoystickButton m_yButton = new JoystickButton(m_joy, 4);
+    public JoystickButton m_lBump = new JoystickButton(m_joy, 5);
+    public JoystickButton m_rBump = new JoystickButton(m_joy, 6);
+    public JoystickButton m_leftMenu = new JoystickButton(m_joy, 7);
+    public JoystickButton m_rightMenu = new JoystickButton(m_joy, 8);
+    public JoystickButton m_leftStick = new JoystickButton(m_joy, 9);
+    public JoystickButton m_rightStick = new JoystickButton(m_joy, 10);
+    public POVButton m_povUp = new POVButton(m_joy, 0, 0);
+    public POVButton m_povRight = new POVButton(m_joy, 90, 0);
+    public POVButton m_povDown = new POVButton(m_joy, 180, 0);
+    public POVButton m_povLeft = new POVButton(m_joy, 270, 0);
 
     // Selected Auto Command
     public String m_selectedCommand = "BOUNCE";
@@ -58,9 +58,9 @@ public class RobotContainer {
     private void mapButtonBindings() {
         Robot.logger.addInfo("RobotContainer", "Start to map button bindings");
 
-        this.m_leftmenu.whenPressed(new SimMenu());
+        this.m_leftMenu.whenPressed(new SimMenu());
 
-        this.m_povdown.whenPressed(new InstantCommand() {
+        this.m_povDown.whenPressed(new InstantCommand() {
             @Override
             public void initialize() {
                 if (Robot.robotContainer.m_simMenu) {
@@ -70,7 +70,7 @@ public class RobotContainer {
             }
         });
 
-        this.m_povleft.whenPressed(new InstantCommand() {
+        this.m_povLeft.whenPressed(new InstantCommand() {
             @Override
             public void initialize() {
                 if (Robot.robotContainer.m_simMenu) {
@@ -80,7 +80,7 @@ public class RobotContainer {
             }
         });
 
-        this.m_povup.whenPressed(new InstantCommand() {
+        this.m_povUp.whenPressed(new InstantCommand() {
             @Override
             public void initialize() {
                 if (Robot.robotContainer.m_simMenu) {
@@ -90,7 +90,7 @@ public class RobotContainer {
             }
         });
 
-        this.m_rightstick.whenPressed(new InstantCommand() {
+        this.m_rightStick.whenPressed(new InstantCommand() {
             @Override
             public void initialize() {
                 Robot.robotContainer.m_fieldOriented = !Robot.robotContainer.m_fieldOriented;

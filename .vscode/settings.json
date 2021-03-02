@@ -22,7 +22,8 @@
         "fout",
         "lvuser",
         "setpoint",
-        "accl"
+        "accl",
+        "whitesmoke"
     ],
     "java.checkstyle.configuration": "${workspaceFolder}\\checkstyle.xml",
     "java.checkstyle.version": "8.41",

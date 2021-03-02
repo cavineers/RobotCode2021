@@ -22,6 +22,7 @@ public class Dank extends WebSocketServer {
         conn.send("05;" + Constants.Robot.kYear);
         conn.send("06;" + Constants.Robot.kName);
         // conn.send("02;"+this.generateLayout()); // TODO: Setup layout
+        conn.send("02;" + "{\"version\": \"v3\", \"layout\": [{\"type\": \"StaticText\",\"x\": \"30px\",\"y\": \"-10px\",\"z\": \"2\",\"text\": \"Match: #\",\"textColor\": \"whitesmoke\",\"fontSize\": \"64px\"},]}");
     }
 
     @Override

@@ -1,11 +1,11 @@
 package frc.robot.paths;
 
-import frc.lib.autonomous.ExactPath;
+import frc.lib.autonomous.Path;
 
 /**
  * Bounce path.
  */
-public class BouncePath extends ExactPath {
+public class BouncePath extends Path {
     /**
      * Bounce path.
      */

@@ -134,38 +134,38 @@ public class SwerveDrive extends SubsystemBase {
             double cos = Math.cos(this.getAngle().getRadians());
 
             // Translate forward/strafe based on conversions
-            double tval = (forward * cos) + (strafe * sin);
+            double T = (forward * cos) + (strafe * sin);
             strafe = (-forward * sin) + (strafe * cos);
-            forward = tval;
+            forward = T;
         }
 
         // Update simulation angle
         this.m_simulationAngle += rotate * 3.0;
 
         // Get A/B
-        double avalue = forward - rotate;
-        double bvalue = forward + rotate;
+        double aValue = forward - rotate;
+        double bValue = forward + rotate;
 
         // Get motor speeds
-        double rspeed = Math.sqrt(Math.pow(strafe, 2) + Math.pow(avalue, 2));
-        double lspeed = Math.sqrt(Math.pow(strafe, 2) + Math.pow(bvalue, 2));
+        double rSpeed = Math.sqrt(Math.pow(strafe, 2) + Math.pow(aValue, 2));
+        double lSpeed = Math.sqrt(Math.pow(strafe, 2) + Math.pow(bValue, 2));
 
         // Get max of the two
-        double max = Math.max(rspeed, lspeed);
+        double max = Math.max(rSpeed, lSpeed);
 
         // Normalize speeds
         if (max > 1.0) {
-            rspeed /= max;
-            lspeed /= max;
+            rSpeed /= max;
+            lSpeed /= max;
         }
 
         // Get the rotation angles
-        double rangle = Math.atan2(strafe, avalue) * 180 / Math.PI;
-        double langle = Math.atan2(strafe, bvalue) * 180 / Math.PI;
+        double rAngle = Math.atan2(strafe, aValue) * 180 / Math.PI;
+        double lAngle = Math.atan2(strafe, bValue) * 180 / Math.PI;
 
         // Send to modules
-        this.m_right.set(rangle, rspeed);
-        this.m_left.set(langle, lspeed);
+        this.m_right.set(rAngle, rSpeed);
+        this.m_left.set(lAngle, lSpeed);
     }
 
     /**

@@ -1,11 +1,11 @@
 package frc.robot.paths;
 
-import frc.lib.autonomous.ExactPath;
+import frc.lib.autonomous.Path;
 
 /**
  * Slalom path.
  */
-public class SlalomPath extends ExactPath {
+public class SlalomPath extends Path {
     /**
      * Create slalom path.
      */
