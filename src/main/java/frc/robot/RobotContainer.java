@@ -37,7 +37,7 @@ public class RobotContainer {
     public POVButton m_povleft = new POVButton(m_joy, 270, 0);
 
     // Selected Auto Command
-    public String m_selectedCommand = "BARREL_RACING";
+    public String m_selectedCommand = "BOUNCE";
 
     // Simulation Menu
     public boolean m_simMenu = false;
