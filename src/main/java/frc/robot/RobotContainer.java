@@ -6,6 +6,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.commands.TimedReverseIntake;
+import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.auto.AutonomousExample;
 import frc.robot.commands.auto.BarrelRacingAuto;
 import frc.robot.commands.auto.BouncePathAuto;
@@ -59,6 +61,14 @@ public class RobotContainer {
         Robot.logger.addInfo("RobotContainer", "Start to map button bindings");
 
         this.m_leftMenu.whenPressed(new SimMenu());
+
+        // Toggle Intake
+        System.out.println(this.m_xButton.get());
+
+        this.m_xButton.whenPressed(new ToggleIntake());
+
+        // ReverseIntake on bButton
+        this.m_bButton.whenPressed(new TimedReverseIntake(1));
 
         this.m_povDown.whenPressed(new InstantCommand() {
             @Override

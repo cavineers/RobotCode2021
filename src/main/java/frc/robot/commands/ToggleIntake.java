@@ -9,7 +9,9 @@ import frc.robot.subsystems.Intake;
  */
 public class ToggleIntake extends CommandBase {
 
-    // Constructor
+    /**
+     * Toggle Intake.
+     */
     public ToggleIntake() {
         addRequirements(Robot.intake);
     }
