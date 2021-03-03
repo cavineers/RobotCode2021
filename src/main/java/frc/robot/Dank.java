@@ -106,10 +106,12 @@ public class Dank extends WebSocketServer {
     }
 
     public void periodic() {
-        if (this.m_visionAddress.isClosed()) {
-            this.broadcast("03;Vision Disconnected");
-            Robot.logger.addInfo("DANK", "Vision Disconnected");
-            this.m_visionAddress = null;
+        if (this.m_visionAddress != null) {
+            if (this.m_visionAddress.isClosed()) {
+                this.broadcast("03;Vision Disconnected");
+                Robot.logger.addInfo("DANK", "Vision Disconnected");
+                this.m_visionAddress = null;
+            }
         }
     }
 }
