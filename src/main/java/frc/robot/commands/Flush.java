@@ -1,22 +1,17 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.Robot;
-import java.awt.event.*;
-import javax.swing.Timer;
 
 /**
  * Flush the robot class.
  */
 public class Flush extends CommandBase {
-
-    Timer timer;
+    private TimedReverseIntake m_intakeRev;
 
     // Constructor
     public Flush() {
-        addRequirements(Robot.transportation);
-        addRequirements(Robot.intake);
+        addRequirements(Robot.intake, Robot.transportation);
     }
 
     // Set Motor State to OFF / REVERSED
@@ -25,30 +20,24 @@ public class Flush extends CommandBase {
         Robot.logger.addInfo("Flush", "Flush Systems Starting");
 
         // Reverse the Intake systems
-        new ToggleReverseIntake();
+        this.m_intakeRev = new TimedReverseIntake(10);
 
-        // Stop Systems After 1 Second
-        this.timer = new Timer(Constants.Flush.kFlushTimer, taskPerformer);
-        this.timer.setRepeats(false);
-        this.timer.start();
+        // Schedule tasks
+        this.m_intakeRev.schedule();
     }
 
     @Override
     public void execute() {}
 
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        if (interrupted) {
+            this.m_intakeRev.cancel();
+        }
+    }
 
     @Override
     public boolean isFinished() {
-        return true;
+        return this.m_intakeRev.isFinished();
     }
-
-    // Method to be run after given time
-    ActionListener taskPerformer = new ActionListener() {
-        public void actionPerformed(ActionEvent evt) {
-            new ToggleReverseIntake();
-            timer.stop();
-        }
-    };
 }

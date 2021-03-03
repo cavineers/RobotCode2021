@@ -113,13 +113,6 @@ public final class Constants {
     }
 
     /**
-     * Constants in direct reference with the flush command
-     */
-    public static class Flush {
-        public static int kFlushTimer = 1000; // In milliseconds
-    }
-    
-    /**
      * Constants in direct reference to the Swerve subsystem.
      */
     public static class Swerve {
