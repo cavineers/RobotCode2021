@@ -13,9 +13,7 @@ public class ToggleIntake extends CommandBase {
      * Toggle Intake.
      */
     public ToggleIntake() {
-        System.out.println("create");
-        System.out.println(Robot.intake);
-        this.addRequirements(Robot.intake);
+        addRequirements(Robot.intake);
     }
 
     // Set Motor State to ON / OFF
