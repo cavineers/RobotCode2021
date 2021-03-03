@@ -105,6 +105,9 @@ public class Dank extends WebSocketServer {
         setConnectionLostTimeout(100);
     }
 
+    /**
+     * DankDash Periodic.
+     */
     public void periodic() {
         if (this.m_visionAddress != null) {
             if (this.m_visionAddress.isClosed()) {
