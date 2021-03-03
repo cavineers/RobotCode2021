@@ -23,9 +23,6 @@ public class Robot extends TimedRobot {
     // Logger
     public static Logger logger;
 
-    // Robot Container
-    public static RobotContainer robotContainer;
-
     // Dank
     public static Dank dank;
 
@@ -44,6 +41,9 @@ public class Robot extends TimedRobot {
     // Vision
     public static Vision vision;
 
+    // Robot Container
+    public static RobotContainer robotContainer;
+
     // Autonomous command
     private Command m_autonomousCommand;
 
@@ -59,9 +59,6 @@ public class Robot extends TimedRobot {
 
         // Static logger
         logger = new Logger();
-
-        // Static robot container
-        robotContainer = new RobotContainer();
 
         // Static DANK
         try {
@@ -84,6 +81,9 @@ public class Robot extends TimedRobot {
 
         // Vision
         vision = new Vision();
+
+        // Static robot container
+        robotContainer = new RobotContainer();
     }
 
     @Override

@@ -1,12 +1,14 @@
 package frc.robot.commands;
 
-import java.awt.event.*;
-import javax.swing.Timer;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import java.awt.event.*;
+import javax.swing.Timer;
 
+/**
+ * Flush the robot class.
+ */
 public class Flush extends CommandBase {
 
     Timer timer;

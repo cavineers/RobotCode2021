@@ -9,9 +9,13 @@ import frc.robot.subsystems.Intake;
  */
 public class ToggleIntake extends CommandBase {
 
-    // Constructor
+    /**
+     * Toggle Intake.
+     */
     public ToggleIntake() {
-        addRequirements(Robot.intake);
+        System.out.println("create");
+        System.out.println(Robot.intake);
+        this.addRequirements(Robot.intake);
     }
 
     // Set Motor State to ON / OFF
