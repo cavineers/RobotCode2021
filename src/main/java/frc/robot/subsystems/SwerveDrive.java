@@ -23,12 +23,12 @@ import frc.robot.Robot;
  * Swerve Drive Subsystem.
  */
 public class SwerveDrive extends SubsystemBase {
-    private SwerveModule m_left = new SwerveModule(new SwerveSettings().setDriveMotorID(Constants.Swerve.kLeftDriveID)
-            .setRotationMotorID(Constants.Swerve.kLeftRotateID).setRotationEncoderID(Constants.Swerve.kLeftEncoderID)
+    private SwerveModule m_left = new SwerveModule(new SwerveSettings().setDriveMotorId(Constants.Swerve.kLeftDriveID)
+            .setRotationMotorId(Constants.Swerve.kLeftRotateID).setRotationEncoderId(Constants.Swerve.kLeftEncoderID)
             .setRotationOffset(Rotation2d.fromDegrees(Constants.Swerve.kLeftOffset)).setInverted(false)
             .setCommonName("left_"));
-    private SwerveModule m_right = new SwerveModule(new SwerveSettings().setDriveMotorID(Constants.Swerve.kRightDriveID)
-            .setRotationMotorID(Constants.Swerve.kRightRotateID).setRotationEncoderID(Constants.Swerve.kRightEncoderID)
+    private SwerveModule m_right = new SwerveModule(new SwerveSettings().setDriveMotorId(Constants.Swerve.kRightDriveID)
+            .setRotationMotorId(Constants.Swerve.kRightRotateID).setRotationEncoderId(Constants.Swerve.kRightEncoderID)
             .setRotationOffset(Rotation2d.fromDegrees(Constants.Swerve.kRightOffset)).setInverted(false)
             .setCommonName("right_")
 
@@ -134,9 +134,9 @@ public class SwerveDrive extends SubsystemBase {
             double cos = Math.cos(this.getAngle().getRadians());
 
             // Translate forward/strafe based on conversions
-            double T = (forward * cos) + (strafe * sin);
+            double vT = (forward * cos) + (strafe * sin);
             strafe = (-forward * sin) + (strafe * cos);
-            forward = T;
+            forward = vT;
         }
 
         // Update simulation angle

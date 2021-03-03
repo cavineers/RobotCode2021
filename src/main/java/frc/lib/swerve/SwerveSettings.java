@@ -2,28 +2,31 @@ package frc.lib.swerve;
 
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 
+/**
+ * SwerveDrive Settings.
+ */
 public class SwerveSettings {
-    private int m_rotationMotorID;
-    private int m_driveMotorID;
-    private int m_encoderID;
+    private int m_rotationMotorId;
+    private int m_driveMotorId;
+    private int m_encoderId;
     private Rotation2d m_offset;
     private boolean m_inverted = false;
     private String m_commonName = "";
 
     public SwerveSettings() {}
 
-    public SwerveSettings setRotationMotorID(int id) {
-        this.m_rotationMotorID = id;
+    public SwerveSettings setRotationMotorId(int id) {
+        this.m_rotationMotorId = id;
         return this;
     }
 
-    public SwerveSettings setDriveMotorID(int id) {
-        this.m_driveMotorID = id;
+    public SwerveSettings setDriveMotorId(int id) {
+        this.m_driveMotorId = id;
         return this;
     }
 
-    public SwerveSettings setRotationEncoderID(int id) {
-        this.m_encoderID = id;
+    public SwerveSettings setRotationEncoderId(int id) {
+        this.m_encoderId = id;
         return this;
     }
 
@@ -42,16 +45,16 @@ public class SwerveSettings {
         return this;
     }
 
-    public int getRotationMotorID() {
-        return this.m_rotationMotorID;
+    public int getRotationMotorId() {
+        return this.m_rotationMotorId;
     }
 
-    public int getDriveMotorID() {
-        return this.m_driveMotorID;
+    public int getDriveMotorId() {
+        return this.m_driveMotorId;
     }
 
-    public int getEncoderID() {
-        return this.m_encoderID;
+    public int getEncoderId() {
+        return this.m_encoderId;
     }
 
     public Rotation2d getRotationOffset() {
