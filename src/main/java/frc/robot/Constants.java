@@ -38,7 +38,7 @@ public final class Constants {
     public static class Dio {
         public static int kConveyorSensor1 = 0;
         public static int kConveyorSensor2 = 1;
-        public static int kFeederSensor = 2;
+        public static int kFeederSensor    = 2;
     }
 
     /**
@@ -120,17 +120,17 @@ public final class Constants {
         public static int kLeftDriveID = CanIds.kLeftDriveMotor;
         public static int kLeftRotateID = CanIds.kLeftRotateMotor;
         public static int kLeftEncoderID = CanIds.kLeftRotateEncoder;
-        public static int kLeftOffset = 0; // In Degrees
+        public static int kLeftOffset = 0; // In Degrees // TODO: Get this val
         
         // Right
         public static int kRightDriveID = CanIds.kRightDriveMotor;
         public static int kRightRotateID = CanIds.kRightRotateMotor;
         public static int kRightEncoderID = CanIds.kRightRotateEncoder;
-        public static int kRightOffset = 0; // In Degrees
+        public static int kRightOffset = 0; // In Degrees // TODO: Get this val
 
         // Kinematics & Odometry
         // TODO: GET ACTUAL MAX VELOCITY
-        public static double kMaxVelocity = Units.feetToMeters(7.0); // In Meters Per Second
+        public static double kMaxVelocity = Units.feetToMeters(7.0); // In Feet Per Second (converted to meters)
         // public static double kMaxAcceleration = Units.feetToMeters(2.0); // In meters per second // TODO: Find max accel
 
         public static double kMaxRotateSpeed = 150.0; // In Degrees Per Second
@@ -190,8 +190,6 @@ public final class Constants {
      * Constants in direct reference to autonomous paths.
      */
     public static class AutoPath {
-        // public static double kTranslationTolerance = Units.inchesToMeters(1);
-        // public static double kRotationalTolerance = 1.0;
         public static double kSmoothTransition = 0.0;
         // TODO: Delete this
     }
