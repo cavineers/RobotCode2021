@@ -2,7 +2,7 @@
 
 <!-- ![Controller Format](https://github.com/cavineers/RobotCode2021/blob/master/controller_mapped.png) -->
 
-### Buttons
+## Buttons
 
 **Y-Axis Left Joystick** => Forward & Reverse drive
 
