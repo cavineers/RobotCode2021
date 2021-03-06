@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.commands.Flush;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
@@ -36,7 +35,6 @@ public class Robot extends TimedRobot {
     public static Shooter shooter;
     public static SwerveDrive swerveDrive;
     public static Transportation transportation;
-    public static Flush flush;
 
     // Vision
     public static Vision vision;
@@ -77,7 +75,6 @@ public class Robot extends TimedRobot {
         shooter = new Shooter();
         swerveDrive = new SwerveDrive();
         transportation = new Transportation();
-        flush = new Flush();
 
         // Vision
         vision = new Vision();
