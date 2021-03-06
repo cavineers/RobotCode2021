@@ -41,7 +41,7 @@ public class RobotContainer {
     // Selected Auto Command
     // public String m_selectedCommand = "BOUNCE";
     // public String m_selectedCommand = "SLALOM";
-    public String m_selectedCommand = "BARREL_RACING";
+    public String m_selectedCommand = "DEAD";
 
     // Simulation Menu
     public boolean m_simMenu = false;
@@ -105,7 +105,9 @@ public class RobotContainer {
         this.m_rightStick.whenPressed(new InstantCommand() {
             @Override
             public void initialize() {
-                Robot.robotContainer.m_fieldOriented = !Robot.robotContainer.m_fieldOriented;
+                if (Robot.isSimulation()) {
+                    Robot.robotContainer.m_fieldOriented = !Robot.robotContainer.m_fieldOriented;
+                }
             }
         });
     }

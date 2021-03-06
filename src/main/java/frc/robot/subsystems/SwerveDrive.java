@@ -41,18 +41,25 @@ public class SwerveDrive extends SubsystemBase {
         SWERVE, CURVATURE, PATH
     }
 
+    // Current Swerve State
     private SwerveDriveState m_state = SwerveDriveState.SWERVE;
 
+    // Swerve Kinematics
     private SwerveDriveKinematics m_kinematics;
 
+    // Swerve Odometry
     private SwerveDriveOdometry m_odometry;
 
+    // 2D Field
     private Field2d m_field = new Field2d();
 
+    // Simulation Angle
     private double m_simulationAngle = 0.0;
 
+    // Current Path
     private Path m_path;
 
+    // X, Y, Rot. PID Controllers
     private PIDController m_xPidController = new PIDController(Constants.Swerve.kPositionPID_P,
             Constants.Swerve.kPositionPID_I, Constants.Swerve.kPositionPID_D);
     private PIDController m_yPidController = new PIDController(Constants.Swerve.kPositionPID_P,
@@ -60,6 +67,7 @@ public class SwerveDrive extends SubsystemBase {
     private PIDController m_rPidController = new PIDController(Constants.Swerve.kAnglePID_P,
             Constants.Swerve.kAnglePID_I, Constants.Swerve.kAnglePID_D);
 
+    // Whether the path is relative to the last point
     private boolean m_isRelative = false;
     private Pose2d m_initialPosition;
     private Rotation2d m_initialRotation;
