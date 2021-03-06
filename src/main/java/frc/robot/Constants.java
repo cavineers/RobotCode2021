@@ -162,14 +162,25 @@ public final class Constants {
      */
     public static class ObjVision {
         // Constants (in inches)
-        public static double kCameraHeight      = Units.inchesToMeters(3.0);
-        public static double kCameraAngle       = 0.0; // In degrees
+        public static double kCameraHeight = Units.inchesToMeters(3.0);
+        public static double kCameraAngle  = 0.0; // In degrees
 
-        public static double kBallHeight        = Units.inchesToMeters(3.5);
+        public static double kBallHeight = Units.inchesToMeters(3.5);
 
         public static double kCameraResolutionY = 1080; // In pixels
         public static double kCameraResolutionX = 1920; // In pixels
         public static double kCameraFieldOfView = 75 * 2; // In degrees
+
+        public static double kCameraInset   = Units.inchesToMeters(20); // TODO Update to real val!
+        public static double kDistancePID_P = 0.001;
+        public static double kDistancePID_I = 0.0;
+        public static double kDistancePID_D = 0.0;
+        public static double kDistancePID_Tolerance = 1.0;
+
+        public static double kXPID_P = 0.001;
+        public static double kXPID_I = 0.0;
+        public static double kXPID_D = 0.0;
+        public static double kXPID_Tolerance = 1.0;
     }
 
     /**
