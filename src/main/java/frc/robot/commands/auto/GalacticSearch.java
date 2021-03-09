@@ -16,6 +16,9 @@ public class GalacticSearch extends CommandBase {
     // ToggleIntake Command
     private Command m_toggleIntake = new TimedToggleIntake(5); // TODO Should be replaced with a command that uses feedback
 
+    // Finished
+    private boolean m_finished = false;
+
     // PIDs
     private PIDController m_td = new PIDController(Constants.ObjVision.kDistancePID_P, 
             Constants.ObjVision.kDistancePID_I, Constants.ObjVision.kDistancePID_D);
@@ -39,6 +42,7 @@ public class GalacticSearch extends CommandBase {
 
     @Override
     public void execute() {
+        // if (Robot.transportation.getBallCount() == 3) { // TODO: implement missing method, then uncomment.
         Target closestPowerCell = Robot.vision.getPowerCellTarget();
 
         // Calculations
@@ -57,6 +61,7 @@ public class GalacticSearch extends CommandBase {
             // Drive the robot based on the coordinates of power cell
             Robot.swerveDrive.swerve(this.m_td.calculate(td), this.m_a.calculate(a), 0, false);
         }
+        // } else {something to cross the finish line}
     }
 
     @Override
@@ -67,7 +72,6 @@ public class GalacticSearch extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return false;
-        // return Robot.transportation.getBallCount() == 3; // TODO: Implement this missing method
+        return this.m_finished;
     }
 }
