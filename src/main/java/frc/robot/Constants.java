@@ -171,7 +171,7 @@ public final class Constants {
         public static double kCameraResolutionX = 1920; // In pixels
         public static double kCameraFieldOfView = 75 * 2; // In degrees
 
-        public static double kCameraInset   = Units.inchesToMeters(20); // TODO Update to real val!
+        public static double kCameraInset   = Units.inchesToMeters(13);
         public static double kDistancePID_P = 0.001;
         public static double kDistancePID_I = 0.0;
         public static double kDistancePID_D = 0.0;
