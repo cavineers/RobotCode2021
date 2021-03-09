@@ -19,10 +19,11 @@
         "CANPID",
         "Gson",
         "Odometry",
+        "PIDs",
+        "accl",
         "fout",
         "lvuser",
         "setpoint",
-        "accl",
         "whitesmoke",
         "xyxy"
     ],
