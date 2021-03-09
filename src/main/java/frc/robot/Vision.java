@@ -17,7 +17,7 @@ public class Vision {
         Target shortestDistance = new Target();
 
         for (int i = 0; i < xyxy.length; i++) {
-            Target calculatedData = calculateData(xyxy[i]);
+            Target calculatedData = calculateData(xyxy[i]).setOffset(-Constants.ObjVision.kCameraInset);
 
             if (!shortestDistance.isSet() || shortestDistance.getDistance() > calculatedData.getDistance()) {
                 shortestDistance = calculatedData;

@@ -9,6 +9,7 @@ public class Target {
     private double m_ty;
     private double m_tx;
     private double m_distance;
+    private double m_offset;
 
     public Target() {
 
@@ -26,6 +27,7 @@ public class Target {
         this.m_tx = tx;
         this.m_distance = distance;
         this.m_set = true;
+        this.m_offset = 0.0;
     }
 
     public double getTy() {
@@ -37,10 +39,19 @@ public class Target {
     }
 
     public double getDistance() {
-        return this.m_distance;
+        return this.m_distance + this.m_offset;
     }
     
     public boolean isSet() {
         return this.m_set;
+    }
+
+    public Target setOffset(double offset) {
+        this.m_offset = offset;
+        return this;
+    }
+
+    public double getOffset() {
+        return this.m_offset;
     }
 }
