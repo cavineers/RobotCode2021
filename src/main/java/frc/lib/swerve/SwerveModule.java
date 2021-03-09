@@ -69,7 +69,7 @@ public class SwerveModule {
      */
     public Rotation2d getRotation() {
         if (Robot.isReal()) {
-            return Rotation2d.fromDegrees(this.m_encoder.getAbsolutePosition()+this.m_settings.getRotationOffset().getDegrees());
+            return Rotation2d.fromDegrees(this.m_encoder.getAbsolutePosition() + this.m_settings.getRotationOffset().getDegrees());
         } else {
             return this.m_rotationSetpoint;
         }
