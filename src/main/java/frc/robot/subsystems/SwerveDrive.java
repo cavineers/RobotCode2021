@@ -135,6 +135,10 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     private void localSwerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
+        forward = MathUtil.clamp(forward, -1.0, 1.0);
+        strafe = MathUtil.clamp(strafe, -1.0, 1.0);
+        rotate = MathUtil.clamp(rotate, -1.0, 1.0);
+
         // If the robot is field oriented
         if (isFieldOriented) {
             // Find conversions based on gyro angles
@@ -309,8 +313,7 @@ public class SwerveDrive extends SubsystemBase {
                 // System.out.println("Output: "+xOutput+" "+yOutput+" "+rOutput);
                 // System.out.println("Percent: "+xOutput/Constants.Swerve.kMaxVelocity+"
                 // "+yOutput/Constants.Swerve.kMaxVelocity+" "+rOutput);
-                this.localSwerve(xOutput / Constants.Swerve.kMaxVelocity, yOutput / Constants.Swerve.kMaxVelocity,
-                        MathUtil.clamp(rOutput, -1, 1), true);
+                this.localSwerve(xOutput / Constants.Swerve.kMaxVelocity, yOutput / Constants.Swerve.kMaxVelocity, rOutput, true);
             }
         }
 
