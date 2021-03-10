@@ -169,7 +169,7 @@ public final class Constants {
 
         public static double kCameraResolutionY = 1080; // In pixels
         public static double kCameraResolutionX = 1920; // In pixels
-        public static double kCameraFieldOfView = 75 * 2; // In degrees
+        public static double kCameraFieldOfView = 180; // In degrees
 
         public static double kCameraInset   = Units.inchesToMeters(13);
         public static double kDistancePID_P = 0.001;
@@ -194,5 +194,7 @@ public final class Constants {
         public static double kD = 0.00000;
         public static double kTolerance = 5.0; // ~0.5 deg
         public static double kMaxSpeed = 0.9;
+        public static double kMinimumAngle = 27.0;
+        public static double kMaximumAngle = 90.0;
     }
 }
