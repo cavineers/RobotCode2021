@@ -26,7 +26,12 @@ public class ToggleConveyor extends CommandBase {
     }
 
     @Override
-    public void execute() {}
+    public void execute() {
+        Robot.transportation.setPCLocation();
+        if (Robot.transportation.getPCLocation() == 2.0 || Robot.transportation.getPCLocation() == 3.0) {
+            Robot.transportation.setMotorStateConveyor(Transportation.TransportMotorState.ON);
+        }
+    }
 
     @Override
     public void end(boolean interrupted) {}

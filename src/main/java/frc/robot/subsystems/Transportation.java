@@ -12,6 +12,8 @@ import frc.robot.Robot;
  */
 public class Transportation extends SubsystemBase {
 
+    public double PCLocation;
+
     /**
      * Motor state of the transport subsystem.
      */
@@ -107,6 +109,19 @@ public class Transportation extends SubsystemBase {
         }
     }
 
+    public boolean getSensorOneState() {
+        return m_sensorOne.get();
+    }
+
+
+    public boolean getSensorTwoState() {
+        return m_sensorTwo.get();
+    }
+
+    public boolean getSensorThreeState() {
+        return m_sensorThree.get();
+    }
+
     /**
      * Get the current transport state.
 
@@ -124,4 +139,21 @@ public class Transportation extends SubsystemBase {
     public TransportMotorState getFeederMotorState() {
         return this.m_currentModeFeeder;
     }
+
+    public double getPCLocation() {
+        return PCLocation;
+    }
+
+    public void setPCLocation() {
+        if (getSensorOneState() == true) {
+            PCLocation = 1.0;
+        } else if (getSensorTwoState() == true) {
+            PCLocation = 2.0;
+        } else if (getSensorThreeState() == true) {
+            PCLocation = 3.0;
+        } else {
+            PCLocation = 0;
+        }
+    }
+
 }
