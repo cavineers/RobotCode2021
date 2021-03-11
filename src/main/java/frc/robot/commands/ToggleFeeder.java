@@ -26,7 +26,14 @@ public class ToggleFeeder extends CommandBase {
     }
 
     @Override
-    public void execute() {}
+    public void execute() {
+        Robot.transportation.setPCLocation();
+        if (Robot.transportation.getPCLocation() == 1.0) {
+            Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.ON);
+        } else {
+            Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.OFF);
+        }
+    }
 
     @Override
     public void end(boolean interrupted) {}
