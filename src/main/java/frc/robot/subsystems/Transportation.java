@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -12,7 +13,8 @@ import frc.robot.Robot;
  */
 public class Transportation extends SubsystemBase {
 
-    public double m_PCLocation;
+    private int m_PCLocation;
+    private int m_numPowerCells;
 
     /**
      * Motor state of the transport subsystem.
@@ -140,20 +142,53 @@ public class Transportation extends SubsystemBase {
         return this.m_currentModeFeeder;
     }
 
-    public double getPCLocation() {
+    /**
+     * Get PowerCell Locations
+     * @return PowerCell location from 1 - 3
+     */
+    public int getPCLocation() {
         return this.m_PCLocation;
     }
 
     public void setPCLocation() {
         if (getSensorOneState() == true) {
-            this.m_PCLocation = 1.0;
+            this.m_PCLocation = 1;
         } else if (getSensorTwoState() == true) {
-            this.m_PCLocation = 2.0;
+            this.m_PCLocation = 2;
         } else if (getSensorThreeState() == true) {
-            this.m_PCLocation = 3.0;
+            this.m_PCLocation = 3;
         } else {
             this.m_PCLocation = 0;
         }
     }
 
+    /**
+     * Gets current PowerCell Count
+     * @return current count
+     */
+    public int getBallCount() {
+        return this.m_numPowerCells;
+    }
+
+    public void setBallCount() {
+        this.m_numPowerCells = 0;
+        if (getSensorOneState() == true) {
+            this.m_numPowerCells++;
+        }
+        if (getSensorTwoState() == true) {
+            this.m_numPowerCells++;
+        }
+        if (getSensorThreeState() == true) {
+            this.m_numPowerCells++;
+        }
+    }
+
+    /**
+     * Transportation periodic.
+     */
+    @Override
+    public void periodic() {
+        setBallCount();
+        SmartDashboard.putNumber("Current PowerCell Count", this.m_numPowerCells);
+    }
 }
