@@ -59,7 +59,17 @@ public class SwerveModule {
         // Reset to the absolute offset
         this.m_rotationMotor.set(ControlMode.Position, 0);
 
+        // Send default angle to smart dashboard
         SmartDashboard.putNumber(this.m_settings.commonName() + "_Angle", 0.0);
+
+        // Send default PID values to SmartDashboard for testing
+        // TODO: Comment this when done tuning
+        SmartDashboard.putNumber("rot_kP", Constants.Swerve.kRotationPID_P);
+        SmartDashboard.putNumber("rot_kI", Constants.Swerve.kRotationPID_I);
+        SmartDashboard.putNumber("rot_kD", Constants.Swerve.kRotationPID_D);
+
+        // Set encoder absolute position when started
+        SmartDashboard.putNumber(this.m_settings.commonName() + "_absoluteValue", this.getRotation().getDegrees());
     }
 
     /**
@@ -82,8 +92,10 @@ public class SwerveModule {
      * @param speed wheel speed
      */
     public void set(double angle, double speed) {
-        // angle = SmartDashboard.getNumber(this.settings.commonName()+"_Angle", 0.0);
-        // speed = 0.0;
+        // Read angle for tuning
+        // TODO: Comment this when finished tuning
+        angle = SmartDashboard.getNumber(this.m_settings.commonName()+"_Angle", 0.0);
+        speed = 0.0;
 
         // Current offset
         double currentOffset = this.getRotation().getDegrees();
@@ -117,6 +129,12 @@ public class SwerveModule {
             speed = -speed;
         }
         
+        // Set PID Values
+        // TODO: Comment this when done tuning
+        this.m_rotationMotor.config_kP(0, SmartDashboard.getNumber("rot_kP", 0.0));
+        this.m_rotationMotor.config_kI(0, SmartDashboard.getNumber("rot_kI", 0.0));
+        this.m_rotationMotor.config_kD(0, SmartDashboard.getNumber("rot_kD", 0.0));
+
         // Current Setpoint
         this.m_rotationSetpoint = this.getRotation().plus(Rotation2d.fromDegrees(difference));
 
