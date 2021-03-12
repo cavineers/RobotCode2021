@@ -33,6 +33,7 @@ public class Transportation extends SubsystemBase {
     private TransportMotorState m_currentModeFeeder = TransportMotorState.OFF;
     private TransportMotorState m_currentModeConveyor = TransportMotorState.OFF;
 
+    // Three Sensors for the conveyor / feeder belt
     private DigitalInput m_sensorOne = new DigitalInput(Constants.Dio.kConveyorSensor1);
     private DigitalInput m_sensorTwo = new DigitalInput(Constants.Dio.kConveyorSensor2);
     private DigitalInput m_sensorThree = new DigitalInput(Constants.Dio.kFeederSensor);
@@ -111,10 +112,33 @@ public class Transportation extends SubsystemBase {
         }
     }
 
+    /**
+     * Toggle the conveyor belt
+     */
+    public void ToggleConveyor() {
+        Robot.logger.addInfo("ToggleConveyor", "Conveyor Toggle");
+        if (Robot.transportation.getConveyorMotorState() == Transportation.TransportMotorState.OFF) {
+            Robot.transportation.setMotorStateConveyor(Transportation.TransportMotorState.ON);
+        } else {
+            Robot.transportation.setMotorStateConveyor(Transportation.TransportMotorState.OFF);
+        }
+    }
+
+    /**
+     * Toggle the feeder wheels
+     */
+    public void ToggleFeeder() {
+        Robot.logger.addInfo("ToggleFeeder", "Feeder Toggle");
+        if (Robot.transportation.getFeederMotorState() == Transportation.TransportMotorState.OFF) {
+            Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.ON);
+        } else {
+            Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.OFF);
+        }
+    }
+
     public boolean getSensorOneState() {
         return m_sensorOne.get();
     }
-
 
     public boolean getSensorTwoState() {
         return m_sensorTwo.get();
@@ -126,7 +150,6 @@ public class Transportation extends SubsystemBase {
 
     /**
      * Get the current transport state.
-
      * @return conveyor state
      */
     public TransportMotorState getConveyorMotorState() {
@@ -135,7 +158,6 @@ public class Transportation extends SubsystemBase {
 
     /**
      * Get the current transport state.
-
      * @return transport state
      */
     public TransportMotorState getFeederMotorState() {
