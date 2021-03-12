@@ -12,7 +12,7 @@ import frc.robot.Robot;
  */
 public class Transportation extends SubsystemBase {
 
-    public double PCLocation;
+    public double m_PCLocation;
 
     /**
      * Motor state of the transport subsystem.
@@ -141,18 +141,18 @@ public class Transportation extends SubsystemBase {
     }
 
     public double getPCLocation() {
-        return PCLocation;
+        return this.m_PCLocation;
     }
 
     public void setPCLocation() {
         if (getSensorOneState() == true) {
-            PCLocation = 1.0;
+            this.m_PCLocation = 1.0;
         } else if (getSensorTwoState() == true) {
-            PCLocation = 2.0;
+            this.m_PCLocation = 2.0;
         } else if (getSensorThreeState() == true) {
-            PCLocation = 3.0;
+            this.m_PCLocation = 3.0;
         } else {
-            PCLocation = 0;
+            this.m_PCLocation = 0;
         }
     }
 
