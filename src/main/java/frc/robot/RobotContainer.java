@@ -64,7 +64,7 @@ public class RobotContainer {
         this.m_autoChooser.addOption("SLALOM_PATH", new SlalomPathAuto());
         
         // Add SmartDashboard Automus Picker
-        SmartDashboard.putData(m_autoChooser);
+        SmartDashboard.putData("Autonomous Command", m_autoChooser);
 
         // Controller Bindings
         mapButtonBindings();
