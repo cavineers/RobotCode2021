@@ -1,6 +1,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -37,26 +38,34 @@ public class RobotContainer {
     public POVButton m_povRight = new POVButton(m_joy, 90, 0);
     public POVButton m_povDown = new POVButton(m_joy, 180, 0);
     public POVButton m_povLeft = new POVButton(m_joy, 270, 0);
+   
 
     // Selected Auto Command
     // public String m_selectedCommand = "BOUNCE";
     // public String m_selectedCommand = "SLALOM";
-    public String m_selectedCommand = "DEAD";
+    
 
     // Simulation Menu
     public boolean m_simMenu = false;
 
     // If the robot is field oriented
     public boolean m_fieldOriented = false;
+    SendableChooser<Command> m_chooser = new SendableChooser<>();
 
     /**
      * Constructor for RobotContainer.
      */
     public RobotContainer() {
         Robot.logger.addInfo("RobotContainer", "Created RobotContainer");
-
+        m_chooser.setDefaultOption("DEAD",new DeadAuto());
+        m_chooser.addOption("AutomousExample",new AutonomousExample());
+        m_chooser.addOption("BarrelRun", new BarrelRacingAuto());
+        m_chooser.addOption("BouncePath", new BouncePathAuto());
+        m_chooser.addOption("Glactuic", new GalacticSearch());
+        m_chooser.addOption("Samon Path", new SlalomPathAuto());
         // Controller Bindings
         mapButtonBindings();
+
     }
 
     private void mapButtonBindings() {
@@ -118,19 +127,7 @@ public class RobotContainer {
      * @return The selected command.
      */
     public Command getAutonomousCommand() {
-        switch (this.m_selectedCommand) {
-            case "GALACTIC_SEARCH":
-                return new GalacticSearch();
-            case "SLALOM":
-                return new SlalomPathAuto();
-            case "BOUNCE":
-                return new BouncePathAuto();
-            case "BARREL_RACING":
-                return new BarrelRacingAuto();
-            case "TEST":
-                return new AutonomousExample();
-            default:
-                return new DeadAuto();
-        }
+        
+        return m_chooser.getSelected();
     }
 }
