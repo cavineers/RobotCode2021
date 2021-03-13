@@ -13,18 +13,18 @@ public class ToggleIntake extends CommandBase {
      * Toggle Intake.
      */
     public ToggleIntake() {
-        addRequirements(Robot.intake);
+        // addRequirements(Robot.intake);
     }
 
     // Set Motor State to ON / OFF
     @Override
     public void initialize() {
         Robot.logger.addInfo("ToggleIntake", "Intake Toggle");
-        if (Robot.intake.getMotorState() == Intake.IntakeMotorState.OFF) {
-            Robot.intake.setMotorState(Intake.IntakeMotorState.ON);
-        } else {
-            Robot.intake.setMotorState(Intake.IntakeMotorState.OFF);
-        }
+        // if (Robot.intake.getMotorState() == Intake.IntakeMotorState.OFF) {
+        //     Robot.intake.setMotorState(Intake.IntakeMotorState.ON);
+        // } else {
+        //     Robot.intake.setMotorState(Intake.IntakeMotorState.OFF);
+        // }
     }
 
     @Override

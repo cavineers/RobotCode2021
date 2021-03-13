@@ -11,18 +11,18 @@ public class ToggleReverseIntake extends CommandBase {
     
     // Constructor
     public ToggleReverseIntake() {
-        addRequirements(Robot.intake);
+        // addRequirements(Robot.intake);
     }
 
     // Set Motor State to OFF / REVERSED
     @Override
     public void initialize() {
         Robot.logger.addInfo("ToggleReverseIntake", "Reverse Intake Toggle");
-        if (Robot.intake.getMotorState() == Intake.IntakeMotorState.OFF) {
-            Robot.intake.setMotorState(Intake.IntakeMotorState.REVERSED);
-        } else {
-            Robot.intake.setMotorState(Intake.IntakeMotorState.OFF);
-        }
+        // if (Robot.intake.getMotorState() == Intake.IntakeMotorState.OFF) {
+        //     Robot.intake.setMotorState(Intake.IntakeMotorState.REVERSED);
+        // } else {
+        //     Robot.intake.setMotorState(Intake.IntakeMotorState.OFF);
+        // }
     }
 
     @Override

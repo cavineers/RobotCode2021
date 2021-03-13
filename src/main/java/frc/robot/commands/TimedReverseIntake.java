@@ -22,14 +22,14 @@ public class TimedReverseIntake extends CommandBase {
      * @param time Time in seconds
      */
     public TimedReverseIntake(double time) {
-        this.addRequirements(Robot.intake);
+        // this.addRequirements(Robot.intake);
         this.m_time = time;
     }
 
     @Override
     public void initialize() {
         this.m_start = Timer.getFPGATimestamp();
-        Robot.intake.setMotorState(IntakeMotorState.REVERSED);
+        // Robot.intake.setMotorState(IntakeMotorState.REVERSED);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class TimedReverseIntake extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        Robot.intake.setMotorState(IntakeMotorState.OFF);
+        // Robot.intake.setMotorState(IntakeMotorState.OFF);
     }
 
     @Override
