@@ -94,7 +94,7 @@ public class SwerveModule {
     public void set(double angle, double speed) {
         // Read angle for tuning
         // TODO: Comment this when finished tuning
-        angle = SmartDashboard.getNumber(this.m_settings.commonName()+"_Angle", 0.0);
+        angle = SmartDashboard.getNumber(this.m_settings.commonName() + "_Angle", 0.0);
         speed = 0.0;
 
         // Current offset
