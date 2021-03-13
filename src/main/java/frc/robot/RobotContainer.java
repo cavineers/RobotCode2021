@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -61,6 +62,9 @@ public class RobotContainer {
         this.m_autoChooser.addOption("BOUNCE_PATH", new BouncePathAuto());
         this.m_autoChooser.addOption("GALACTIC_SEARCH", new GalacticSearch());
         this.m_autoChooser.addOption("SLALOM_PATH", new SlalomPathAuto());
+        
+        // Add SmartDashboard Automus Picker
+        SmartDashboard.putData(m_autoChooser);
 
         // Controller Bindings
         mapButtonBindings();
