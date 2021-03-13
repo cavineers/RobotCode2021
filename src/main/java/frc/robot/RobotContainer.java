@@ -39,33 +39,31 @@ public class RobotContainer {
     public POVButton m_povDown = new POVButton(m_joy, 180, 0);
     public POVButton m_povLeft = new POVButton(m_joy, 270, 0);
    
-
-    // Selected Auto Command
-    // public String m_selectedCommand = "BOUNCE";
-    // public String m_selectedCommand = "SLALOM";
-    
-
     // Simulation Menu
     public boolean m_simMenu = false;
 
     // If the robot is field oriented
     public boolean m_fieldOriented = false;
-    SendableChooser<Command> m_chooser = new SendableChooser<>();
+
+    // Autonomous Command Chooser
+    private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
     /**
      * Constructor for RobotContainer.
      */
     public RobotContainer() {
         Robot.logger.addInfo("RobotContainer", "Created RobotContainer");
-        m_chooser.setDefaultOption("DEAD",new DeadAuto());
-        m_chooser.addOption("AutomousExample",new AutonomousExample());
-        m_chooser.addOption("BarrelRun", new BarrelRacingAuto());
-        m_chooser.addOption("BouncePath", new BouncePathAuto());
-        m_chooser.addOption("Glactuic", new GalacticSearch());
-        m_chooser.addOption("Samon Path", new SlalomPathAuto());
+
+        // Add Autonomous Options
+        this.m_autoChooser.setDefaultOption("DEAD", new DeadAuto());
+        this.m_autoChooser.addOption("AUTONOMOUS_EXAMPLE", new AutonomousExample());
+        this.m_autoChooser.addOption("BARREL_RACING", new BarrelRacingAuto());
+        this.m_autoChooser.addOption("BOUNCE_PATH", new BouncePathAuto());
+        this.m_autoChooser.addOption("GALACTIC_SEARCH", new GalacticSearch());
+        this.m_autoChooser.addOption("SLALOM_PATH", new SlalomPathAuto());
+
         // Controller Bindings
         mapButtonBindings();
-
     }
 
     private void mapButtonBindings() {
@@ -127,7 +125,6 @@ public class RobotContainer {
      * @return The selected command.
      */
     public Command getAutonomousCommand() {
-        
-        return m_chooser.getSelected();
+        return this.m_autoChooser.getSelected();
     }
 }
