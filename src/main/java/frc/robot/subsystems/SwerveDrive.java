@@ -163,8 +163,6 @@ public class SwerveDrive extends SubsystemBase {
         double rSpeed = Math.sqrt(Math.pow(strafe, 2) + Math.pow(aValue, 2));
         double lSpeed = Math.sqrt(Math.pow(strafe, 2) + Math.pow(bValue, 2));
 
-        System.out.println(rSpeed + " " + lSpeed);
-
         // Get max of the two
         double max = Math.max(rSpeed, lSpeed);
 
@@ -177,8 +175,6 @@ public class SwerveDrive extends SubsystemBase {
         // Get the rotation angles
         double rAngle = Math.atan2(strafe, aValue) * 180 / Math.PI;
         double lAngle = Math.atan2(strafe, bValue) * 180 / Math.PI;
-
-        System.out.println(rAngle + " " + lAngle);
 
         // Send to modules
         this.m_right.set(rAngle, rSpeed);
