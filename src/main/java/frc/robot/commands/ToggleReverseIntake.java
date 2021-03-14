@@ -11,7 +11,7 @@ public class ToggleReverseIntake extends CommandBase {
     
     // Constructor
     public ToggleReverseIntake() {
-        addRequirements(Robot.intake);
+        // addRequirements(Robot.intake);
     }
 
     // Set Motor State to OFF / REVERSED

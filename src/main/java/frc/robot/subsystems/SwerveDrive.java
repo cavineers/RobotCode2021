@@ -109,6 +109,7 @@ public class SwerveDrive extends SubsystemBase {
 
             // Verify we don't overpower
             double maxMagnitude = Math.max(Math.abs(leftMotorOutput), Math.abs(rightMotorOutput));
+
             if (maxMagnitude > 1.0) {
                 leftMotorOutput /= maxMagnitude;
                 rightMotorOutput /= maxMagnitude;

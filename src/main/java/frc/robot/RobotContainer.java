@@ -1,6 +1,8 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -37,23 +39,32 @@ public class RobotContainer {
     public POVButton m_povRight = new POVButton(m_joy, 90, 0);
     public POVButton m_povDown = new POVButton(m_joy, 180, 0);
     public POVButton m_povLeft = new POVButton(m_joy, 270, 0);
-
-    // Selected Auto Command
-    // public String m_selectedCommand = "BOUNCE";
-    // public String m_selectedCommand = "SLALOM";
-    public String m_selectedCommand = "DEAD";
-
+   
     // Simulation Menu
     public boolean m_simMenu = false;
 
     // If the robot is field oriented
     public boolean m_fieldOriented = false;
 
+    // Autonomous Command Chooser
+    private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
+
     /**
      * Constructor for RobotContainer.
      */
     public RobotContainer() {
         Robot.logger.addInfo("RobotContainer", "Created RobotContainer");
+
+        // Add Autonomous Options
+        this.m_autoChooser.setDefaultOption("DEAD", new DeadAuto());
+        this.m_autoChooser.addOption("AUTONOMOUS_EXAMPLE", new AutonomousExample());
+        this.m_autoChooser.addOption("BARREL_RACING", new BarrelRacingAuto());
+        this.m_autoChooser.addOption("BOUNCE_PATH", new BouncePathAuto());
+        this.m_autoChooser.addOption("GALACTIC_SEARCH", new GalacticSearch());
+        this.m_autoChooser.addOption("SLALOM_PATH", new SlalomPathAuto());
+        
+        // Add SmartDashboard Automus Picker
+        SmartDashboard.putData("Autonomous Command", m_autoChooser);
 
         // Controller Bindings
         mapButtonBindings();
@@ -118,19 +129,6 @@ public class RobotContainer {
      * @return The selected command.
      */
     public Command getAutonomousCommand() {
-        switch (this.m_selectedCommand) {
-            case "GALACTIC_SEARCH":
-                return new GalacticSearch();
-            case "SLALOM":
-                return new SlalomPathAuto();
-            case "BOUNCE":
-                return new BouncePathAuto();
-            case "BARREL_RACING":
-                return new BarrelRacingAuto();
-            case "TEST":
-                return new AutonomousExample();
-            default:
-                return new DeadAuto();
-        }
+        return this.m_autoChooser.getSelected();
     }
 }

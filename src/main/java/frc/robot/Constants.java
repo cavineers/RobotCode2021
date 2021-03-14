@@ -120,13 +120,13 @@ public final class Constants {
         public static int kLeftDriveID = CanIds.kLeftDriveMotor;
         public static int kLeftRotateID = CanIds.kLeftRotateMotor;
         public static int kLeftEncoderID = CanIds.kLeftRotateEncoder;
-        public static int kLeftOffset = 0; // In Degrees // TODO: Get this val
+        public static int kLeftOffset = 217; // In Degrees
         
         // Right
         public static int kRightDriveID = CanIds.kRightDriveMotor;
         public static int kRightRotateID = CanIds.kRightRotateMotor;
         public static int kRightEncoderID = CanIds.kRightRotateEncoder;
-        public static int kRightOffset = 0; // In Degrees // TODO: Get this val
+        public static int kRightOffset = 274; // In Degrees
 
         // Kinematics & Odometry
         // TODO: GET ACTUAL MAX VELOCITY
@@ -136,8 +136,7 @@ public final class Constants {
         public static double kMaxRotateAcceleration = 30.0;
 
         // Rotation PID
-        // TODO: TUNE THESE
-        public static double kRotationPID_P = 1.0;
+        public static double kRotationPID_P = 0.0071;
         public static double kRotationPID_I = 0.0;
         public static double kRotationPID_D = 0.0;
 
