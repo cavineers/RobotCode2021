@@ -11,28 +11,28 @@ public class ToggleFeeder extends CommandBase {
 
     // Constructor
     public ToggleFeeder() {
-        // addRequirements(Robot.transportation);
+        this.addRequirements(Robot.transportation);
     }
 
     // Set Motor State to ON / OFF
     @Override
     public void initialize() {
         Robot.logger.addInfo("ToggleFeeder", "Feeder Toggle");
-        // if (Robot.transportation.getFeederMotorState() == Transportation.TransportMotorState.OFF) {
-        //     Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.ON);
-        // } else {
-        //     Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.OFF);
-        // }
+        if (Robot.transportation.getFeederMotorState() == Transportation.TransportMotorState.OFF) {
+            Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.ON);
+        } else {
+            Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.OFF);
+        }
     }
 
     @Override
     public void execute() {
-        // Robot.transportation.setPCLocation();
-        // if (Robot.transportation.getPCLocation() == 1.0) {
-        //     Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.ON);
-        // } else {
-        //     Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.OFF);
-        // }
+        Robot.transportation.setPCLocation();
+        if (Robot.transportation.getPCLocation() == 1.0) {
+            Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.ON);
+        } else {
+            Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.OFF);
+        }
     }
 
     @Override

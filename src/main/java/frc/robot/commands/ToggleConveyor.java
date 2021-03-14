@@ -11,26 +11,26 @@ public class ToggleConveyor extends CommandBase {
 
     // Constructor
     public ToggleConveyor() {
-        // addRequirements(Robot.transportation);
+        this.addRequirements(Robot.transportation);
     }
 
     // Set Motor State to ON / OFF
     @Override
     public void initialize() {
         Robot.logger.addInfo("ToggleConveyor", "Conveyor Toggle");
-        // if (Robot.transportation.getConveyorMotorState() == Transportation.TransportMotorState.OFF) {
-        //     Robot.transportation.setMotorStateConveyor(Transportation.TransportMotorState.ON);
-        // } else {
-        //     Robot.transportation.setMotorStateConveyor(Transportation.TransportMotorState.OFF);
-        // }
+        if (Robot.transportation.getConveyorMotorState() == Transportation.TransportMotorState.OFF) {
+            Robot.transportation.setMotorStateConveyor(Transportation.TransportMotorState.ON);
+        } else {
+            Robot.transportation.setMotorStateConveyor(Transportation.TransportMotorState.OFF);
+        }
     }
 
     @Override
     public void execute() {
-        // Robot.transportation.setPCLocation();
-        // if (Robot.transportation.getPCLocation() == 2.0 || Robot.transportation.getPCLocation() == 3.0) {
-        //     Robot.transportation.setMotorStateConveyor(Transportation.TransportMotorState.ON);
-        // }
+        Robot.transportation.setPCLocation();
+        if (Robot.transportation.getPCLocation() == 2.0 || Robot.transportation.getPCLocation() == 3.0) {
+            Robot.transportation.setMotorStateConveyor(Transportation.TransportMotorState.ON);
+        }
     }
 
     @Override

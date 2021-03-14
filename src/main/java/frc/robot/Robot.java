@@ -30,11 +30,11 @@ public class Robot extends TimedRobot {
     public static Limelight limelight;
 
     // Subsystems
-    // public static Hood hood;
-    // public static Intake intake;
-    // public static Shooter shooter;
+    public static Hood hood;
+    public static Intake intake;
+    public static Shooter shooter;
     public static SwerveDrive swerveDrive;
-    // public static Transportation transportation;
+    public static Transportation transportation;
 
     // Vision
     public static Vision vision;
@@ -70,11 +70,11 @@ public class Robot extends TimedRobot {
         gyro = new AHRS(Port.kMXP);
 
         // Subsystems
-        // hood = new Hood();
-        // intake = new Intake();
-        // shooter = new Shooter();
+        hood = new Hood();
+        intake = new Intake();
+        shooter = new Shooter();
         swerveDrive = new SwerveDrive();
-        // transportation = new Transportation();
+        transportation = new Transportation();
 
         // Vision
         vision = new Vision();

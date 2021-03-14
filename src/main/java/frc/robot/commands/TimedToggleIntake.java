@@ -22,14 +22,14 @@ public class TimedToggleIntake extends CommandBase {
      * @param time Time in seconds
      */
     public TimedToggleIntake(double time) {
-        // this.addRequirements(Robot.intake);
+        this.addRequirements(Robot.intake);
         this.m_time = time;
     }
 
     @Override
     public void initialize() {
         this.m_start = Timer.getFPGATimestamp();
-        // Robot.intake.setMotorState(IntakeMotorState.ON);
+        Robot.intake.setMotorState(IntakeMotorState.ON);
     }
 
     @Override
@@ -37,7 +37,7 @@ public class TimedToggleIntake extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        // Robot.intake.setMotorState(IntakeMotorState.OFF);
+        Robot.intake.setMotorState(IntakeMotorState.OFF);
     }
 
     @Override
