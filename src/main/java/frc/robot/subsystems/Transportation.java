@@ -13,7 +13,7 @@ import frc.robot.Robot;
  */
 public class Transportation extends SubsystemBase {
 
-    private int m_numPowerCells;
+    private int m_numPowerCells = 0;
 
     /**
      * Motor state of the transport subsystem.
