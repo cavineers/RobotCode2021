@@ -112,9 +112,9 @@ public class Transportation extends SubsystemBase {
     }
 
     /**
-     * Toggle the conveyor belt
+     * Toggle the conveyor belt.
      */
-    public void ToggleConveyor() {
+    public void toggleConveyor() {
         Robot.logger.addInfo("ToggleConveyor", "Conveyor Toggle");
         if (Robot.transportation.getConveyorMotorState() == TransportMotorState.OFF) {
             Robot.transportation.setMotorStateConveyor(TransportMotorState.ON);
@@ -124,9 +124,9 @@ public class Transportation extends SubsystemBase {
     }
 
     /**
-     * Toggle the feeder wheels
+     * Toggle the feeder wheels.
      */
-    public void ToggleFeeder() {
+    public void toggleFeeder() {
         Robot.logger.addInfo("ToggleFeeder", "Feeder Toggle");
         if (Robot.transportation.getFeederMotorState() == TransportMotorState.OFF) {
             Robot.transportation.setMotorStateFeeder(TransportMotorState.ON);
@@ -149,6 +149,7 @@ public class Transportation extends SubsystemBase {
 
     /**
      * Get the current transport state.
+
      * @return conveyor state
      */
     public TransportMotorState getConveyorMotorState() {
@@ -157,6 +158,7 @@ public class Transportation extends SubsystemBase {
 
     /**
      * Get the current transport state.
+
      * @return transport state
      */
     public TransportMotorState getFeederMotorState() {
@@ -164,7 +166,8 @@ public class Transportation extends SubsystemBase {
     }
 
     /**
-     * Gets current PowerCell Count
+     * Gets current PowerCell Count.
+
      * @return current count
      */
     public int getBallCount() {
@@ -180,10 +183,10 @@ public class Transportation extends SubsystemBase {
         SmartDashboard.putNumber("Current PowerCell Count", this.getBallCount());
 
         // Move PowerCell positions autonomously via sensor inputs
-        if(this.getBallCount() == 0) {
-            if(this.getSensorOneState()) {
+        if (this.getBallCount() == 0) {
+            if (this.getSensorOneState()) {
                 this.setMotorStateConveyor(TransportMotorState.ON);
-            } else if(this.getConveyorMotorState() == TransportMotorState.ON) {
+            } else if (this.getConveyorMotorState() == TransportMotorState.ON) {
                 this.setMotorStateConveyor(TransportMotorState.OFF);
                 this.m_numPowerCells = 1;
             }
