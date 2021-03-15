@@ -9,7 +9,9 @@ import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
  * Barrel Racing autonomous command.
  */
 public class BarrelRacingAuto extends CommandBase {
-    public BarrelRacingAuto() {}
+    public BarrelRacingAuto() {
+        this.addRequirements(Robot.swerveDrive);
+    }
 
     @Override
     public void initialize() {

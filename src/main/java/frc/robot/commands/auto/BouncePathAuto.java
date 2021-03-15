@@ -9,7 +9,9 @@ import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
  * Bounce path autonomous command.
  */
 public class BouncePathAuto extends CommandBase {
-    public BouncePathAuto() {}
+    public BouncePathAuto() {
+        this.addRequirements(Robot.swerveDrive);
+    }
 
     @Override
     public void initialize() {
