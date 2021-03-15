@@ -61,6 +61,11 @@ public class SwerveModule {
         // Send default angle to smart dashboard
         SmartDashboard.putNumber(this.m_settings.commonName() + "_Angle", 0.0);
 
+        // Set PID values
+        this.m_pidController.setP(Constants.Swerve.kRotationPID_P);
+        this.m_pidController.setI(Constants.Swerve.kRotationPID_I);
+        this.m_pidController.setD(Constants.Swerve.kRotationPID_D);
+
         // Send default PID values to SmartDashboard for testing
         // SmartDashboard.putNumber("rot_kP", Constants.Swerve.kRotationPID_P);
         // SmartDashboard.putNumber("rot_kI", Constants.Swerve.kRotationPID_I);
