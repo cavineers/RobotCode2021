@@ -62,10 +62,9 @@ public class SwerveModule {
         SmartDashboard.putNumber(this.m_settings.commonName() + "_Angle", 0.0);
 
         // Send default PID values to SmartDashboard for testing
-        // TODO: Comment this when done tuning
-        SmartDashboard.putNumber("rot_kP", Constants.Swerve.kRotationPID_P);
-        SmartDashboard.putNumber("rot_kI", Constants.Swerve.kRotationPID_I);
-        SmartDashboard.putNumber("rot_kD", Constants.Swerve.kRotationPID_D);
+        // SmartDashboard.putNumber("rot_kP", Constants.Swerve.kRotationPID_P);
+        // SmartDashboard.putNumber("rot_kI", Constants.Swerve.kRotationPID_I);
+        // SmartDashboard.putNumber("rot_kD", Constants.Swerve.kRotationPID_D);
 
         // Set encoder absolute position when started
         SmartDashboard.putNumber(this.m_settings.commonName() + "_absoluteValue", this.getRotation().getDegrees());
@@ -92,7 +91,6 @@ public class SwerveModule {
      */
     public void set(double angle, double speed) {
         // Read angle for tuning
-        // TODO: Comment this when finished tuning
         // angle = SmartDashboard.getNumber(this.m_settings.commonName() + "_Angle", 0.0);
         // speed = 0.5;
 
@@ -129,10 +127,9 @@ public class SwerveModule {
         }
         
         // Set PID Values
-        // TODO: Comment this when done tuning
-        this.m_pidController.setP(SmartDashboard.getNumber("rot_kP", 0.0));
-        this.m_pidController.setI(SmartDashboard.getNumber("rot_kI", 0.0));
-        this.m_pidController.setD(SmartDashboard.getNumber("rot_kD", 0.0));
+        // this.m_pidController.setP(SmartDashboard.getNumber("rot_kP", 0.0));
+        // this.m_pidController.setI(SmartDashboard.getNumber("rot_kI", 0.0));
+        // this.m_pidController.setD(SmartDashboard.getNumber("rot_kD", 0.0));
 
         // Current Setpoint
         this.m_rotationSetpoint = this.getRotation().plus(Rotation2d.fromDegrees(difference));
@@ -145,8 +142,6 @@ public class SwerveModule {
 
         // Output drive motor
         this.m_driveMotor.set(this.m_currentSpeed);
-
-        // System.out.println(this.m_currentSpeed);
 
         SmartDashboard.putNumber(this.m_settings.commonName() + "_percentOut", this.m_currentSpeed);
         SmartDashboard.putNumber(this.m_settings.commonName() + "_rotationSetpoint", this.m_rotationSetpoint.getDegrees());
