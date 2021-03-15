@@ -9,7 +9,9 @@ import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
  * Autonomous example command.
  */
 public class AutonomousExample extends CommandBase {
-    public AutonomousExample() {}
+    public AutonomousExample() {
+        this.addRequirements(Robot.swerveDrive);
+    }
 
     @Override
     public void initialize() {

@@ -12,7 +12,7 @@ public class TeleopDrive extends CommandBase {
     private boolean m_finished = false;
 
     public TeleopDrive() {
-        addRequirements(Robot.swerveDrive);
+        this.addRequirements(Robot.swerveDrive);
     }
 
     @Override

@@ -9,7 +9,9 @@ import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
  * Slalom autonomous path command.
  */
 public class SlalomPathAuto extends CommandBase {
-    public SlalomPathAuto() {}
+    public SlalomPathAuto() {
+        this.addRequirements(Robot.swerveDrive);
+    }
 
     @Override
     public void initialize() {
