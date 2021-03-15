@@ -172,6 +172,7 @@ public class SwerveDrive extends SubsystemBase {
             lSpeed /= max;
         }
 
+        // If robot is in teleop swerve, then apply deadzone to output to resolve drift
         if (this.m_state == SwerveDriveState.SWERVE) {
             rSpeed = Deadzone.apply(rSpeed, 0.1);
             lSpeed = Deadzone.apply(lSpeed, 0.1);
