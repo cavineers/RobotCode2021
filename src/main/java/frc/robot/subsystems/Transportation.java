@@ -136,15 +136,15 @@ public class Transportation extends SubsystemBase {
     }
 
     public boolean getSensorOneState() {
-        return m_sensorOne.get();
+        return !m_sensorOne.get();
     }
 
     public boolean getSensorTwoState() {
-        return m_sensorTwo.get();
+        return !m_sensorTwo.get();
     }
 
     public boolean getSensorThreeState() {
-        return m_sensorThree.get();
+        return !m_sensorThree.get();
     }
 
     /**
