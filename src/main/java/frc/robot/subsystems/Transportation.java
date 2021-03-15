@@ -13,7 +13,6 @@ import frc.robot.Robot;
  */
 public class Transportation extends SubsystemBase {
 
-    private int m_PCLocation;
     private int m_numPowerCells;
 
     /**
@@ -117,10 +116,10 @@ public class Transportation extends SubsystemBase {
      */
     public void ToggleConveyor() {
         Robot.logger.addInfo("ToggleConveyor", "Conveyor Toggle");
-        if (Robot.transportation.getConveyorMotorState() == Transportation.TransportMotorState.OFF) {
-            Robot.transportation.setMotorStateConveyor(Transportation.TransportMotorState.ON);
+        if (Robot.transportation.getConveyorMotorState() == TransportMotorState.OFF) {
+            Robot.transportation.setMotorStateConveyor(TransportMotorState.ON);
         } else {
-            Robot.transportation.setMotorStateConveyor(Transportation.TransportMotorState.OFF);
+            Robot.transportation.setMotorStateConveyor(TransportMotorState.OFF);
         }
     }
 
@@ -129,10 +128,10 @@ public class Transportation extends SubsystemBase {
      */
     public void ToggleFeeder() {
         Robot.logger.addInfo("ToggleFeeder", "Feeder Toggle");
-        if (Robot.transportation.getFeederMotorState() == Transportation.TransportMotorState.OFF) {
-            Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.ON);
+        if (Robot.transportation.getFeederMotorState() == TransportMotorState.OFF) {
+            Robot.transportation.setMotorStateFeeder(TransportMotorState.ON);
         } else {
-            Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.OFF);
+            Robot.transportation.setMotorStateFeeder(TransportMotorState.OFF);
         }
     }
 
@@ -165,26 +164,6 @@ public class Transportation extends SubsystemBase {
     }
 
     /**
-     * Get PowerCell Locations // TODO: MAKE THIS DYNAMIC TO MORE THAN JUST ONE PC
-     * @return PowerCell location from 1 - 3
-     */
-    public int getPCLocation() {
-        return this.m_PCLocation;
-    }
-
-    public void setPCLocation() {
-        if (getSensorOneState() == true) {
-            this.m_PCLocation = 1;
-        } else if (getSensorTwoState() == true) {
-            this.m_PCLocation = 2;
-        } else if (getSensorThreeState() == true) {
-            this.m_PCLocation = 3;
-        } else {
-            this.m_PCLocation = 0;
-        }
-    }
-
-    /**
      * Gets current PowerCell Count
      * @return current count
      */
@@ -192,25 +171,22 @@ public class Transportation extends SubsystemBase {
         return this.m_numPowerCells;
     }
 
-    public void setBallCount() {
-        this.m_numPowerCells = 0;
-        if (getSensorOneState() == true) {
-            this.m_numPowerCells++;
-        }
-        if (getSensorTwoState() == true) {
-            this.m_numPowerCells++;
-        }
-        if (getSensorThreeState() == true) {
-            this.m_numPowerCells++;
-        }
-    }
-
     /**
      * Transportation periodic.
      */
     @Override
     public void periodic() {
-        setBallCount();
-        SmartDashboard.putNumber("Current PowerCell Count", this.m_numPowerCells);
+        // Set PowerCell count
+        SmartDashboard.putNumber("Current PowerCell Count", this.getBallCount());
+
+        // Move PowerCell positions autonomously via sensor inputs
+        if(this.getBallCount() == 0) {
+            if(this.getSensorOneState()) {
+                this.setMotorStateConveyor(TransportMotorState.ON);
+            } else if(this.getConveyorMotorState() == TransportMotorState.ON) {
+                this.setMotorStateConveyor(TransportMotorState.OFF);
+                this.m_numPowerCells = 1;
+            }
+        } // TODO: Add more BallCount options (1, 2, 3)
     }
 }
