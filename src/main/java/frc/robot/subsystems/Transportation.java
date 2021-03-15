@@ -185,9 +185,9 @@ public class Transportation extends SubsystemBase {
         // Move PowerCell positions autonomously via sensor inputs
         if (this.getBallCount() == 0) {
             if (this.getSensorOneState()) {
-                this.setMotorStateConveyor(TransportMotorState.ON);
+                // this.setMotorStateConveyor(TransportMotorState.ON); // TODO: Re-enable when complete
             } else if (this.getConveyorMotorState() == TransportMotorState.ON) {
-                this.setMotorStateConveyor(TransportMotorState.OFF);
+                // this.setMotorStateConveyor(TransportMotorState.OFF); // TODO: same here
                 this.m_numPowerCells = 1;
             }
         } // TODO: Add more BallCount options (1, 2, 3)
