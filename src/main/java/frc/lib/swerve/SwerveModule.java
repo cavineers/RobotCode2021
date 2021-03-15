@@ -163,7 +163,7 @@ public class SwerveModule {
         SmartDashboard.putNumber(this.m_settings.commonName() + "_encoderVal", this.getRotation().getDegrees());
 
         return new SwerveModuleState(
-            this.m_currentSpeed * Constants.Swerve.kMaxVelocity,
+            -this.m_currentSpeed * Constants.Swerve.kMaxVelocity,
             this.getRotation()
         );
     }

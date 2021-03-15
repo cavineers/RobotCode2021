@@ -129,8 +129,7 @@ public final class Constants {
         public static int kRightOffset = 274; // In Degrees
 
         // Kinematics & Odometry
-        // TODO: GET ACTUAL MAX VELOCITY
-        public static double kMaxVelocity = Units.feetToMeters(7.0); // In Feet Per Second (converted to meters)
+        public static double kMaxVelocity = Units.feetToMeters(12.40876); // In Feet Per Second (converted to meters)
 
         public static double kMaxRotateSpeed = 150.0; // In Degrees Per Second
         public static double kMaxRotateAcceleration = 30.0;
@@ -142,13 +141,13 @@ public final class Constants {
 
         // Position PID
         // TODO: TUNE THESE
-        public static double kPositionPID_P = 10.0;
+        public static double kPositionPID_P = 1.0;
         public static double kPositionPID_I = 0.0;
         public static double kPositionPID_D = 0.00000005;
 
         // Angle PID
         // TODO: TUNE THESE
-        public static double kAnglePID_P = 0.03;
+        public static double kAnglePID_P = 0.000000001;
         public static double kAnglePID_I = 0.0;
         public static double kAnglePID_D = 0.0;
 
