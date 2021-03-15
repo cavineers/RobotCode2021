@@ -38,7 +38,7 @@ public class SwerveDrive extends SubsystemBase {
      * Swerve Drive state.
      */
     public enum SwerveDriveState {
-        SWERVE, CURVATURE, PATH
+        SWERVE, CURVATURE, PATH, OTHER_AUTO
     }
 
     // Current Swerve State
@@ -130,7 +130,7 @@ public class SwerveDrive extends SubsystemBase {
      * @param isFieldOriented Whether it's based on the field or robot
      */
     public void swerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
-        if (this.m_state == SwerveDriveState.SWERVE) {
+        if (this.m_state == SwerveDriveState.SWERVE || this.m_state == SwerveDriveState.OTHER_AUTO) {
             this.localSwerve(forward, strafe, rotate, isFieldOriented);
         }
     }
@@ -170,6 +170,11 @@ public class SwerveDrive extends SubsystemBase {
         if (max > 1.0) {
             rSpeed /= max;
             lSpeed /= max;
+        }
+
+        if (this.m_state == SwerveDriveState.SWERVE) {
+            rSpeed = Deadzone.apply(rSpeed, 0.1);
+            lSpeed = Deadzone.apply(lSpeed, 0.1);
         }
 
         // Get the rotation angles
