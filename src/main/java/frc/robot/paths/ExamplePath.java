@@ -27,7 +27,15 @@ public class ExamplePath extends Path {
         // this.add(0.0, 65.0, 0.0, 1, 1);
         
         // Straight Line
-        this.add(96.0, 0.0, 0.0, 1, 1);
+        // this.add(96.0, 0.0, 0.0, 1, 1);
+
+        // Rotate
+        // this.add(0.0, 0.0, 90.0, 10.0, 1.0);
+
+        // Simple Test
+        this.add(100.0, 0.0, 90.0, 3.0, 2.0);
+        this.add(0.0, -40.0, 180.0, 3.0, 2.0);
+        this.add(30.0, 0.0, -180.0, 3.0, 2.0);
 
         this.finish();
     }

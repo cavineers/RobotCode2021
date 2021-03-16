@@ -34,6 +34,9 @@ public class SwerveModule {
     private double m_currentSpeed = 0.0;
     private Rotation2d m_rotationSetpoint = new Rotation2d();
 
+    private double m_angle = 0.0;
+    private double m_speed = 0.0;
+
     /**
      * Constructor.
 
@@ -50,13 +53,16 @@ public class SwerveModule {
         // Init encoder
         this.m_encoder = new CANCoder(this.m_settings.getEncoderId());
 
-        // Restore factory defaults
-        this.m_rotationMotor.restoreFactoryDefaults();
+        // Configure Motors
+        this.m_rotationMotor.setIdleMode(IdleMode.kBrake);
+        this.m_driveMotor.setIdleMode(IdleMode.kBrake);
 
-        // Set to coast mode
-        this.m_rotationMotor.setIdleMode(IdleMode.kCoast);
+        this.m_rotationMotor.setSmartCurrentLimit(38);
+        this.m_driveMotor.setSmartCurrentLimit(38);
 
         this.m_pidController = new PIDController(Constants.Swerve.kRotationPID_P, Constants.Swerve.kRotationPID_I, Constants.Swerve.kRotationPID_D);
+
+        this.m_pidController.setTolerance(Constants.Swerve.kRotationPID_T);
 
         // Send default angle to smart dashboard
         SmartDashboard.putNumber(this.m_settings.commonName() + "_Angle", 0.0);
@@ -98,6 +104,19 @@ public class SwerveModule {
         // Read angle for tuning
         // angle = SmartDashboard.getNumber(this.m_settings.commonName() + "_Angle", 0.0);
         // speed = 0.5;
+
+        this.m_angle = angle;
+        this.m_speed = speed;
+
+        this.periodic();
+    }
+
+    /**
+     * Run module periodic.
+     */
+    public void periodic() {
+        double angle = this.m_angle;
+        double speed = this.m_speed;
 
         // Current offset
         double currentOffset = this.getRotation().getDegrees();

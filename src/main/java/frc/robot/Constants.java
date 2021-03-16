@@ -137,19 +137,20 @@ public final class Constants {
         // Rotation PID
         public static double kRotationPID_P = 0.0071;
         public static double kRotationPID_I = 0.0;
-        public static double kRotationPID_D = 0.0;
+        public static double kRotationPID_D = 0.0002;
+        public static double kRotationPID_T = 1.0;
 
         // Position PID
         // TODO: TUNE THESE
-        public static double kPositionPID_P = 1.0;
+        public static double kPositionPID_P = 0.8;
         public static double kPositionPID_I = 0.0;
-        public static double kPositionPID_D = 0.00000005;
+        public static double kPositionPID_D = 0.0001;
 
         // Angle PID
         // TODO: TUNE THESE
-        public static double kAnglePID_P = 0.000000001;
+        public static double kAnglePID_P = 0.01;
         public static double kAnglePID_I = 0.0;
-        public static double kAnglePID_D = 0.0;
+        public static double kAnglePID_D = 0.001;
 
         // Track Width
         public static double kTrackWidth = Sizing.kTrackWidthMeters;
