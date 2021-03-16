@@ -147,9 +147,8 @@ public class SwerveDrive extends SubsystemBase {
             double cos = Math.cos(this.getAngle().getRadians());
 
             // Translate forward/strafe based on conversions
-            double vT = (forward * cos) + (strafe * sin);
+            forward = (forward * cos) + (strafe * sin);
             strafe = (-forward * sin) + (strafe * cos);
-            forward = vT;
         }
 
         // Update simulation angle
