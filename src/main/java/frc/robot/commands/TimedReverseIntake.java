@@ -22,7 +22,7 @@ public class TimedReverseIntake extends CommandBase {
      * @param time Time in seconds
      */
     public TimedReverseIntake(double time) {
-        // this.addRequirements(Robot.intake);
+        this.addRequirements(Robot.intake);
         this.m_time = time;
     }
 

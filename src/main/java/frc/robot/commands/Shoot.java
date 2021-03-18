@@ -22,7 +22,9 @@ public class Shoot extends CommandBase {
 
     private double m_timestamp;
 
-    public Shoot() {}
+    public Shoot() {
+        this.addRequirements(Robot.shooter, Robot.transportation);
+    }
     
     @Override
     public void initialize() {

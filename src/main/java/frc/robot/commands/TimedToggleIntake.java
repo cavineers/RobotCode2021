@@ -22,7 +22,7 @@ public class TimedToggleIntake extends CommandBase {
      * @param time Time in seconds
      */
     public TimedToggleIntake(double time) {
-        // this.addRequirements(Robot.intake);
+        this.addRequirements(Robot.intake);
         this.m_time = time;
     }
 
