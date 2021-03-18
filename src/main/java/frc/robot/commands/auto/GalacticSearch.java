@@ -32,6 +32,7 @@ public class GalacticSearch extends CommandBase {
         //Turns Intake Subsystem On.
         new ToggleIntake();
 
+        // PID setup.
         m_td.setTolerance(Constants.ObjVision.kDistancePID_Tolerance);
         m_a.setTolerance(Constants.ObjVision.kXPID_Tolerance);
 
