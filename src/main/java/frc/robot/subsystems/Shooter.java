@@ -100,6 +100,15 @@ public class Shooter extends SubsystemBase {
     }
 
     /**
+     * Get the desired speed of the shooter.
+
+     * @return Get RPM.
+     */
+    public double getSpeed() {
+        return this.m_speed;
+    }
+
+    /**
      * Is the speed at the setpoint.
 
      * @return at setpoint

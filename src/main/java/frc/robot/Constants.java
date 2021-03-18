@@ -68,6 +68,10 @@ public final class Constants {
         public static double kPIDf = 0.00002;
         public static double kMaxRPM = 5500;
         public static int kCurrentLimit = 39;
+
+        public static double kAdjustPIDp = 0.0;
+        public static double kAdjustPIDi = 0.0;
+        public static double kAdjustPIDd = 0.0;
     }
 
     /**

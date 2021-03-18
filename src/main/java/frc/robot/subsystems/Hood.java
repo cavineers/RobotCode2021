@@ -88,7 +88,7 @@ public class Hood extends PIDSubsystem {
      * @param x Value to check
      * @return True if within minimum & maximum bounds
      */
-    public boolean withinBounds(double x) {
+    public static boolean withinBounds(double x) {
         return (x >= Constants.Hood.kMinimumAngle && x <= Constants.Hood.kMaximumAngle);
     }
 
