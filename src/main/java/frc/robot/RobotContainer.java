@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.commands.Shoot;
 import frc.robot.commands.TimedReverseIntake;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.auto.AutonomousExample;
@@ -63,7 +64,7 @@ public class RobotContainer {
         this.m_autoChooser.addOption("GALACTIC_SEARCH", new GalacticSearch());
         this.m_autoChooser.addOption("SLALOM_PATH", new SlalomPathAuto());
         
-        // Add SmartDashboard Automus Picker
+        // Add SmartDashboard Autonomous Picker
         SmartDashboard.putData("Autonomous Command", m_autoChooser);
 
         // Controller Bindings
@@ -82,6 +83,9 @@ public class RobotContainer {
 
         // ReverseIntake on bButton
         this.m_bButton.whenPressed(new TimedReverseIntake(1));
+
+        // Shoot
+        this.m_aButton.whenPressed(new Shoot());
 
         this.m_povDown.whenPressed(new InstantCommand() {
             @Override
