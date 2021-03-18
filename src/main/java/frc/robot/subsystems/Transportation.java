@@ -174,6 +174,10 @@ public class Transportation extends SubsystemBase {
         return this.m_numPowerCells;
     }
 
+    public void setBallCount(int ballCount) {
+        this.m_numPowerCells = ballCount;
+    }
+
     /**
      * Transportation periodic.
      */
@@ -184,12 +188,48 @@ public class Transportation extends SubsystemBase {
 
         // Move PowerCell positions autonomously via sensor inputs
         if (this.getBallCount() == 0) {
+            // Check sensor one input.
             if (this.getSensorOneState()) {
-                // this.setMotorStateConveyor(TransportMotorState.ON); // TODO: Re-enable when complete
+                // Turn on conveyor systems.
+                this.setMotorStateConveyor(TransportMotorState.ON);
             } else if (this.getConveyorMotorState() == TransportMotorState.ON) {
-                // this.setMotorStateConveyor(TransportMotorState.OFF); // TODO: same here
-                this.m_numPowerCells = 1;
+                // Turn off conveyor systems.
+                this.setMotorStateConveyor(TransportMotorState.OFF);
+                this.setBallCount(1);
             }
-        } // TODO: Add more BallCount options (1, 2, 3)
+        } else if (this.getBallCount() == 1) {
+            // Check sensor one input.
+            if (this.getSensorOneState()) {
+                // Turn on conveyor systems.
+                this.setMotorStateConveyor(TransportMotorState.ON);
+            } else if (!this.getSensorTwoState() && this.getConveyorMotorState() == TransportMotorState.ON) {
+                // Turn off conveyor systems.
+                this.setMotorStateConveyor(TransportMotorState.OFF);
+                this.setBallCount(2);
+            }
+        } else if (this.getBallCount() == 2) {
+            boolean sensorTwoTripped = false;
+            boolean sensorThreeTripped = false;
+            // Check sensor one input.
+            if (this.getSensorOneState()) {
+                // Turn on conveyor / feeder systems.
+                this.setMotorStateConveyor(TransportMotorState.ON);
+                this.setMotorStateFeeder(TransportMotorState.ON);
+            } else if (!this.getSensorTwoState() && !this.getSensorThreeState() && !this.getSensorOneState() && sensorTwoTripped == true
+                       && sensorThreeTripped == true && this.getConveyorMotorState() == TransportMotorState.ON) {
+                // Turn off conveyor / feeder systems.
+                this.setMotorStateConveyor(TransportMotorState.OFF);
+                this.setBallCount(3);
+            }
+            if (this.getSensorTwoState()) {
+                sensorTwoTripped = true;
+            }
+            if (this.getSensorThreeState()) {
+                sensorThreeTripped = true;
+            }
+            if(sensorThreeTripped == true && this.getFeederMotorState() == TransportMotorState.ON && !this.getSensorThreeState()) {
+                this.setMotorStateFeeder(TransportMotorState.OFF);
+            }
+        }
     }
 }
