@@ -70,11 +70,11 @@ public class Robot extends TimedRobot {
         gyro = new AHRS(Port.kMXP);
 
         // Subsystems
-        // hood = new Hood();
-        // intake = new Intake();
-        // shooter = new Shooter();
+        hood = new Hood();
+        intake = new Intake();
+        shooter = new Shooter();
         swerveDrive = new SwerveDrive();
-        // transportation = new Transportation();
+        transportation = new Transportation();
 
         // Vision
         vision = new Vision();
