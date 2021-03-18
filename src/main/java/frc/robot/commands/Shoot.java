@@ -44,7 +44,7 @@ public class Shoot extends CommandBase {
         if (this.m_adjustmentPid.atSetpoint()) {
             if (Robot.transportation.getBallCount() >= 1) {
                 double angle = ShooterUtil.calculateHoodAngle(Robot.shooter.getSpeed(), Constants.Vision.kFieldGoalHeightFromGround);
-                if (Hood.withinBounds(angle)) {
+                if (ShooterUtil.withinBounds(angle)) {
                     Robot.hood.findTargetPosition(Robot.shooter.getSpeed());
                     if (Robot.hood.atTarget() && Robot.shooter.closeEnough()) {
                         if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {

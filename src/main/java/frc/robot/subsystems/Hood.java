@@ -64,7 +64,7 @@ public class Hood extends PIDSubsystem {
      */
     public boolean findTargetPosition(double velocity) {
         double angle = ShooterUtil.calculateHoodAngle(velocity, Constants.Vision.kFieldGoalHeightFromGround);
-        if (withinBounds(angle)) {
+        if (ShooterUtil.withinBounds(angle)) {
             this.turnToAngle(angle);
             return true;
         } else {
@@ -79,17 +79,6 @@ public class Hood extends PIDSubsystem {
     public void useOutput(double output, double setpoint) {
         // Output
         this.m_hoodMotor.set(MathUtil.clamp(-output, -Constants.Hood.kMaxSpeed, Constants.Hood.kMaxSpeed));
-    }
-    
-
-    /**
-     * Check if angle is within the allowed bounds.
-
-     * @param x Value to check
-     * @return True if within minimum & maximum bounds
-     */
-    public static boolean withinBounds(double x) {
-        return (x >= Constants.Hood.kMinimumAngle && x <= Constants.Hood.kMaximumAngle);
     }
 
     /**
