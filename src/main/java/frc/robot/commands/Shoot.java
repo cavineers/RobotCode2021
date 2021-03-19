@@ -6,7 +6,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.ShooterUtil;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Transportation;
 
