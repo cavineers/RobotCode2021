@@ -7,16 +7,25 @@ import frc.robot.Robot;
  * Reset robot to defined position.
  */
 public class ResetRobot extends InstantCommand {
-    private double m_xpos;
-    private double m_ypos;
+    private double m_xPos;
+    private double m_yPos;
+    private double m_rPos;
 
-    public ResetRobot(double x, double y) {
-        this.m_xpos = x;
-        this.m_ypos = y;
+    /**
+     * Set the robot's position (simulation usage only).
+
+     * @param x X Position
+     * @param y Y Position
+     * @param r R Angle
+     */
+    public ResetRobot(double x, double y, double r) {
+        this.m_xPos = x;
+        this.m_yPos = y;
+        this.m_rPos = r;
     }
 
     @Override
     public void initialize() {
-        Robot.swerveDrive.resetPosition(this.m_xpos, this.m_ypos);
+        Robot.swerveDrive.resetPosition(this.m_xPos, this.m_yPos, this.m_rPos);
     }
 }
