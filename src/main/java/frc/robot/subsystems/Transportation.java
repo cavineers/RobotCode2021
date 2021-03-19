@@ -29,8 +29,8 @@ public class Transportation extends SubsystemBase {
     private TalonSRX m_feederMotor = new TalonSRX(Constants.Transportation.kFeederID);
 
     // Current transportation mode
-    private TransportMotorState m_currentModeFeeder = TransportMotorState.OFF;
-    private TransportMotorState m_currentModeConveyor = TransportMotorState.OFF;
+    private TransportMotorState m_currentFeederMode = TransportMotorState.OFF;
+    private TransportMotorState m_currentConveyorMode = TransportMotorState.OFF;
 
     // Three Sensors for the conveyor / feeder belt
     private DigitalInput m_sensorOne = new DigitalInput(Constants.Dio.kConveyorSensor1);
@@ -53,8 +53,14 @@ public class Transportation extends SubsystemBase {
      * @param state wanted transport state
      */
     public void setConveyorMotorState(TransportMotorState state) {
+        // Don't set the same state repeatedly (also prevents spamming logs)
+        if (this.m_currentConveyorMode == state) {
+            return;
+        }
+
         // set the current state
-        this.m_currentModeConveyor = state;
+        this.m_currentConveyorMode = state;
+
         // Log
         Robot.logger.addInfo("Transportation", "Conveyor Motor State Changed To " + state);
 
@@ -84,8 +90,13 @@ public class Transportation extends SubsystemBase {
      * @param state wanted transport state
      */
     public void setFeederMotorState(TransportMotorState state) {
+        // Don't set the same state repeatedly (also prevents spamming logs)
+        if (this.m_currentFeederMode == state) {
+            return;
+        }
+
         // set the current state
-        this.m_currentModeFeeder = state;
+        this.m_currentFeederMode = state;
         
         // Log
         Robot.logger.addInfo("Transportation", "Feeder Motor State Changed To " + state);
@@ -152,7 +163,7 @@ public class Transportation extends SubsystemBase {
      * @return conveyor state
      */
     public TransportMotorState getConveyorMotorState() {
-        return this.m_currentModeConveyor;
+        return this.m_currentConveyorMode;
     }
 
     /**
@@ -161,7 +172,7 @@ public class Transportation extends SubsystemBase {
      * @return transport state
      */
     public TransportMotorState getFeederMotorState() {
-        return this.m_currentModeFeeder;
+        return this.m_currentFeederMode;
     }
 
     /**
