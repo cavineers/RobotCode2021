@@ -91,7 +91,7 @@ public class RobotContainer {
             @Override
             public void initialize() {
                 if (Robot.robotContainer.m_simMenu) {
-                    new ResetRobot(0, 0).schedule();
+                    new ResetRobot(0, 0, 0).schedule();
                 }
                 Robot.robotContainer.m_simMenu = false;
             }
@@ -101,7 +101,7 @@ public class RobotContainer {
             @Override
             public void initialize() {
                 if (Robot.robotContainer.m_simMenu) {
-                    new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(30)).schedule();
+                    new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(30), 0).schedule();
                 }
                 Robot.robotContainer.m_simMenu = false;
             }
@@ -111,7 +111,7 @@ public class RobotContainer {
             @Override
             public void initialize() {
                 if (Robot.robotContainer.m_simMenu) {
-                    new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(90)).schedule();
+                    new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(90), 0).schedule();
                 }
                 Robot.robotContainer.m_simMenu = false;
             }

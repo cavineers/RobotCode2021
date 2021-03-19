@@ -187,10 +187,10 @@ public class SwerveDrive extends SubsystemBase {
     /**
      * Reset the position of the robot.
      */
-    public void resetPosition(double x, double y) {
-        this.m_odometry = new SwerveDriveOdometry(this.m_kinematics, this.getAngle(),
+    public void resetPosition(double x, double y, double r) {
+        this.m_odometry = new SwerveDriveOdometry(this.m_kinematics, Rotation2d.fromDegrees(r),
                 new Pose2d(x, y, new Rotation2d()));
-        this.m_simulationAngle = 0.0;
+        this.m_simulationAngle = r;
         Robot.logger.addInfo("Swerve", "Reset robot's position");
     }
 
