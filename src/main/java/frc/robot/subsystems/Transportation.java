@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -25,8 +25,8 @@ public class Transportation extends SubsystemBase {
     }
 
     // Motor Imports
-    private TalonSRX m_conveyorMotor = new TalonSRX(Constants.Transportation.kConveyorID);
-    private TalonSRX m_feederMotor = new TalonSRX(Constants.Transportation.kFeederID);
+    private WPI_TalonSRX m_conveyorMotor = new WPI_TalonSRX(Constants.Transportation.kConveyorID);
+    private WPI_TalonSRX m_feederMotor = new WPI_TalonSRX(Constants.Transportation.kFeederID);
 
     // Current transportation mode
     private TransportMotorState m_currentFeederMode = TransportMotorState.OFF;

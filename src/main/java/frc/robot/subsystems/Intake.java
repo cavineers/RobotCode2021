@@ -1,7 +1,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
-import com.ctre.phoenix.motorcontrol.can.TalonSRX;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -20,7 +20,7 @@ public class Intake extends SubsystemBase {
     }
 
     // Talon SRX Motor
-    private TalonSRX m_intakeMotor = new TalonSRX(Constants.Intake.kIntakeID);
+    private WPI_TalonSRX m_intakeMotor = new WPI_TalonSRX(Constants.Intake.kIntakeID);
 
     // Current intake mode
     private IntakeMotorState m_currentMode = IntakeMotorState.OFF;
