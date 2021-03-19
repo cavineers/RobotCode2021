@@ -227,7 +227,7 @@ public class Transportation extends SubsystemBase {
             if (this.getSensorThreeState()) {
                 sensorThreeTripped = true;
             }
-            if(sensorThreeTripped == true && this.getFeederMotorState() == TransportMotorState.ON && !this.getSensorThreeState()) {
+            if (sensorThreeTripped == true && this.getFeederMotorState() == TransportMotorState.ON && !this.getSensorThreeState()) {
                 this.setMotorStateFeeder(TransportMotorState.OFF);
             }
         }
