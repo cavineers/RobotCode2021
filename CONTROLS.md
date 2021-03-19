@@ -15,3 +15,5 @@
 **B-Button** => Reverse Intake
 
 **A-Button** => Autonomous Shoot
+
+**R-Menu** => Toggle Flush
