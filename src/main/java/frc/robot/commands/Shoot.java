@@ -47,10 +47,10 @@ public class Shoot extends CommandBase {
                     Robot.hood.findTargetPosition(Robot.shooter.getSpeed());
                     if (Robot.hood.atTarget() && Robot.shooter.closeEnough()) {
                         if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
-                            Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.ON);
+                            Robot.transportation.setFeederMotorState(Transportation.TransportMotorState.ON);
                         }
                         if (Robot.transportation.getConveyorMotorState() != Transportation.TransportMotorState.ON) {
-                            Robot.transportation.setMotorStateConveyor(Transportation.TransportMotorState.ON);
+                            Robot.transportation.setConveyorMotorState(Transportation.TransportMotorState.ON);
                         }
                         if (Robot.transportation.getSensorThreeState() == false && this.m_prevSensor) {
                             // Robot.transportation.setBallCount(Robot.transportation.getBallCount() - 1); // TODO: add
@@ -79,8 +79,8 @@ public class Shoot extends CommandBase {
     @Override
     public void end(boolean interrupted) {
         Robot.shooter.disable();
-        Robot.transportation.setMotorStateFeeder(Transportation.TransportMotorState.OFF);
-        Robot.transportation.setMotorStateConveyor(Transportation.TransportMotorState.OFF);
+        Robot.transportation.setFeederMotorState(Transportation.TransportMotorState.OFF);
+        Robot.transportation.setConveyorMotorState(Transportation.TransportMotorState.OFF);
     }
     
     @Override

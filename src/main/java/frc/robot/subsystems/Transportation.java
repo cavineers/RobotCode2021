@@ -41,8 +41,8 @@ public class Transportation extends SubsystemBase {
      * Transportation constructor.
      */
     public Transportation() {
-        this.setMotorStateConveyor(TransportMotorState.OFF);
-        this.setMotorStateFeeder(TransportMotorState.OFF);
+        this.setConveyorMotorState(TransportMotorState.OFF);
+        this.setFeederMotorState(TransportMotorState.OFF);
 
         Robot.logger.addInfo("Transportation", "Created Transportation subsystem");
     }
@@ -52,10 +52,9 @@ public class Transportation extends SubsystemBase {
 
      * @param state wanted transport state
      */
-    public void setMotorStateConveyor(TransportMotorState state) {
+    public void setConveyorMotorState(TransportMotorState state) {
         // set the current state
         this.m_currentModeConveyor = state;
-        
         // Log
         Robot.logger.addInfo("Transportation", "Conveyor Motor State Changed To " + state);
 
@@ -74,7 +73,7 @@ public class Transportation extends SubsystemBase {
                 this.m_conveyorMotor.set(ControlMode.PercentOutput, Constants.Transportation.kOutSpeedConveyor);
                 break;
             default:
-                this.setMotorStateConveyor(TransportMotorState.OFF);
+                this.setConveyorMotorState(TransportMotorState.OFF);
                 break;
         }
     }
@@ -84,7 +83,7 @@ public class Transportation extends SubsystemBase {
 
      * @param state wanted transport state
      */
-    public void setMotorStateFeeder(TransportMotorState state) {
+    public void setFeederMotorState(TransportMotorState state) {
         // set the current state
         this.m_currentModeFeeder = state;
         
@@ -106,7 +105,7 @@ public class Transportation extends SubsystemBase {
                 this.m_feederMotor.set(ControlMode.PercentOutput, Constants.Transportation.kOutSpeedFeeder);
                 break;
             default:
-                this.setMotorStateFeeder(TransportMotorState.OFF);
+                this.setFeederMotorState(TransportMotorState.OFF);
                 break;
         }
     }
@@ -117,9 +116,9 @@ public class Transportation extends SubsystemBase {
     public void toggleConveyor() {
         Robot.logger.addInfo("ToggleConveyor", "Conveyor Toggle");
         if (Robot.transportation.getConveyorMotorState() == TransportMotorState.OFF) {
-            Robot.transportation.setMotorStateConveyor(TransportMotorState.ON);
+            Robot.transportation.setConveyorMotorState(TransportMotorState.ON);
         } else {
-            Robot.transportation.setMotorStateConveyor(TransportMotorState.OFF);
+            Robot.transportation.setConveyorMotorState(TransportMotorState.OFF);
         }
     }
 
@@ -129,9 +128,9 @@ public class Transportation extends SubsystemBase {
     public void toggleFeeder() {
         Robot.logger.addInfo("ToggleFeeder", "Feeder Toggle");
         if (Robot.transportation.getFeederMotorState() == TransportMotorState.OFF) {
-            Robot.transportation.setMotorStateFeeder(TransportMotorState.ON);
+            Robot.transportation.setFeederMotorState(TransportMotorState.ON);
         } else {
-            Robot.transportation.setMotorStateFeeder(TransportMotorState.OFF);
+            Robot.transportation.setFeederMotorState(TransportMotorState.OFF);
         }
     }
 
@@ -191,20 +190,20 @@ public class Transportation extends SubsystemBase {
             // Check sensor one input.
             if (this.getSensorOneState()) {
                 // Turn on conveyor systems.
-                this.setMotorStateConveyor(TransportMotorState.ON);
+                this.setConveyorMotorState(TransportMotorState.ON);
             } else if (this.getConveyorMotorState() == TransportMotorState.ON) {
                 // Turn off conveyor systems.
-                this.setMotorStateConveyor(TransportMotorState.OFF);
+                this.setConveyorMotorState(TransportMotorState.OFF);
                 this.setBallCount(1);
             }
         } else if (this.getBallCount() == 1) {
             // Check sensor one input.
             if (this.getSensorOneState()) {
                 // Turn on conveyor systems.
-                this.setMotorStateConveyor(TransportMotorState.ON);
+                this.setConveyorMotorState(TransportMotorState.ON);
             } else if (!this.getSensorTwoState() && this.getConveyorMotorState() == TransportMotorState.ON) {
                 // Turn off conveyor systems.
-                this.setMotorStateConveyor(TransportMotorState.OFF);
+                this.setConveyorMotorState(TransportMotorState.OFF);
                 this.setBallCount(2);
             }
         } else if (this.getBallCount() == 2) {
@@ -213,12 +212,12 @@ public class Transportation extends SubsystemBase {
             // Check sensor one input.
             if (this.getSensorOneState()) {
                 // Turn on conveyor / feeder systems.
-                this.setMotorStateConveyor(TransportMotorState.ON);
-                this.setMotorStateFeeder(TransportMotorState.ON);
+                this.setConveyorMotorState(TransportMotorState.ON);
+                this.setFeederMotorState(TransportMotorState.ON);
             } else if (!this.getSensorTwoState() && !this.getSensorThreeState() && !this.getSensorOneState() && sensorTwoTripped == true
                        && sensorThreeTripped == true && this.getConveyorMotorState() == TransportMotorState.ON) {
                 // Turn off conveyor / feeder systems.
-                this.setMotorStateConveyor(TransportMotorState.OFF);
+                this.setConveyorMotorState(TransportMotorState.OFF);
                 this.setBallCount(3);
             }
             if (this.getSensorTwoState()) {
@@ -228,7 +227,7 @@ public class Transportation extends SubsystemBase {
                 sensorThreeTripped = true;
             }
             if (sensorThreeTripped == true && this.getFeederMotorState() == TransportMotorState.ON && !this.getSensorThreeState()) {
-                this.setMotorStateFeeder(TransportMotorState.OFF);
+                this.setFeederMotorState(TransportMotorState.OFF);
             }
         }
     }
