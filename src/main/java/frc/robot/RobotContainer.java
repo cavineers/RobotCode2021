@@ -8,9 +8,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.commands.Flush;
 import frc.robot.commands.Shoot;
-import frc.robot.commands.TimedReverseIntake;
 import frc.robot.commands.ToggleIntake;
+import frc.robot.commands.TimedReverseIntake;
 import frc.robot.commands.auto.AutonomousExample;
 import frc.robot.commands.auto.BarrelRacingAuto;
 import frc.robot.commands.auto.BouncePathAuto;
@@ -82,7 +83,10 @@ public class RobotContainer {
         this.m_xButton.whenPressed(new ToggleIntake());
 
         // ReverseIntake on bButton
-        this.m_bButton.whenPressed(new TimedReverseIntake(1));
+        this.m_bButton.whenPressed(new TimedReverseIntake(1.5));
+
+        // Toggle Flush on rMenu
+        this.m_rightMenu.whenPressed(new Flush());
 
         // Shoot
         this.m_aButton.whenPressed(new Shoot());

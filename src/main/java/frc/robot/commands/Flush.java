@@ -2,12 +2,13 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
+import frc.robot.subsystems.Intake.IntakeMotorState;
+import frc.robot.subsystems.Transportation.TransportMotorState;
 
 /**
  * Flush the robot class.
  */
 public class Flush extends CommandBase {
-    private TimedReverseIntake m_intakeRev;
 
     // Constructor
     public Flush() {
@@ -17,27 +18,31 @@ public class Flush extends CommandBase {
     // Set Motor State to OFF / REVERSED
     @Override
     public void initialize() {
-        Robot.logger.addInfo("Flush", "Flush Systems Starting");
+        Robot.logger.addInfo("Flush", "Toggling Flush Systems");
 
-        // Reverse the Intake systems
-        this.m_intakeRev = new TimedReverseIntake(10);
-
-        // Schedule tasks
-        this.m_intakeRev.schedule();
+        // Reverse systems
+        if(Robot.transportation.getConveyorMotorState() == TransportMotorState.OFF && Robot.transportation.getFeederMotorState() == TransportMotorState.OFF
+            && Robot.intake.getMotorState() == IntakeMotorState.OFF) {
+            // Reverse Transportation / Intake
+            Robot.transportation.setConveyorMotorState(TransportMotorState.REVERSED);
+            Robot.transportation.setFeederMotorState(TransportMotorState.REVERSED);
+            Robot.intake.setMotorState(IntakeMotorState.REVERSED);
+        } else {
+            // Turn off all systems
+            Robot.transportation.setConveyorMotorState(TransportMotorState.OFF);
+            Robot.transportation.setFeederMotorState(TransportMotorState.OFF);
+            Robot.intake.setMotorState(IntakeMotorState.OFF);
+        }
     }
 
     @Override
     public void execute() {}
 
     @Override
-    public void end(boolean interrupted) {
-        if (interrupted) {
-            this.m_intakeRev.cancel();
-        }
-    }
+    public void end(boolean interrupted) {}
 
     @Override
     public boolean isFinished() {
-        return this.m_intakeRev.isFinished();
+        return true;
     }
 }
