@@ -21,8 +21,8 @@ public class Flush extends CommandBase {
         Robot.logger.addInfo("Flush", "Toggling Flush Systems");
 
         // Reverse systems
-        if(Robot.transportation.getConveyorMotorState() == TransportMotorState.OFF && Robot.transportation.getFeederMotorState() == TransportMotorState.OFF
-            && Robot.intake.getMotorState() == IntakeMotorState.OFF) {
+        if(Robot.transportation.getConveyorMotorState() != TransportMotorState.REVERSED && Robot.transportation.getFeederMotorState() != TransportMotorState.REVERSED
+            && Robot.intake.getMotorState() != IntakeMotorState.REVERSED) {
             // Reverse Transportation / Intake
             Robot.transportation.setConveyorMotorState(TransportMotorState.REVERSED);
             Robot.transportation.setFeederMotorState(TransportMotorState.REVERSED);
