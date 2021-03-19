@@ -30,9 +30,7 @@ public class SwerveDrive extends SubsystemBase {
     private SwerveModule m_right = new SwerveModule(new SwerveSettings().setDriveMotorId(Constants.Swerve.kRightDriveID)
             .setRotationMotorId(Constants.Swerve.kRightRotateID).setRotationEncoderId(Constants.Swerve.kRightEncoderID)
             .setRotationOffset(Rotation2d.fromDegrees(Constants.Swerve.kRightOffset)).setInverted(false)
-            .setCommonName("right_")
-
-    );
+            .setCommonName("right_"));
 
     /**
      * Swerve Drive state.
