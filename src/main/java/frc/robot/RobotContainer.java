@@ -82,7 +82,7 @@ public class RobotContainer {
         this.m_xButton.whenPressed(new ToggleIntake());
 
         // ReverseIntake on bButton
-        this.m_bButton.whenPressed(new TimedReverseIntake(1));
+        this.m_bButton.whenPressed(new TimedReverseIntake(1.5));
 
         // Shoot
         this.m_aButton.whenPressed(new Shoot());
