@@ -1,6 +1,6 @@
 # RobotCode2021 Controls
 
-<!-- ![Controller Format](https://github.com/cavineers/RobotCode2021/blob/master/controller_mapped.png) -->
+![Controller Format](https://github.com/cavineers/RobotCode2021/blob/master/controller_mapped.png)
 
 ## Buttons
 
@@ -17,3 +17,5 @@
 **A-Button** => Autonomous Shoot
 
 **R-Menu** => Toggle Flush
+
+**L-Menu** => Simulation Menu
