@@ -74,9 +74,8 @@ public class Logger {
             } catch (IOException e) {
                 System.out.println(e.getStackTrace());
             }
-        } else {
-            System.out.println(new Gson().toJson(entry));
         }
+        System.out.println(new Gson().toJson(entry));
     }
 
     /**

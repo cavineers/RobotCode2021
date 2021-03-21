@@ -134,9 +134,9 @@ public class SwerveDrive extends SubsystemBase {
     }
 
     private void localSwerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
-        forward = MathUtil.clamp(forward, -1.0, 1.0);
-        strafe = MathUtil.clamp(strafe, -1.0, 1.0);
-        rotate = MathUtil.clamp(rotate, -1.0, 1.0);
+        // forward = MathUtil.clamp(forward, -1.0, 1.0);
+        // strafe = MathUtil.clamp(strafe, -1.0, 1.0);
+        // rotate = MathUtil.clamp(rotate, -1.0, 1.0);
 
         // If the robot is field oriented
         if (isFieldOriented) {
@@ -145,8 +145,9 @@ public class SwerveDrive extends SubsystemBase {
             double cos = Math.cos(this.getAngle().getRadians());
 
             // Translate forward/strafe based on conversions
-            forward = (forward * cos) + (strafe * sin);
+            double vT = (forward * cos) + (strafe * sin);
             strafe = (-forward * sin) + (strafe * cos);
+            forward = vT;
         }
 
         // Update simulation angle
@@ -157,8 +158,8 @@ public class SwerveDrive extends SubsystemBase {
         double bValue = forward + rotate;
 
         // Get motor speeds
-        double rSpeed = Math.sqrt(Math.pow(strafe, 2) + Math.pow(aValue, 2));
-        double lSpeed = Math.sqrt(Math.pow(strafe, 2) + Math.pow(bValue, 2));
+        double rSpeed = Math.sqrt(Math.pow(strafe, 2.0) + Math.pow(aValue, 2.0));
+        double lSpeed = Math.sqrt(Math.pow(strafe, 2.0) + Math.pow(bValue, 2.0));
 
         // Get max of the two
         double max = Math.max(rSpeed, lSpeed);
@@ -176,10 +177,13 @@ public class SwerveDrive extends SubsystemBase {
         }
 
         // Get the rotation angles
-        double rAngle = Math.atan2(strafe, aValue) * 180 / Math.PI;
-        double lAngle = Math.atan2(strafe, bValue) * 180 / Math.PI;
+        double rAngle = Math.atan2(strafe, aValue) * 180.0 / Math.PI;
+        double lAngle = Math.atan2(strafe, bValue) * 180.0 / Math.PI;
 
         // Send to modules
+        SmartDashboard.putNumber("rAngle", rAngle);
+        SmartDashboard.putNumber("lAngle", lAngle);
+
         this.m_right.set(rAngle, rSpeed);
         this.m_left.set(lAngle, lSpeed);
     }
@@ -324,7 +328,9 @@ public class SwerveDrive extends SubsystemBase {
                 // System.out.println("Output: "+xOutput+" "+yOutput+" "+rOutput);
                 // System.out.println("Percent: "+xOutput/Constants.Swerve.kMaxVelocity+"
                 // "+yOutput/Constants.Swerve.kMaxVelocity+" "+rOutput);
+                // -(yOutput / Constants.Swerve.kMaxVelocity)
                 this.localSwerve(-(xOutput / Constants.Swerve.kMaxVelocity), -(yOutput / Constants.Swerve.kMaxVelocity), rOutput, true);
+                // this.localSwerve(-1.0, 0.0, 0.0, true);
                 // this.localSwerve(xOutput / Constants.Swerve.kMaxVelocity, 0.0, 0.0, true);
                 // this.localSwerve(yOutput / Constants.Swerve.kMaxVelocity, 0.0, 0.0, true);
                 // this.localSwerve(-(xOutput / Constants.Swerve.kMaxVelocity), 0.0, 0.0, true);

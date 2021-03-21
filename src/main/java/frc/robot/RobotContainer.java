@@ -10,8 +10,8 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.Flush;
 import frc.robot.commands.Shoot;
-import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.TimedReverseIntake;
+import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.auto.AutonomousExample;
 import frc.robot.commands.auto.BarrelRacingAuto;
 import frc.robot.commands.auto.BouncePathAuto;
@@ -66,7 +66,7 @@ public class RobotContainer {
         this.m_autoChooser.addOption("SLALOM_PATH", new SlalomPathAuto());
         
         // Add SmartDashboard Autonomous Picker
-        SmartDashboard.putData("Autonomous Command", m_autoChooser);
+        SmartDashboard.putData("Autonomous Command", this.m_autoChooser);
 
         // Controller Bindings
         mapButtonBindings();
