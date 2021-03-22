@@ -128,7 +128,21 @@ public class SwerveDrive extends SubsystemBase {
      * @param isFieldOriented Whether it's based on the field or robot
      */
     public void swerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
-        if (this.m_state == SwerveDriveState.SWERVE || this.m_state == SwerveDriveState.OTHER_AUTO) {
+        if (this.m_state == SwerveDriveState.SWERVE) {
+            this.localSwerve(forward, strafe, rotate, isFieldOriented);
+        }
+    }
+
+    /**
+     * Drive subsystem with swerve.
+
+     * @param forward Forward values (-1...1)
+     * @param strafe Strafe value (-1...1)
+     * @param rotate Rotate value (-1...1)
+     * @param isFieldOriented Whether it's based on the field or robot
+     */
+    public void heldSwerve(double forward, double strafe, double rotate, boolean isFieldOriented) {
+        if (this.m_state == SwerveDriveState.OTHER_AUTO) {
             this.localSwerve(forward, strafe, rotate, isFieldOriented);
         }
     }

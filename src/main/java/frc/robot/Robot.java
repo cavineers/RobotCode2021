@@ -68,6 +68,7 @@ public class Robot extends TimedRobot {
 
         // Shared Sensors
         gyro = new AHRS(Port.kMXP);
+        limelight = new Limelight();
 
         // Subsystems
         hood = new Hood();
