@@ -8,8 +8,8 @@ import frc.lib.ShooterUtil;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Transportation;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
+import frc.robot.subsystems.Transportation;
 
 /**
  * Automatically shoot.
