@@ -31,7 +31,7 @@ public class AutoShoot extends CommandBase {
     @Override
     public void initialize() {
         this.m_adjustmentPid.setSetpoint(0.0);
-        this.m_adjustmentPid.setTolerance(0.5);
+        this.m_adjustmentPid.setTolerance(1.0);
 
         this.m_rotatePid.setSetpoint(0.0);
         this.m_rotatePid.setTolerance(1.0);
@@ -57,7 +57,7 @@ public class AutoShoot extends CommandBase {
         //     Robot.shooter.setSpeed(Constants.Shooter.kMaxRPM * 0.9);
         // }
 
-        // if (this.m_adjustmentPid.atSetpoint()) {
+        // if (this.m_adjustmentPid.atSetpoint() && this.m_rotatePid.atSetpoint()) {
         //     System.out.println("At setpoint");
         //     if (Robot.transportation.getBallCount() >= 1) {
         //         double angle = ShooterUtil.calculateHoodAngle(Robot.shooter.getSpeed(), Constants.Vision.kFieldGoalHeightFromGround);
