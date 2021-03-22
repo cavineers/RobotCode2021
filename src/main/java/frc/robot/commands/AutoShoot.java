@@ -12,7 +12,7 @@ import frc.robot.subsystems.Transportation;
 /**
  * Automatically shoot.
  */
-public class Shoot extends CommandBase {
+public class AutoShoot extends CommandBase {
     private PIDController m_adjustmentPid = new PIDController(Constants.Shooter.kAdjustPIDp, Constants.Shooter.kAdjustPIDi, Constants.Shooter.kAdjustPIDd);
 
     private boolean m_finished = false;
@@ -21,7 +21,7 @@ public class Shoot extends CommandBase {
 
     private double m_timestamp;
 
-    public Shoot() {
+    public AutoShoot() {
         this.addRequirements(Robot.shooter, Robot.transportation);
     }
     

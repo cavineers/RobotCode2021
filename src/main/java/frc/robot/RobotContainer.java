@@ -8,8 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
+import frc.robot.commands.AutoShoot;
 import frc.robot.commands.Flush;
-import frc.robot.commands.Shoot;
 import frc.robot.commands.TimedReverseIntake;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.auto.AutonomousExample;
@@ -89,7 +89,7 @@ public class RobotContainer {
         this.m_rightMenu.whenPressed(new Flush());
 
         // Shoot
-        this.m_aButton.whenPressed(new Shoot());
+        this.m_aButton.whenPressed(new AutoShoot());
 
         this.m_povDown.whenPressed(new InstantCommand() {
             @Override
