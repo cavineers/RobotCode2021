@@ -104,6 +104,6 @@ public class AutoShoot extends CommandBase {
     
     @Override
     public boolean isFinished() {
-        return Timer.getFPGATimestamp() - this.m_timestamp > 7.5;
+        return Timer.getFPGATimestamp() - this.m_timestamp > 5.0;
     }
 }
