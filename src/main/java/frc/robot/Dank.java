@@ -23,7 +23,7 @@ public class Dank extends WebSocketServer {
 
         conn.send("05;" + Constants.Robot.kYear);
         conn.send("06;" + Constants.Robot.kName);
-        // conn.send("02;"+this.generateLayout()); // TODO: Setup layout
+
         conn.send("02;" + "{\"version\": \"v3\", \"layout\": [{\"type\": \"StaticText\",\"x\": \"30px\",\"y\": \"-10px\",\"z\": \"2\",\"text\": \"Match: #\",\"textColor\": \"whitesmoke\",\"fontSize\": \"64px\"}]}");
     }
 
@@ -32,19 +32,6 @@ public class Dank extends WebSocketServer {
         System.out.println(conn.toString().split("@")[1]);
 
         Robot.logger.addInfo("DANK", "WS Disconnect");
-
-        // if (this.m_visionAddress != null) {
-        //     if (conn.toString().split("@")[1] == this.m_visionAddress) {
-        //         conn.send("03;Vision Disconnected");
-        //         Robot.logger.addInfo("DANK", "Vision Disconnected");
-        //         this.m_visionAddress = null;
-        //     } else {
-        //         System.out.println(conn.toString().split("@")[1]);
-        //         System.out.println(this.m_visionAddress);
-        //     }
-        // } else {
-        //     System.out.println("vision address null");
-        // }
     }
 
     @Override
@@ -77,7 +64,6 @@ public class Dank extends WebSocketServer {
                 Robot.vision.convertStringToArr(content);
                 break;
             case "08":
-                // this.m_visionAddress = conn.toString().split("@")[1];
                 this.m_visionAddress = conn;
                 Robot.logger.addInfo("DANK", "Vision Connected");
                 this.broadcast("03;Vision Connected");
