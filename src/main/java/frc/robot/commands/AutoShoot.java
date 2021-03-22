@@ -53,7 +53,7 @@ public class AutoShoot extends CommandBase {
                             Robot.transportation.setConveyorMotorState(Transportation.TransportMotorState.ON);
                         }
                         if (Robot.transportation.getSensorThreeState() == false && this.m_prevSensor) {
-                            // Robot.transportation.setBallCount(Robot.transportation.getBallCount() - 1); // TODO: add
+                            Robot.transportation.setBallCount(Robot.transportation.getBallCount() - 1);
                         }
                         this.m_prevSensor = Robot.transportation.getSensorThreeState();
 
