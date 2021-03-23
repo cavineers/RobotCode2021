@@ -1,6 +1,7 @@
 package frc.robot;
 
 import com.kauailabs.navx.frc.AHRS;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -21,6 +22,9 @@ import java.net.UnknownHostException;
 public class Robot extends TimedRobot {
     // Logger
     public static Logger logger;
+
+    // PDP
+    public static PowerDistributionPanel PDP;
 
     // Dank
     public static Dank dank;
@@ -57,6 +61,9 @@ public class Robot extends TimedRobot {
 
         // Static logger
         logger = new Logger();
+
+        // PDP
+        PDP = new PowerDistributionPanel(Constants.CanIds.kPowerDistributionPanel);
 
         // Static DANK
         try {

@@ -33,6 +33,13 @@ public final class Constants {
     }
 
     /**
+     * Constants is direct reference to their location in the PDP.
+     */
+    public static class PdpPorts {
+        public static int kHoodMotor = 0;
+    }
+
+    /**
      * Constants in direct reference to their location on the Digital In/Out pins on the RIO.
      */
     public static class Dio {

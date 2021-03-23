@@ -7,6 +7,7 @@ import edu.wpi.first.wpilibj2.command.PIDSubsystem;
 import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.lib.ShooterUtil;
 import frc.robot.Constants;
+import frc.robot.Robot;
 
 /**
  * Hood subsystem.
@@ -17,6 +18,9 @@ public class Hood extends PIDSubsystem {
 
     // Current setpoint
     private int m_currentSetpoint;
+
+    // Homing
+    private boolean m_homing = false;
 
     /**
      * TurnTable constructor.
@@ -58,6 +62,22 @@ public class Hood extends PIDSubsystem {
     }
 
     /**
+     * Home the hood. (Ram into the hard stop)
+     */
+    public void home() {
+        this.m_homing = true;
+    }
+
+    /**
+     * Check if the intake homing.
+
+     * @return Homing boolean
+     */
+    public boolean isHoming() {
+        return this.m_homing;
+    }
+
+    /**
      * Move the hood to the optimal angle for shooting based on velocity.
 
      * @return False if the angle is out of bounds
@@ -77,8 +97,17 @@ public class Hood extends PIDSubsystem {
      */
     @Override
     public void useOutput(double output, double setpoint) {
-        // Output
-        this.m_hoodMotor.set(MathUtil.clamp(-output, -Constants.Hood.kMaxSpeed, Constants.Hood.kMaxSpeed));
+        if (!this.m_homing) {
+            // Output
+            this.m_hoodMotor.set(MathUtil.clamp(-output, -Constants.Hood.kMaxSpeed, Constants.Hood.kMaxSpeed));
+        } else {
+            // If current draw is above XX, it's hit the hard stop and zeroed.
+            if (Robot.PDP.getCurrent(Constants.PdpPorts.kHoodMotor) > 18) {
+                this.m_homing = false;
+            } else {
+                this.m_hoodMotor.set(-0.25);
+            }
+        }
     }
 
     /**
