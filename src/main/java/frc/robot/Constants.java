@@ -25,10 +25,10 @@ public final class Constants {
         public static int kRightRotateMotor       = 5;
         public static int kRightRotateEncoder     = 6;
         public static int kShooterMotor           = 7;
-        public static int kIntakeMotor            = 8;
-        public static int kTransportConveyor      = 9;
-        public static int kTransportFeeder        = 10;
-        public static int kShooterHood            = 11;
+        public static int kShooterHood            = 10;
+        public static int kTransportConveyor      = 8;
+        public static int kTransportFeeder        = 9;
+        public static int kIntakeMotor            = 11;
         public static int kPowerDistributionPanel = 50;
     }
 
@@ -100,9 +100,9 @@ public final class Constants {
     public static class Transportation {
         public static int kConveyorID = CanIds.kTransportConveyor;
         public static int kFeederID = CanIds.kTransportFeeder;
-        public static double kInSpeedFeeder = 1;
+        public static double kInSpeedFeeder = -0.4;
         public static double kOutSpeedFeeder = -0.12;
-        public static double kInSpeedConveyor = 1;
+        public static double kInSpeedConveyor = -0.5;
         public static double kOutSpeedConveyor = -0.12;
         public static double kBeltLength = (2.0 * 15.748) * Math.PI;
         public static double kPulleyCircumference = 2 * Math.PI;

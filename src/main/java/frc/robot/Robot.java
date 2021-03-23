@@ -1,5 +1,6 @@
 package frc.robot;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -13,8 +14,10 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
+import frc.robot.subsystems.Transportation.TransportMotorState;
 import frc.robot.subsystems.Transportation;
 import java.net.UnknownHostException;
+import frc.lib.Deadzone;
 
 /**
  * Main Robot class that contains all Subsystems and periodic methods.
@@ -144,13 +147,30 @@ public class Robot extends TimedRobot {
 
         gyro.reset();
 
-        hood.home();
+        hood.enable();
+        // hood.home();
 
         new TeleopDrive().schedule(false);
     }
 
     @Override
     public void teleopPeriodic() {
+        // if (!hood.isHoming()) {
+        //     hood.turnToAngle(10.0);
+        // }
+        hood.disable();
+
+        // hood.m_hoodMotor.set(ControlMode.PercentOutput, -0.5);
+        transportation.setConveyorMotorState(TransportMotorState.ON);
+        transportation.setFeederMotorState(TransportMotorState.ON);
+
+        shooter.setSpeed(4000);
+        shooter.enable();
+        // if (Deadzone.apply(robotContainer.m_rBump.get() ? speed : 0.0, 0.1) != 0.0) {
+        //     hood.m_hoodMotor.set(Deadzone.apply(robotContainer.m_rBump.get() ? speed : 0.0, 0.1));
+        // } else {
+        //     hood.m_hoodMotor.set(-Deadzone.apply(robotContainer.m_lBump.get() ? speed : 0.0, 0.1));
+        // }
     }
 
     @Override

@@ -65,6 +65,7 @@ public class Hood extends PIDSubsystem {
      * Home the hood. (Ram into the hard stop)
      */
     public void home() {
+        Robot.logger.addInfo("hood", "Starting homing..");
         this.m_homing = true;
     }
 
@@ -102,10 +103,11 @@ public class Hood extends PIDSubsystem {
             this.m_hoodMotor.set(MathUtil.clamp(-output, -Constants.Hood.kMaxSpeed, Constants.Hood.kMaxSpeed));
         } else {
             // If current draw is above XX, it's hit the hard stop and zeroed.
-            if (Robot.PDP.getCurrent(Constants.PdpPorts.kHoodMotor) > 18) {
+            if (Robot.PDP.getCurrent(Constants.PdpPorts.kHoodMotor) > 4.2) {
                 this.m_homing = false;
+                Robot.logger.addInfo("hood", "Homing complete");
             } else {
-                this.m_hoodMotor.set(-0.25);
+                this.m_hoodMotor.set(0.25);
             }
         }
     }
