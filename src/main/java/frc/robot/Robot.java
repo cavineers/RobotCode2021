@@ -87,6 +87,8 @@ public class Robot extends TimedRobot {
     @Override
     public void robotInit() {
         logger.addInfo("robot", "Initializing...");
+
+        gyro.calibrate();
     }
 
     @Override
@@ -132,6 +134,8 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+
+        gyro.reset();
 
         new TeleopDrive().schedule(false);
     }
