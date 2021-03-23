@@ -42,18 +42,23 @@ public class GalacticSearch extends CommandBase {
 
     @Override
     public void execute() {
-        Target closestPowerCell = Robot.vision.getPowerCellTarget();
+        if (Robot.transportation.getBallCount() < 3) {
+            Target closestPowerCell = Robot.vision.getPowerCellTarget();
 
-        // Calculations
-        double td = closestPowerCell.getDistance(); // distance y (b) value in law of sines
-        double tx = closestPowerCell.getTx(); // A angle in law of sines
-        double a = Math.sqrt(Math.pow((td / Math.sin(90 - tx)), 2) + Math.pow(td, 2)); // distance x (a) in law of sines
+            // Calculations
+            double td = closestPowerCell.getDistance(); // distance y (b) value in law of sines
+            double tx = closestPowerCell.getTx(); // A angle in law of sines
+            double a = Math.sqrt(Math.pow((td / Math.sin(90 - tx)), 2) + Math.pow(td, 2)); // distance x (a) in law of sines
 
-        this.m_td.calculate(td);
-        this.m_a.calculate(a);
+            this.m_td.calculate(td);
+            this.m_a.calculate(a);
 
-        // Drive the robot based on the coordinates of power cell
-        Robot.swerveDrive.swerve(this.m_td.calculate(td), this.m_a.calculate(a), 0, false);
+            // Drive the robot based on the coordinates of power cell
+            Robot.swerveDrive.swerve(this.m_td.calculate(td), this.m_a.calculate(a), 0, false);
+        } else {
+            // Finish command if more than three balls are in the chamber
+            this.m_finished = true;
+        }
     }
 
     @Override
