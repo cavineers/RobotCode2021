@@ -58,7 +58,7 @@ public class GalacticSearch extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        Robot.swerveDrive.swerve(0, 0, 0, false);
+        Robot.swerveDrive.swerve(300, 0, 0, false);
         Robot.logger.addInfo("GalacticSearch", "Autonomous Galactic Search Command Ended");
     }
 
