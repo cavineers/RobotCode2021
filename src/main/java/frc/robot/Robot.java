@@ -144,6 +144,8 @@ public class Robot extends TimedRobot {
 
         gyro.reset();
 
+        hood.home();
+
         new TeleopDrive().schedule(false);
     }
 
