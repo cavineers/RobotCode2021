@@ -90,8 +90,8 @@ public final class Constants {
      */
     public static class Intake {
         public static int kIntakeID = CanIds.kIntakeMotor;
-        public static double kInSpeed = 1;
-        public static double kOutSpeed = -0.12;
+        public static double kInSpeed = -0.5;
+        public static double kOutSpeed = 0.3;
     }
 
     /**

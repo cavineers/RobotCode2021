@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.DropIntake;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
@@ -150,6 +151,8 @@ public class Robot extends TimedRobot {
         hood.enable();
         hood.home();
         hood.turnToAngle(5.0);
+
+        new DropIntake().schedule();
 
         new TeleopDrive().schedule(false);
     }

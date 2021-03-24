@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.Flush;
 import frc.robot.commands.TimedReverseIntake;
+import frc.robot.commands.ToggleConveyor;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.auto.AutonomousExample;
 import frc.robot.commands.auto.BarrelRacingAuto;
@@ -88,6 +89,9 @@ public class RobotContainer {
 
         // Shoot
         this.m_aButton.whenPressed(new AutoShoot());
+
+        // Toggle Conveyor
+        this.m_yButton.whenPressed(new ToggleConveyor());
 
         this.m_povDown.whenPressed(new InstantCommand() {
             @Override

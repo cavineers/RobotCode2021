@@ -59,6 +59,33 @@ public class AutoShoot extends CommandBase {
 
         if (this.m_adjustmentPid.atSetpoint() && this.m_rotatePid.atSetpoint()) {
             Robot.logger.addInfo("AutoShoot", "At setpoint");
+            
+            double angle = ShooterUtil.calculateHoodAngle(Robot.shooter.getSpeed(), Constants.Vision.kFieldGoalHeightFromGround);
+            if (ShooterUtil.withinBounds(angle)) {
+                Robot.hood.findTargetPosition(Robot.shooter.getSpeed());
+                if (Robot.hood.atTarget() && Robot.shooter.closeEnough()) {
+                    if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
+                        Robot.transportation.setFeederMotorState(Transportation.TransportMotorState.ON);
+                    }
+                    if (Robot.transportation.getConveyorMotorState() != Transportation.TransportMotorState.ON) {
+                        Robot.transportation.setConveyorMotorState(Transportation.TransportMotorState.ON);
+                    }
+                    if (Robot.transportation.getSensorThreeState() == false && this.m_prevSensor) {
+                        Robot.transportation.setBallCount(Robot.transportation.getBallCount() - 1);
+                    }
+                    this.m_prevSensor = Robot.transportation.getSensorThreeState();
+
+                    if (Robot.transportation.getBallCount() == 0) {
+                        this.m_timestamp = Timer.getFPGATimestamp();
+                    }
+                }
+            } else {
+                if (angle > Constants.Hood.kMaximumAngle) {
+                    Robot.shooter.setSpeed(Robot.shooter.getSpeed() - 200);
+                } else {
+                    Robot.shooter.setSpeed(Robot.shooter.getSpeed() + 200);
+                }
+            }
         //     if (Robot.transportation.getBallCount() >= 1) {
         //         double angle = ShooterUtil.calculateHoodAngle(Robot.shooter.getSpeed(), Constants.Vision.kFieldGoalHeightFromGround);
         //         if (ShooterUtil.withinBounds(angle)) {
@@ -104,6 +131,6 @@ public class AutoShoot extends CommandBase {
     
     @Override
     public boolean isFinished() {
-        return Timer.getFPGATimestamp() - this.m_timestamp > 5.0;
+        return Timer.getFPGATimestamp() - this.m_timestamp > 30.0;
     }
 }
