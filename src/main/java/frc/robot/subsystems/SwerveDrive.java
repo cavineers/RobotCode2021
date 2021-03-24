@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
@@ -69,6 +70,8 @@ public class SwerveDrive extends SubsystemBase {
     private boolean m_isRelative = false;
     private Pose2d m_initialPosition;
     private Rotation2d m_initialRotation;
+
+    private double m_pathStartTime = 0.0;
 
     /**
      * Swerve Drive Constructor.
@@ -263,13 +266,16 @@ public class SwerveDrive extends SubsystemBase {
         // Save initial rotation
         this.m_initialRotation = this.getAngle();
 
+        // Set start time
+        this.m_pathStartTime = Timer.getFPGATimestamp();
+
         // Generate profiles
         this.generateProfile();
     }
 
     private void generateProfile() {
-        System.out.println(this.m_path.getCurrent().getX());
-        System.out.println(this.m_path.getCurrent().getY());
+        // System.out.println(this.m_path.getCurrent().getX());
+        // System.out.println(this.m_path.getCurrent().getY());
         this.m_xPidController.setTolerance(this.m_path.getCurrent().getTranslationTolerance());
         this.m_yPidController.setTolerance(this.m_path.getCurrent().getTranslationTolerance());
         this.m_rPidController.setTolerance(this.m_path.getCurrent().getRotationTolerance());
@@ -290,14 +296,14 @@ public class SwerveDrive extends SubsystemBase {
     public void periodic() {
         // If swerve is following a path
         if (this.m_state == SwerveDriveState.PATH) {
-            System.out.println(this.m_path.getCurrent().getRotationTolerance());
-            System.out.println("Check: " + this.m_xPidController.atSetpoint() + " " + this.m_yPidController.atSetpoint() + " " + this.m_rPidController.atSetpoint());
+            // System.out.println(this.m_path.getCurrent().getRotationTolerance());
+            // System.out.println("Check: " + this.m_xPidController.atSetpoint() + " " + this.m_yPidController.atSetpoint() + " " + this.m_rPidController.atSetpoint());
             // If all movement is finished
             if (this.m_xPidController.atSetpoint() && this.m_yPidController.atSetpoint()
                     && this.m_rPidController.atSetpoint()) {
                 // If so, check if there is another point to target
                 if (this.m_path.next()) {
-                    System.out.println("Next");
+                    Robot.logger.addInfo("SwerveDrive", "Next path segment");
 
                     // Increment route
                     this.m_path.up();
@@ -305,7 +311,7 @@ public class SwerveDrive extends SubsystemBase {
                     this.generateProfile();
                 } else {
                     // Since the robot is finished
-                    System.out.println("Path finished");
+                    Robot.logger.addInfo("SwerveDrive", "Path finished");
 
                     // Stop the bot
                     this.m_left.set(0.0, 0.0);
@@ -314,10 +320,7 @@ public class SwerveDrive extends SubsystemBase {
                     // Reset state to SWERVE, allowing teleop to take over when ready
                     this.m_state = SwerveDriveState.SWERVE;
 
-                    // DEBUG ONLY
-                    if (Robot.isSimulation()) {
-                        System.out.println("Finished at: " + Robot.getMatchTime());
-                    }
+                    Robot.logger.addInfo("SwerveDrive", "Path finished after " + (Timer.getFPGATimestamp() - this.m_pathStartTime) + " seconds");
                 }
             }
 

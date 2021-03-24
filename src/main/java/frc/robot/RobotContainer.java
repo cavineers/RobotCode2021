@@ -78,8 +78,6 @@ public class RobotContainer {
         this.m_leftMenu.whenPressed(new SimMenu());
 
         // Toggle Intake
-        System.out.println(this.m_xButton.get());
-
         this.m_xButton.whenPressed(new ToggleIntake());
 
         // ReverseIntake on bButton

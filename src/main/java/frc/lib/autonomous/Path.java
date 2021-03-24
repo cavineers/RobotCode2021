@@ -3,6 +3,8 @@ package frc.lib.autonomous;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.util.Units;
+import frc.robot.Robot;
+
 import java.util.ArrayList;
 
 /**
@@ -54,7 +56,7 @@ public class Path {
         this.m_plots = this.m_points.toArray(new Plot[this.m_points.size()]);
 
         for (Pose2d pose2d : m_plots) {
-            System.out.println("plot " + pose2d.getX() + " " + pose2d.getY());
+            Robot.logger.addInfo("Path", "plot " + pose2d.getX() + " " + pose2d.getY());
         }
     }
 }

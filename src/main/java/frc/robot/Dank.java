@@ -29,8 +29,6 @@ public class Dank extends WebSocketServer {
 
     @Override
     public void onClose(WebSocket conn, int code, String reason, boolean remote) {
-        System.out.println(conn.toString().split("@")[1]);
-
         Robot.logger.addInfo("DANK", "WS Disconnect");
     }
 

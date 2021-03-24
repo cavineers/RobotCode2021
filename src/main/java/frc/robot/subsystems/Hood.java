@@ -110,7 +110,7 @@ public class Hood extends PIDSubsystem {
             // Output
             this.m_hoodMotor.set(output);
         } else {
-            System.out.println(Robot.PDP.getCurrent(Constants.PdpPorts.kHoodMotor));
+            // System.out.println(Robot.PDP.getCurrent(Constants.PdpPorts.kHoodMotor));
             // If current draw is above XX, it's hit the hard stop and zeroed.
             if (Robot.PDP.getCurrent(Constants.PdpPorts.kHoodMotor) > 3.5) {
                 this.m_homing = false;

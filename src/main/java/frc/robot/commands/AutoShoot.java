@@ -52,13 +52,13 @@ public class AutoShoot extends CommandBase {
         SmartDashboard.putNumber("shootAdj", -adj);
 
         Robot.swerveDrive.heldSwerve(0.0, this.m_adjustmentPid.atSetpoint() ? 0.0 : -adj, this.m_rotatePid.atSetpoint() ? 0.0 : rot, false);
-        // if (Robot.shooter.getCurrentMode() != Shooter.ShooterMode.ENABLED) { 
-        //     Robot.shooter.enable();
-        //     Robot.shooter.setSpeed(Constants.Shooter.kMaxRPM * 0.9);
-        // }
+        if (Robot.shooter.getCurrentMode() != Shooter.ShooterMode.ENABLED) { 
+            Robot.shooter.setSpeed(Constants.Shooter.kMaxRPM * 0.9);
+            Robot.shooter.enable();
+        }
 
-        // if (this.m_adjustmentPid.atSetpoint() && this.m_rotatePid.atSetpoint()) {
-        //     System.out.println("At setpoint");
+        if (this.m_adjustmentPid.atSetpoint() && this.m_rotatePid.atSetpoint()) {
+            Robot.logger.addInfo("AutoShoot", "At setpoint");
         //     if (Robot.transportation.getBallCount() >= 1) {
         //         double angle = ShooterUtil.calculateHoodAngle(Robot.shooter.getSpeed(), Constants.Vision.kFieldGoalHeightFromGround);
         //         if (ShooterUtil.withinBounds(angle)) {
@@ -90,8 +90,8 @@ public class AutoShoot extends CommandBase {
         //         if (Timer.getFPGATimestamp() - this.m_timestamp > 7.5) {
         //             this.m_finished = true;
         //         }
-        //     }
         // }
+        }
     }
 
     @Override
