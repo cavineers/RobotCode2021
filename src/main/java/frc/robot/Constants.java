@@ -25,8 +25,8 @@ public final class Constants {
         public static int kRightRotateMotor       = 5;
         public static int kRightRotateEncoder     = 6;
         public static int kShooterMotor           = 7;
-        public static int kShooterHood            = 10;
-        public static int kTransportConveyor      = 8;
+        public static int kShooterHood            = 8;
+        public static int kTransportConveyor      = 10;
         public static int kTransportFeeder        = 9;
         public static int kIntakeMotor            = 11;
         public static int kPowerDistributionPanel = 50;
@@ -100,10 +100,10 @@ public final class Constants {
     public static class Transportation {
         public static int kConveyorID = CanIds.kTransportConveyor;
         public static int kFeederID = CanIds.kTransportFeeder;
-        public static double kInSpeedFeeder = -0.4;
-        public static double kOutSpeedFeeder = -0.12;
-        public static double kInSpeedConveyor = -0.5;
-        public static double kOutSpeedConveyor = -0.12;
+        public static double kInSpeedFeeder = -0.5;
+        public static double kOutSpeedFeeder = 0.5;
+        public static double kInSpeedConveyor = -0.4;
+        public static double kOutSpeedConveyor = 0.4;
         public static double kBeltLength = (2.0 * 15.748) * Math.PI;
         public static double kPulleyCircumference = 2 * Math.PI;
         public static double kGearRatio = 1;
@@ -203,9 +203,9 @@ public final class Constants {
     public static class Hood {
         public static int kMotorID = CanIds.kShooterHood;
         public static double kHomingSpeed = 0.15;
-        public static double kP = 0.0007; // TODO: Calculate PID values to make testing easier
-        public static double kI = 0.0;
-        public static double kD = 0.00000;
+        public static double kP = 0.001;
+        public static double kI = 0.00001;
+        public static double kD = 0.0;
         public static double kTolerance = 5.0; // ~0.5 deg
         public static double kMaxSpeed = 0.9;
         public static double kMinimumAngle = 27.0;

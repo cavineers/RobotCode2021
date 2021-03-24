@@ -148,7 +148,8 @@ public class Robot extends TimedRobot {
         gyro.reset();
 
         hood.enable();
-        // hood.home();
+        hood.home();
+        hood.turnToAngle(5.0);
 
         new TeleopDrive().schedule(false);
     }
@@ -156,16 +157,16 @@ public class Robot extends TimedRobot {
     @Override
     public void teleopPeriodic() {
         // if (!hood.isHoming()) {
-        //     hood.turnToAngle(10.0);
+        //     hood.turnToAngle(90.0);
         // }
-        hood.disable();
+        // hood.disable();
 
         // hood.m_hoodMotor.set(ControlMode.PercentOutput, -0.5);
-        transportation.setConveyorMotorState(TransportMotorState.ON);
-        transportation.setFeederMotorState(TransportMotorState.ON);
+        // transportation.setConveyorMotorState(TransportMotorState.ON);
+        // transportation.setFeederMotorState(TransportMotorState.ON);
 
-        shooter.setSpeed(4000);
-        shooter.enable();
+        // shooter.setSpeed(4000);
+        // shooter.enable();
         // if (Deadzone.apply(robotContainer.m_rBump.get() ? speed : 0.0, 0.1) != 0.0) {
         //     hood.m_hoodMotor.set(Deadzone.apply(robotContainer.m_rBump.get() ? speed : 0.0, 0.1));
         // } else {
