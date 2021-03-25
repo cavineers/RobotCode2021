@@ -157,13 +157,11 @@ public final class Constants {
         public static double kRotationPID_T = 1.0;
 
         // Position PID
-        // TODO: TUNE THESE
         public static double kPositionPID_P = 0.8;
         public static double kPositionPID_I = 0.0;
         public static double kPositionPID_D = 0.0001;
 
         // Angle PID
-        // TODO: TUNE THESE
         public static double kAnglePID_P = 0.009;
         public static double kAnglePID_I = 0.0;
         public static double kAnglePID_D = 0.001;

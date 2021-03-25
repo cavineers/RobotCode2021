@@ -40,6 +40,8 @@ public class AutoShoot extends CommandBase {
 
         Robot.logger.addInfo("AutoShoot", "Starting AutoShoot.");
 
+        Robot.transportation.disable();
+
         this.m_timestamp = Timer.getFPGATimestamp();
     }
     
@@ -51,7 +53,9 @@ public class AutoShoot extends CommandBase {
         SmartDashboard.putNumber("shootRot", rot);
         SmartDashboard.putNumber("shootAdj", -adj);
 
-        Robot.swerveDrive.heldSwerve(0.0, this.m_adjustmentPid.atSetpoint() ? 0.0 : -adj, this.m_rotatePid.atSetpoint() ? 0.0 : rot, false);
+        if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
+            Robot.swerveDrive.heldSwerve(0.0, this.m_adjustmentPid.atSetpoint() ? 0.0 : -adj, this.m_rotatePid.atSetpoint() ? 0.0 : rot, false);
+        }
         if (Robot.shooter.getCurrentMode() != Shooter.ShooterMode.ENABLED) { 
             Robot.shooter.setSpeed(Constants.Shooter.kMaxRPM * 0.9);
             Robot.shooter.enable();
@@ -75,49 +79,17 @@ public class AutoShoot extends CommandBase {
                     }
                     this.m_prevSensor = Robot.transportation.getSensorThreeState();
 
-                    if (Robot.transportation.getBallCount() == 0) {
-                        this.m_timestamp = Timer.getFPGATimestamp();
+                    if (Robot.transportation.getBallCount() <= 0) {
+                        this.m_finished = true;
                     }
                 }
             } else {
                 if (angle > Constants.Hood.kMaximumAngle) {
-                    Robot.shooter.setSpeed(Robot.shooter.getSpeed() - 200);
+                    Robot.shooter.setSpeed(Robot.shooter.getSpeed() - 100);
                 } else {
-                    Robot.shooter.setSpeed(Robot.shooter.getSpeed() + 200);
+                    Robot.shooter.setSpeed(Robot.shooter.getSpeed() + 100);
                 }
             }
-        //     if (Robot.transportation.getBallCount() >= 1) {
-        //         double angle = ShooterUtil.calculateHoodAngle(Robot.shooter.getSpeed(), Constants.Vision.kFieldGoalHeightFromGround);
-        //         if (ShooterUtil.withinBounds(angle)) {
-        //             Robot.hood.findTargetPosition(Robot.shooter.getSpeed());
-        //             if (Robot.hood.atTarget() && Robot.shooter.closeEnough()) {
-        //                 if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
-        //                     Robot.transportation.setFeederMotorState(Transportation.TransportMotorState.ON);
-        //                 }
-        //                 if (Robot.transportation.getConveyorMotorState() != Transportation.TransportMotorState.ON) {
-        //                     Robot.transportation.setConveyorMotorState(Transportation.TransportMotorState.ON);
-        //                 }
-        //                 if (Robot.transportation.getSensorThreeState() == false && this.m_prevSensor) {
-        //                     Robot.transportation.setBallCount(Robot.transportation.getBallCount() - 1);
-        //                 }
-        //                 this.m_prevSensor = Robot.transportation.getSensorThreeState();
-
-        //                 if (Robot.transportation.getBallCount() == 0) {
-        //                     this.m_timestamp = Timer.getFPGATimestamp();
-        //                 }
-        //             }
-        //         } else {
-        //             if (angle > Constants.Hood.kMaximumAngle) {
-        //                 Robot.shooter.setSpeed(Robot.shooter.getSpeed() - 200);
-        //             } else {
-        //                 Robot.shooter.setSpeed(Robot.shooter.getSpeed() + 200);
-        //             }
-        //         }
-        //     } else {
-        //         if (Timer.getFPGATimestamp() - this.m_timestamp > 7.5) {
-        //             this.m_finished = true;
-        //         }
-        // }
         }
     }
 
@@ -127,10 +99,12 @@ public class AutoShoot extends CommandBase {
         Robot.transportation.setFeederMotorState(Transportation.TransportMotorState.OFF);
         Robot.transportation.setConveyorMotorState(Transportation.TransportMotorState.OFF);
         Robot.swerveDrive.setState(SwerveDriveState.SWERVE);
+        Robot.transportation.setBallCount(0);
+        Robot.transportation.enable();
     }
     
     @Override
     public boolean isFinished() {
-        return Timer.getFPGATimestamp() - this.m_timestamp > 30.0;
+        return Timer.getFPGATimestamp() - this.m_timestamp > 30.0 || this.m_finished;
     }
 }
