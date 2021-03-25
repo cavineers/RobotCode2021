@@ -101,7 +101,8 @@ public final class Constants {
         public static int kConveyorID = CanIds.kTransportConveyor;
         public static int kFeederID = CanIds.kTransportFeeder;
         public static double kInSpeedFeeder = -0.5;
-        public static double kOutSpeedFeeder = 0.5;
+        public static double kSlowFeeder = -0.3;
+        public static double kOutSpeedFeeder = 0.2;
         public static double kInSpeedConveyor = -0.4;
         public static double kOutSpeedConveyor = 0.4;
         public static double kBeltLength = (2.0 * 15.748) * Math.PI;

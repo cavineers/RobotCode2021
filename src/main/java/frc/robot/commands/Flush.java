@@ -27,11 +27,13 @@ public class Flush extends CommandBase {
             Robot.transportation.setConveyorMotorState(TransportMotorState.REVERSED);
             Robot.transportation.setFeederMotorState(TransportMotorState.REVERSED);
             Robot.intake.setMotorState(IntakeMotorState.REVERSED);
+            Robot.transportation.disable();
         } else {
             // Turn off all systems
             Robot.transportation.setConveyorMotorState(TransportMotorState.OFF);
             Robot.transportation.setFeederMotorState(TransportMotorState.OFF);
             Robot.intake.setMotorState(IntakeMotorState.OFF);
+            Robot.transportation.enable();
         }
     }
 
@@ -39,7 +41,9 @@ public class Flush extends CommandBase {
     public void execute() {}
 
     @Override
-    public void end(boolean interrupted) {}
+    public void end(boolean interrupted) {
+        Robot.transportation.setBallCount(0);
+    }
 
     @Override
     public boolean isFinished() {

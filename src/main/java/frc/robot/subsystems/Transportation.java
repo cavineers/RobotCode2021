@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -21,7 +22,8 @@ public class Transportation extends SubsystemBase {
     public enum TransportMotorState {
         ON,
         OFF,
-        REVERSED
+        REVERSED,
+        SLOW
     }
 
     // Motor Imports
@@ -36,6 +38,14 @@ public class Transportation extends SubsystemBase {
     private DigitalInput m_sensorOne = new DigitalInput(Constants.Dio.kConveyorSensor1);
     private DigitalInput m_sensorTwo = new DigitalInput(Constants.Dio.kConveyorSensor2);
     private DigitalInput m_sensorThree = new DigitalInput(Constants.Dio.kFeederSensor);
+
+    private double m_offsetStart = 0.0;
+    private double m_feederOffsetStart = 0.0;
+
+    private boolean m_enabled = true;
+
+    private boolean m_sensorTwoTripped = false;
+    private boolean m_sensorThreeTripped = false;
 
     /**
      * Transportation constructor.
@@ -67,6 +77,7 @@ public class Transportation extends SubsystemBase {
         // set motor state
         switch (state) {
             case ON:
+            case SLOW:
                 // On
                 this.m_conveyorMotor.set(ControlMode.PercentOutput, Constants.Transportation.kInSpeedConveyor);
                 break;
@@ -82,6 +93,14 @@ public class Transportation extends SubsystemBase {
                 this.setConveyorMotorState(TransportMotorState.OFF);
                 break;
         }
+    }
+
+    public void enable() {
+        this.m_enabled = true;
+    }
+
+    public void disable() {
+        this.m_enabled = false;
     }
 
     /**
@@ -114,6 +133,10 @@ public class Transportation extends SubsystemBase {
             case REVERSED:
                 // Reversed
                 this.m_feederMotor.set(ControlMode.PercentOutput, Constants.Transportation.kOutSpeedFeeder);
+                break;
+            case SLOW:
+                // Slow
+                this.m_feederMotor.set(ControlMode.PercentOutput, Constants.Transportation.kSlowFeeder);
                 break;
             default:
                 this.setFeederMotorState(TransportMotorState.OFF);
@@ -196,49 +219,62 @@ public class Transportation extends SubsystemBase {
         // Set PowerCell count
         SmartDashboard.putNumber("Current PowerCell Count", this.getBallCount());
 
+        SmartDashboard.putBoolean("sensorOneState", this.getSensorOneState());
+        SmartDashboard.putBoolean("sensorTwoState", this.getSensorTwoState());
+        SmartDashboard.putBoolean("sensorThreeState", this.getSensorThreeState());
+
         // Move PowerCell positions autonomously via sensor inputs
-        if (this.getBallCount() == 0) {
-            // Check sensor one input.
-            if (this.getSensorOneState()) {
-                // Turn on conveyor systems.
-                this.setConveyorMotorState(TransportMotorState.ON);
-            } else if (this.getConveyorMotorState() == TransportMotorState.ON) {
-                // Turn off conveyor systems.
-                this.setConveyorMotorState(TransportMotorState.OFF);
-                this.setBallCount(1);
+        if (this.m_enabled) {
+            if (this.m_sensorTwoTripped != true) {
+                this.m_sensorTwoTripped = this.getSensorTwoState();
             }
-        } else if (this.getBallCount() == 1) {
-            // Check sensor one input.
-            if (this.getSensorOneState()) {
-                // Turn on conveyor systems.
-                this.setConveyorMotorState(TransportMotorState.ON);
-            } else if (!this.getSensorTwoState() && this.getConveyorMotorState() == TransportMotorState.ON) {
-                // Turn off conveyor systems.
-                this.setConveyorMotorState(TransportMotorState.OFF);
-                this.setBallCount(2);
+            if (this.m_sensorThreeTripped != true) {
+                this.m_sensorThreeTripped = this.getSensorThreeState();
             }
-        } else if (this.getBallCount() == 2) {
-            boolean sensorTwoTripped = false;
-            boolean sensorThreeTripped = false;
-            // Check sensor one input.
-            if (this.getSensorOneState()) {
-                // Turn on conveyor / feeder systems.
-                this.setConveyorMotorState(TransportMotorState.ON);
-                this.setFeederMotorState(TransportMotorState.ON);
-            } else if (!this.getSensorTwoState() && !this.getSensorThreeState() && !this.getSensorOneState() && sensorTwoTripped == true
-                       && sensorThreeTripped == true && this.getConveyorMotorState() == TransportMotorState.ON) {
-                // Turn off conveyor / feeder systems.
-                this.setConveyorMotorState(TransportMotorState.OFF);
-                this.setBallCount(3);
-            }
-            if (this.getSensorTwoState()) {
-                sensorTwoTripped = true;
-            }
-            if (this.getSensorThreeState()) {
-                sensorThreeTripped = true;
-            }
-            if (sensorThreeTripped == true && this.getFeederMotorState() == TransportMotorState.ON && !this.getSensorThreeState()) {
-                this.setFeederMotorState(TransportMotorState.OFF);
+            if (this.m_feederOffsetStart != 0.0) {
+                if (Timer.getFPGATimestamp() - this.m_feederOffsetStart > 0.35) {
+                    this.setFeederMotorState(TransportMotorState.OFF);
+                    this.m_feederOffsetStart = 0.0;
+                }
+            } else if (this.m_offsetStart != 0.0) {
+                if (Timer.getFPGATimestamp() - this.m_offsetStart > 0.5) {
+                    this.setConveyorMotorState(TransportMotorState.OFF);
+                    this.m_offsetStart = 0.0;
+                }
+            } else if (this.getBallCount() == 0) {
+                // Check sensor one input.
+                if (this.getSensorOneState()) {
+                    // Turn on conveyor systems.
+                    this.setConveyorMotorState(TransportMotorState.ON);
+                } else if (this.getConveyorMotorState() == TransportMotorState.ON) {
+                    // Turn off conveyor systems.
+                    this.m_offsetStart = Timer.getFPGATimestamp();
+                    this.setBallCount(1);
+                }
+            } else if (this.getBallCount() == 1) {
+                // Check sensor one input.
+                if (this.getSensorOneState()) {
+                    // Turn on conveyor systems.
+                    this.setConveyorMotorState(TransportMotorState.ON);
+                } else if (!this.getSensorTwoState() && this.getConveyorMotorState() == TransportMotorState.ON) {
+                    // Turn off conveyor systems.
+                    this.m_offsetStart = Timer.getFPGATimestamp();
+                    this.setBallCount(2);
+                }
+            } else if (this.getBallCount() == 2) {
+                // Check sensor one input.
+                if (this.getSensorOneState()) {
+                    // Turn on conveyor / feeder systems.
+                    this.setConveyorMotorState(TransportMotorState.ON);
+                    this.setFeederMotorState(TransportMotorState.SLOW);
+                }
+                if (this.getSensorThreeState()) {
+                    // Turn off conveyor / feeder systems.
+                    // this.setFeederMotorState(TransportMotorState.OFF);
+                    this.m_feederOffsetStart = Timer.getFPGATimestamp();
+                    this.setConveyorMotorState(TransportMotorState.OFF);
+                    this.setBallCount(3);
+                }
             }
         }
     }
