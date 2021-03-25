@@ -1,11 +1,13 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.Target;
 import frc.robot.Constants;
 import frc.robot.Robot;
 import frc.robot.commands.ToggleIntake;
+import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
 
 /**
  * Galactic Search autonomous command.
@@ -30,7 +32,7 @@ public class GalacticSearch extends CommandBase {
         Robot.logger.addInfo("GalacticSearch", "Galactic Search Autonomous Command Activated.");
 
         //Turns Intake Subsystem On.
-        new ToggleIntake();
+        // new ToggleIntake();
 
         // PID setup.
         m_td.setTolerance(Constants.ObjVision.kDistancePID_Tolerance);
@@ -38,6 +40,8 @@ public class GalacticSearch extends CommandBase {
 
         m_td.setSetpoint(0);
         m_a.setSetpoint(0);
+
+        Robot.swerveDrive.setState(SwerveDriveState.OTHER_AUTO);
     }
 
     @Override
@@ -50,11 +54,17 @@ public class GalacticSearch extends CommandBase {
             double tx = closestPowerCell.getTx(); // A angle in law of sines
             double a = Math.sqrt(Math.pow((td / Math.sin(90 - tx)), 2) + Math.pow(td, 2)); // distance x (a) in law of sines
 
-            this.m_td.calculate(td);
-            this.m_a.calculate(a);
+            double vtd = this.m_td.calculate(td);
+            double va = -this.m_a.calculate(a);
+
+            SmartDashboard.putNumber("gs_td", td);
+            SmartDashboard.putNumber("gs_tx", tx);
+            SmartDashboard.putNumber("gs_a", a);
+            SmartDashboard.putNumber("gs_vtd", vtd);
+            SmartDashboard.putNumber("gs_va", va);
 
             // Drive the robot based on the coordinates of power cell
-            Robot.swerveDrive.swerve(this.m_td.calculate(td), this.m_a.calculate(a), 0, false);
+            Robot.swerveDrive.heldSwerve(vtd, va, 0.0, false);
         } else {
             // Finish command if more than three balls are in the chamber
             this.m_finished = true;
@@ -63,7 +73,7 @@ public class GalacticSearch extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
-        Robot.swerveDrive.swerve(300, 0, 0, false);
+        // Robot.swerveDrive.swerve(3?00, 0, 0, false);
         Robot.logger.addInfo("GalacticSearch", "Autonomous Galactic Search Command Ended");
     }
 
