@@ -93,6 +93,7 @@ public class Hood extends PIDSubsystem {
      */
     public boolean findTargetPosition(double velocity) {
         double angle = ShooterUtil.calculateHoodAngle(velocity, Constants.Vision.kFieldGoalHeightFromGround);
+        angle = MathUtil.clamp(angle, Constants.Hood.kMinimumAngle, Constants.Hood.kMaximumAngle);
         if (ShooterUtil.withinBounds(angle)) {
             this.turnToAngle(angle);
             return true;

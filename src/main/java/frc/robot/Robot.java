@@ -1,6 +1,5 @@
 package frc.robot;
 
-import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI.Port;
@@ -15,10 +14,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
-import frc.robot.subsystems.Transportation.TransportMotorState;
 import frc.robot.subsystems.Transportation;
 import java.net.UnknownHostException;
-import frc.lib.Deadzone;
 
 /**
  * Main Robot class that contains all Subsystems and periodic methods.

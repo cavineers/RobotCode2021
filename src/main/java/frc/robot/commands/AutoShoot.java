@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.lib.ShooterUtil;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -65,31 +66,33 @@ public class AutoShoot extends CommandBase {
             Robot.logger.addInfo("AutoShoot", "At setpoint");
             
             double angle = ShooterUtil.calculateHoodAngle(Robot.shooter.getSpeed(), Constants.Vision.kFieldGoalHeightFromGround);
-            if (ShooterUtil.withinBounds(angle)) {
-                Robot.hood.findTargetPosition(Robot.shooter.getSpeed());
-                if (Robot.hood.atTarget() && Robot.shooter.closeEnough()) {
-                    if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
-                        Robot.transportation.setFeederMotorState(Transportation.TransportMotorState.ON);
-                    }
-                    if (Robot.transportation.getConveyorMotorState() != Transportation.TransportMotorState.ON) {
-                        Robot.transportation.setConveyorMotorState(Transportation.TransportMotorState.ON);
-                    }
-                    if (Robot.transportation.getSensorThreeState() == false && this.m_prevSensor) {
-                        Robot.transportation.setBallCount(Robot.transportation.getBallCount() - 1);
-                    }
-                    this.m_prevSensor = Robot.transportation.getSensorThreeState();
-
-                    if (Robot.transportation.getBallCount() <= 0) {
-                        this.m_finished = true;
-                    }
-                }
-            } else {
-                if (angle > Constants.Hood.kMaximumAngle) {
-                    Robot.shooter.setSpeed(Robot.shooter.getSpeed() - 100);
-                } else {
-                    Robot.shooter.setSpeed(Robot.shooter.getSpeed() + 100);
-                }
+            angle = MathUtil.clamp(angle, Constants.Hood.kMinimumAngle, Constants.Hood.kMaximumAngle);
+            System.out.println("angle " + angle);
+            System.out.println(ShooterUtil.withinBounds(angle));
+            // if (ShooterUtil.withinBounds(angle)) {
+                // Robot.hood.findTargetPosition(Robot.shooter.getSpeed());
+                // if (Robot.hood.atTarget() && Robot.shooter.closeEnough()) {
+            if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
+                Robot.transportation.setFeederMotorState(Transportation.TransportMotorState.ON);
             }
+            if (Robot.transportation.getConveyorMotorState() != Transportation.TransportMotorState.ON) {
+                Robot.transportation.setConveyorMotorState(Transportation.TransportMotorState.ON);
+            }
+            if (Robot.transportation.getSensorThreeState() == false && this.m_prevSensor) {
+                Robot.transportation.setBallCount(Robot.transportation.getBallCount() - 1);
+            }
+            this.m_prevSensor = Robot.transportation.getSensorThreeState();
+            if (Robot.transportation.getBallCount() <= 0) {
+                this.m_finished = true;
+            }
+            //     }
+            // } else {
+            //     if (angle > Constants.Hood.kMaximumAngle) {
+            //         Robot.shooter.setSpeed(Robot.shooter.getSpeed() - 100);
+            //     } else {
+            //         Robot.shooter.setSpeed(Robot.shooter.getSpeed() + 100);
+            //     }
+            // }
         }
     }
 
