@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.util.Units;
 import frc.lib.Target;
 
 /**
@@ -19,7 +20,7 @@ public class Vision {
         for (int i = 0; i < xyxy.length; i++) {
             Target calculatedData = calculateData(xyxy[i]).setOffset(-Constants.ObjVision.kCameraInset);
 
-            if (!shortestDistance.isSet() || shortestDistance.getDistance() > calculatedData.getDistance()) {
+            if (!shortestDistance.isSet() || shortestDistance.getDistance() > calculatedData.getDistance() && calculatedData.getDistance() > Units.inchesToMeters(22.841)) {
                 shortestDistance = calculatedData;
             }
         }
