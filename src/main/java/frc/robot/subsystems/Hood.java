@@ -46,7 +46,10 @@ public class Hood extends PIDSubsystem {
      * @param angle angle to turn to (in degrees)
      */
     public void turnToAngle(double angle) {
-        angle = MathUtil.clamp(angle, Constants.Hood.kMinimumAngle, Constants.Hood.kMaximumAngle);
+        angle -= Constants.Hood.kMinimumAngle;
+        angle = angle == 0 ? 5.0 : angle;
+        SmartDashboard.putNumber("hood_angle", angle);
+
         this.m_currentSetpoint = ((int) (((910) / (Constants.Hood.kMaximumAngle - Constants.Hood.kMinimumAngle)) * angle));
 
         // Setpoint
@@ -70,6 +73,7 @@ public class Hood extends PIDSubsystem {
      */
     public void home() {
         Robot.logger.addInfo("hood", "Starting homing..");
+        this.turnToAngle(Constants.Hood.kMinimumAngle);
         this.m_homing = true;
     }
 

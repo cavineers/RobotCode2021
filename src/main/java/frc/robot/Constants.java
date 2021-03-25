@@ -202,8 +202,8 @@ public final class Constants {
     public static class Hood {
         public static int kMotorID = CanIds.kShooterHood;
         public static double kHomingSpeed = 0.15;
-        public static double kP = 0.001;
-        public static double kI = 0.00001;
+        public static double kP = 0.002;
+        public static double kI = 0.0001;
         public static double kD = 0.0;
         public static double kTolerance = 5.0; // ~0.5 deg
         public static double kMaxSpeed = 0.9;

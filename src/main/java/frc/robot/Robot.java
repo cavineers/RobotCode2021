@@ -100,6 +100,8 @@ public class Robot extends TimedRobot {
         logger.addInfo("robot", "Initializing...");
 
         gyro.calibrate();
+
+        transportation.disable();
     }
 
     @Override
@@ -118,6 +120,8 @@ public class Robot extends TimedRobot {
         swerveDrive.setState(SwerveDriveState.SWERVE);
         
         swerveDrive.swerve(0, 0, 0, false);
+
+        transportation.disable();
     }
 
     @Override
@@ -132,6 +136,8 @@ public class Robot extends TimedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
         }
+
+        transportation.enable();
     }
 
     @Override
@@ -150,7 +156,8 @@ public class Robot extends TimedRobot {
 
         hood.enable();
         hood.home();
-        hood.turnToAngle(5.0);
+
+        transportation.enable();
 
         new DropIntake().schedule();
 
