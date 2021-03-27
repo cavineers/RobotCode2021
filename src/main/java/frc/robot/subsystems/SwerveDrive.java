@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
+import edu.wpi.first.wpilibj.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj.geometry.Pose2d;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.geometry.Translation2d;
@@ -10,6 +11,8 @@ import edu.wpi.first.wpilibj.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.wpilibj.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile;
+import edu.wpi.first.wpilibj.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpiutil.math.MathUtil;
@@ -59,10 +62,10 @@ public class SwerveDrive extends SubsystemBase {
     private Path m_path;
 
     // X, Y, Rot. PID Controllers
-    private PIDController m_xPidController = new PIDController(Constants.Swerve.kPositionPID_P,
-            Constants.Swerve.kPositionPID_I, Constants.Swerve.kPositionPID_D);
-    private PIDController m_yPidController = new PIDController(Constants.Swerve.kPositionPID_P,
-            Constants.Swerve.kPositionPID_I, Constants.Swerve.kPositionPID_D);
+    private ProfiledPIDController m_xPidController = new ProfiledPIDController(Constants.Swerve.kPositionPID_P,
+            Constants.Swerve.kPositionPID_I, Constants.Swerve.kPositionPID_D, new TrapezoidProfile.Constraints(Constants.Swerve.kMaxVelocity, Constants.Swerve.kMaxAcceleration));
+    private ProfiledPIDController m_yPidController = new ProfiledPIDController(Constants.Swerve.kPositionPID_P,
+            Constants.Swerve.kPositionPID_I, Constants.Swerve.kPositionPID_D, new TrapezoidProfile.Constraints(Constants.Swerve.kMaxVelocity, Constants.Swerve.kMaxAcceleration));
     private PIDController m_rPidController = new PIDController(Constants.Swerve.kAnglePID_P,
             Constants.Swerve.kAnglePID_I, Constants.Swerve.kAnglePID_D);
 
@@ -276,17 +279,17 @@ public class SwerveDrive extends SubsystemBase {
     private void generateProfile() {
         // System.out.println(this.m_path.getCurrent().getX());
         // System.out.println(this.m_path.getCurrent().getY());
-        this.m_xPidController.setTolerance(this.m_path.getCurrent().getTranslationTolerance());
-        this.m_yPidController.setTolerance(this.m_path.getCurrent().getTranslationTolerance());
-        this.m_rPidController.setTolerance(this.m_path.getCurrent().getRotationTolerance());
+        this.m_xPidController.setTolerance(this.m_path.getCurrent().getTranslationTolerance(), 2.0);
+        this.m_yPidController.setTolerance(this.m_path.getCurrent().getTranslationTolerance(), 2.0);
+        this.m_rPidController.setTolerance(this.m_path.getCurrent().getRotationTolerance(), 2.0);
         if (this.m_isRelative) {
-            this.m_xPidController.setSetpoint(this.getPosition().getX() + this.m_path.getCurrent().getX());
-            this.m_yPidController.setSetpoint(this.getPosition().getY() + this.m_path.getCurrent().getY());
+            this.m_xPidController.setGoal(new State(this.getPosition().getX() + this.m_path.getCurrent().getX(), this.m_path.getCurrent().getEndingVelocity()));
+            this.m_yPidController.setGoal(new State(this.getPosition().getY() + this.m_path.getCurrent().getY(), this.m_path.getCurrent().getEndingVelocity()));
             this.m_rPidController.setSetpoint(this.getPosition().getRotation().getDegrees()
                     + this.m_path.getCurrent().getRotation().getDegrees());
         } else {
-            this.m_xPidController.setSetpoint(this.m_initialPosition.getX() + this.m_path.getCurrent().getX());
-            this.m_yPidController.setSetpoint(this.m_initialPosition.getY() + this.m_path.getCurrent().getY());
+            this.m_xPidController.setGoal(new State(this.m_initialPosition.getX() + this.m_path.getCurrent().getX(), this.m_path.getCurrent().getEndingVelocity()));
+            this.m_yPidController.setGoal(new State(this.m_initialPosition.getY() + this.m_path.getCurrent().getY(), this.m_path.getCurrent().getEndingVelocity()));
             this.m_rPidController.setSetpoint(
                     this.m_initialRotation.getDegrees() + this.m_path.getCurrent().getRotation().getDegrees());
         }
@@ -299,7 +302,7 @@ public class SwerveDrive extends SubsystemBase {
             // System.out.println(this.m_path.getCurrent().getRotationTolerance());
             // System.out.println("Check: " + this.m_xPidController.atSetpoint() + " " + this.m_yPidController.atSetpoint() + " " + this.m_rPidController.atSetpoint());
             // If all movement is finished
-            if (this.m_xPidController.atSetpoint() && this.m_yPidController.atSetpoint()
+            if (this.m_xPidController.atGoal() && this.m_yPidController.atGoal()
                     && this.m_rPidController.atSetpoint()) {
                 // If so, check if there is another point to target
                 if (this.m_path.next()) {
@@ -332,11 +335,11 @@ public class SwerveDrive extends SubsystemBase {
                 double rOutput = this.m_rPidController.calculate(this.getAngle().getDegrees());
 
                 SmartDashboard.putNumber("xOutput", xOutput);
-                SmartDashboard.putNumber("xSetpoint", this.m_xPidController.getSetpoint());
+                // SmartDashboard.putNumber("xSetpoint", this.m_xPidController.getSetpoint());
                 SmartDashboard.putNumber("yOutput", yOutput);
-                SmartDashboard.putNumber("ySetpoint", this.m_yPidController.getSetpoint());
+                // SmartDashboard.putNumber("ySetpoint", this.m_yPidController.getSetpoint());
                 SmartDashboard.putNumber("rOutput", rOutput);
-                SmartDashboard.putNumber("rSetpoint", this.m_rPidController.getSetpoint());
+                // SmartDashboard.putNumber("rSetpoint", this.m_rPidController.getSetpoint());
                 // System.out.println("Setpoint: "+this.m_xPIDController.getSetpoint()+"
                 // "+this.m_yPIDController.getSetpoint()+"
                 // "+this.m_rPIDController.getSetpoint());

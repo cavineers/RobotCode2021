@@ -12,8 +12,6 @@ import java.util.ArrayList;
 public class Path {
     protected Plot[] m_plots;
     private int m_current = 0;
-    public double m_TranslationTolerance;
-    public double m_RotationalTolerance;
     private ArrayList<Plot> m_points = new ArrayList<Plot>(0);
 
     public Path() {}
@@ -43,8 +41,8 @@ public class Path {
         return this.m_current + 1 != this.m_plots.length;
     }
 
-    public void add(double x, double y, double r, double transitionTolerance, double rotationalTolerance) {
-        this.m_points.add(new Plot(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(r), Units.inchesToMeters(transitionTolerance), rotationalTolerance));
+    public void add(double x, double y, double r, double transitionTolerance, double rotationalTolerance, double endingVelocity) {
+        this.m_points.add(new Plot(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(r), Units.inchesToMeters(transitionTolerance), rotationalTolerance, endingVelocity));
     }
 
     /**

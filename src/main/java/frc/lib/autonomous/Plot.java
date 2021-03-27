@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
 public class Plot extends Pose2d {
     private double m_transitionTolerance;
     private double m_rotationalTolerance;
+    private double m_endingVelocity;
 
     /**
      * Create Plot.
@@ -19,10 +20,11 @@ public class Plot extends Pose2d {
      * @param transitionTolerance Translation Tolerance
      * @param rotationTolerance Rotation Tolerance
      */
-    public Plot(double x, double y, Rotation2d rotation2d, double transitionTolerance, double rotationTolerance) {
+    public Plot(double x, double y, Rotation2d rotation2d, double transitionTolerance, double rotationTolerance, double endingVelocity) {
         super(x, y, rotation2d);
         setTransitionTolerance(transitionTolerance);
         setRotationTolerance(rotationTolerance);
+        setEndingVelocity(endingVelocity);
     }
 
     public void setTransitionTolerance(double tolerance) {
@@ -33,11 +35,19 @@ public class Plot extends Pose2d {
         this.m_rotationalTolerance = tolerance;
     }
 
+    public void setEndingVelocity(double velocity) {
+        this.m_endingVelocity = velocity;
+    }
+
     public double getTranslationTolerance() {
         return this.m_transitionTolerance;
     }
 
     public double getRotationTolerance() {
         return this.m_rotationalTolerance;
+    }
+
+    public double getEndingVelocity() {
+        return this.m_endingVelocity;
     }
 }

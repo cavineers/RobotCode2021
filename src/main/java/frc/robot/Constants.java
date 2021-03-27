@@ -146,6 +146,7 @@ public final class Constants {
 
         // Kinematics & Odometry
         public static double kMaxVelocity = Units.feetToMeters(12.0); // In Feet Per Second (converted to meters)
+        public static double kMaxAcceleration = Units.feetToMeters(6.0);
 
         public static double kMaxRotateSpeed = 150.0; // In Degrees Per Second
         public static double kMaxRotateAcceleration = 30.0;
@@ -157,9 +158,9 @@ public final class Constants {
         public static double kRotationPID_T = 1.0;
 
         // Position PID
-        public static double kPositionPID_P = 0.8;
+        public static double kPositionPID_P = 1.0;
         public static double kPositionPID_I = 0.0;
-        public static double kPositionPID_D = 0.0001;
+        public static double kPositionPID_D = 0.0;
 
         // Angle PID
         public static double kAnglePID_P = 0.009;
