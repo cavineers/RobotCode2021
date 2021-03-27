@@ -2,6 +2,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.util.Units;
 import frc.lib.Target;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The vision controller for the robot.
@@ -19,7 +20,7 @@ public class Vision {
 
         for (int i = 0; i < xyxy.length; i++) {
             Target calculatedData = calculateData(xyxy[i]).setOffset(-Constants.ObjVision.kCameraInset);
-
+            SmartDashboard.putNumber("calc data", calculatedData.getDistance());
             if (!shortestDistance.isSet() || shortestDistance.getDistance() > calculatedData.getDistance() && calculatedData.getDistance() > Units.inchesToMeters(27.0)) {
                 shortestDistance = calculatedData;
             }

@@ -71,9 +71,10 @@ public class GalacticSearch extends CommandBase {
             SmartDashboard.putNumber("gs_a", a);
             SmartDashboard.putNumber("gs_vtd", vtd);
             SmartDashboard.putNumber("gs_va", va);
+            SmartDashboard.putNumber("gs_ty", closestPowerCell.getTy());
 
             // Drive the robot based on the coordinates of power cell
-            Robot.swerveDrive.heldSwerve(vtd, va, vRotatePid, false);
+            // Robot.swerveDrive.heldSwerve(vtd, va, vRotatePid, false);
         } else {
             // Finish command if more than three balls are in the chamber
             this.m_finished = true;
