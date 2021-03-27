@@ -194,6 +194,10 @@ public final class Constants {
         public static double kXPID_I = 0.0;
         public static double kXPID_D = 0.0;
         public static double kXPID_Tolerance = 1.0;
+
+        public static double kAnglePIDp = 0.008;
+        public static double kAnglePIDi = 0.0;
+        public static double kAnglePIDd = 0.001;
     }
 
     /**

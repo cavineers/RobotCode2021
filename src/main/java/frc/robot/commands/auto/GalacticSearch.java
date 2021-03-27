@@ -19,8 +19,13 @@ public class GalacticSearch extends CommandBase {
     // PIDs
     private PIDController m_td = new PIDController(Constants.ObjVision.kDistancePID_P, 
             Constants.ObjVision.kDistancePID_I, Constants.ObjVision.kDistancePID_D);
+
     private PIDController m_a = new PIDController(Constants.ObjVision.kXPID_P, 
             Constants.ObjVision.kXPID_I, Constants.ObjVision.kXPID_D);
+
+    private PIDController m_rotatePid = new PIDController(Constants.ObjVision.kAnglePIDp,
+            Constants.ObjVision.kAnglePIDi, Constants.ObjVision.kAnglePIDd);
+
 
     public GalacticSearch() {
         this.addRequirements(Robot.swerveDrive);
@@ -34,11 +39,13 @@ public class GalacticSearch extends CommandBase {
         // new ToggleIntake();
 
         // PID setup.
-        m_td.setTolerance(Constants.ObjVision.kDistancePID_Tolerance);
-        m_a.setTolerance(Constants.ObjVision.kXPID_Tolerance);
+        this.m_td.setTolerance(Constants.ObjVision.kDistancePID_Tolerance);
+        this.m_a.setTolerance(Constants.ObjVision.kXPID_Tolerance);
+        this.m_rotatePid.setTolerance(1.0);
 
-        m_td.setSetpoint(0);
-        m_a.setSetpoint(0);
+        this.m_td.setSetpoint(0.0);
+        this.m_a.setSetpoint(0.0);
+        this.m_rotatePid.setSetpoint(0.0);
 
         Robot.swerveDrive.setState(SwerveDriveState.OTHER_AUTO);
     }
@@ -55,6 +62,7 @@ public class GalacticSearch extends CommandBase {
 
             double vtd = this.m_td.calculate(td);
             double va = -this.m_a.calculate(a);
+            double vRotatePid = this.m_rotatePid.calculate(Robot.swerveDrive.getAngle().getDegrees());
 
             SmartDashboard.putNumber("gs_td", td);
             SmartDashboard.putNumber("gs_tx", tx);
@@ -63,7 +71,7 @@ public class GalacticSearch extends CommandBase {
             SmartDashboard.putNumber("gs_va", va);
 
             // Drive the robot based on the coordinates of power cell
-            Robot.swerveDrive.heldSwerve(vtd, va, 0.0, false);
+            Robot.swerveDrive.heldSwerve(vtd, va, vRotatePid, false);
         } else {
             // Finish command if more than three balls are in the chamber
             this.m_finished = true;
