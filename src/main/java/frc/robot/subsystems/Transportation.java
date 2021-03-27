@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.subsystems.Intake.IntakeMotorState;
 
 /**
  * Transport subsystem.
@@ -232,12 +233,12 @@ public class Transportation extends SubsystemBase {
                 this.m_sensorThreeTripped = this.getSensorThreeState();
             }
             if (this.m_feederOffsetStart != 0.0) {
-                if (Timer.getFPGATimestamp() - this.m_feederOffsetStart > 0.35) {
+                if (Timer.getFPGATimestamp() - this.m_feederOffsetStart > 0.2) {
                     this.setFeederMotorState(TransportMotorState.OFF);
                     this.m_feederOffsetStart = 0.0;
                 }
             } else if (this.m_offsetStart != 0.0) {
-                if (Timer.getFPGATimestamp() - this.m_offsetStart > 0.5) {
+                if (Timer.getFPGATimestamp() - this.m_offsetStart > 0.35) {
                     this.setConveyorMotorState(TransportMotorState.OFF);
                     this.m_offsetStart = 0.0;
                 }
@@ -273,6 +274,7 @@ public class Transportation extends SubsystemBase {
                     // this.setFeederMotorState(TransportMotorState.OFF);
                     this.m_feederOffsetStart = Timer.getFPGATimestamp();
                     this.setConveyorMotorState(TransportMotorState.OFF);
+                    Robot.intake.setMotorState(IntakeMotorState.OFF);
                     this.setBallCount(3);
                 }
             }

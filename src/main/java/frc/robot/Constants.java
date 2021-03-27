@@ -76,7 +76,7 @@ public final class Constants {
         public static double kMaxRPM = 5500;
         public static int kCurrentLimit = 39;
 
-        public static double kAdjustPIDp = 0.025;
+        public static double kAdjustPIDp = 0.03;
         public static double kAdjustPIDi = 0.0;
         public static double kAdjustPIDd = 0.001;
 
@@ -91,7 +91,7 @@ public final class Constants {
     public static class Intake {
         public static int kIntakeID = CanIds.kIntakeMotor;
         public static double kInSpeed = -0.5;
-        public static double kOutSpeed = 0.3;
+        public static double kOutSpeed = 0.6;
     }
 
     /**
@@ -103,8 +103,8 @@ public final class Constants {
         public static double kInSpeedFeeder = -0.5;
         public static double kSlowFeeder = -0.3;
         public static double kOutSpeedFeeder = 0.2;
-        public static double kInSpeedConveyor = -0.4;
-        public static double kOutSpeedConveyor = 0.4;
+        public static double kInSpeedConveyor = -0.65;
+        public static double kOutSpeedConveyor = 0.65;
         public static double kBeltLength = (2.0 * 15.748) * Math.PI;
         public static double kPulleyCircumference = 2 * Math.PI;
         public static double kGearRatio = 1;

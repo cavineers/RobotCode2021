@@ -26,6 +26,10 @@ public class AutoShoot extends CommandBase {
 
     private double m_timestamp;
 
+    private boolean m_everAchievedAdj = false;
+
+    private boolean m_everAchievedRot = false;
+
     public AutoShoot() {
         this.addRequirements(Robot.shooter, Robot.transportation);
     }
@@ -33,7 +37,7 @@ public class AutoShoot extends CommandBase {
     @Override
     public void initialize() {
         this.m_adjustmentPid.setSetpoint(0.0);
-        this.m_adjustmentPid.setTolerance(1.0);
+        this.m_adjustmentPid.setTolerance(0.5);
 
         this.m_rotatePid.setSetpoint(0.0);
         this.m_rotatePid.setTolerance(1.0);
@@ -43,6 +47,10 @@ public class AutoShoot extends CommandBase {
         Robot.logger.addInfo("AutoShoot", "Starting AutoShoot.");
 
         Robot.transportation.disable();
+
+        this.m_everAchievedAdj = false;
+
+        this.m_everAchievedRot = false;
 
         this.m_timestamp = Timer.getFPGATimestamp();
     }
@@ -55,25 +63,42 @@ public class AutoShoot extends CommandBase {
         SmartDashboard.putNumber("shootRot", rot);
         SmartDashboard.putNumber("shootAdj", -adj);
 
-        if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
-            Robot.swerveDrive.heldSwerve(0.0, this.m_adjustmentPid.atSetpoint() ? 0.0 : -adj, this.m_rotatePid.atSetpoint() ? 0.0 : rot, false);
-        }
-        if (Robot.shooter.getCurrentMode() != Shooter.ShooterMode.ENABLED) { 
-            Robot.shooter.setSpeed(Constants.Shooter.kMaxRPM * 0.9);
-            // Robot.shooter.enable();
+        if (this.m_adjustmentPid.atSetpoint()) {
+            this.m_everAchievedAdj = true;
         }
 
-        if (this.m_adjustmentPid.atSetpoint() && this.m_rotatePid.atSetpoint()) {
+        if (this.m_rotatePid.atSetpoint()) {
+            this.m_everAchievedRot = true;
+        }
+
+        if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
+            Robot.swerveDrive.heldSwerve(0.0, this.m_everAchievedAdj ? 0.0 : -adj, this.m_everAchievedRot ? 0.0 : rot, false);
+        }
+
+        if (Robot.shooter.getCurrentMode() != Shooter.ShooterMode.ENABLED) { 
+            Robot.shooter.setSpeed(Constants.Shooter.kMaxRPM * 0.9);
+            Robot.shooter.enable();
+        }
+
+        SmartDashboard.putBoolean("check_shooter", Robot.shooter.closeEnough());
+        SmartDashboard.putBoolean("check_adjustment", this.m_adjustmentPid.atSetpoint());
+        SmartDashboard.putBoolean("check_rotation", this.m_rotatePid.atSetpoint());
+
+        if (this.m_everAchievedAdj && this.m_everAchievedRot) {
             Robot.logger.addInfo("AutoShoot", "At setpoint");
             
             double msVel = (Units.inchesToMeters(4) * Math.PI) * (Robot.shooter.getSpeed() / 120);
             double angle = ShooterUtil.calculateHoodAngle(msVel, Constants.Vision.kFieldGoalHeightFromGround);
+            SmartDashboard.putNumber("angle", angle);
             angle = MathUtil.clamp(angle, Constants.Hood.kMinimumAngle, Constants.Hood.kMaximumAngle);
-            System.out.println("angle " + angle);
+            System.out.println("unclamped_angle " + angle);
             System.out.println(ShooterUtil.withinBounds(angle));
+            SmartDashboard.putNumber("clamped_angle", angle);
+            SmartDashboard.putBoolean("angle_bounds", ShooterUtil.withinBounds(angle));
             if (ShooterUtil.withinBounds(angle)) {
                 Robot.hood.findTargetPosition(msVel);
-                if (Robot.hood.atTarget() && Robot.shooter.closeEnough()) {
+                if (Robot.shooter.closeEnough()) {
+                    System.out.println("fuclk yea");
                     if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
                         Robot.transportation.setFeederMotorState(Transportation.TransportMotorState.ON);
                     }
