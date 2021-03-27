@@ -1,5 +1,6 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -59,13 +60,13 @@ public class AutoShoot extends CommandBase {
         }
         if (Robot.shooter.getCurrentMode() != Shooter.ShooterMode.ENABLED) { 
             Robot.shooter.setSpeed(Constants.Shooter.kMaxRPM * 0.9);
-            Robot.shooter.enable();
+            // Robot.shooter.enable();
         }
 
         if (this.m_adjustmentPid.atSetpoint() && this.m_rotatePid.atSetpoint()) {
             Robot.logger.addInfo("AutoShoot", "At setpoint");
             
-            double msVel = 12.566370614359172 * (Robot.shooter.getSpeed()/120);
+            double msVel = (Units.inchesToMeters(4) * Math.PI) * (Robot.shooter.getSpeed() / 120);
             double angle = ShooterUtil.calculateHoodAngle(msVel, Constants.Vision.kFieldGoalHeightFromGround);
             angle = MathUtil.clamp(angle, Constants.Hood.kMinimumAngle, Constants.Hood.kMaximumAngle);
             System.out.println("angle " + angle);
