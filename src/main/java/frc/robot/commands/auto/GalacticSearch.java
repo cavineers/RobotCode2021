@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.Target;
 import frc.robot.Constants;
 import frc.robot.Robot;
+import frc.robot.subsystems.Intake.IntakeMotorState;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
 
 /**
@@ -37,6 +38,7 @@ public class GalacticSearch extends CommandBase {
 
         //Turns Intake Subsystem On.
         // new ToggleIntake();
+        Robot.intake.setMotorState(IntakeMotorState.ON);
 
         // PID setup.
         this.m_td.setTolerance(Constants.ObjVision.kDistancePID_Tolerance);
@@ -82,6 +84,7 @@ public class GalacticSearch extends CommandBase {
     public void end(boolean interrupted) {
         // Robot.swerveDrive.swerve(3?00, 0, 0, false);
         Robot.logger.addInfo("GalacticSearch", "Autonomous Galactic Search Command Ended");
+        Robot.intake.setMotorState(IntakeMotorState.OFF);
     }
 
     @Override
