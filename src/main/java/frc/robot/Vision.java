@@ -20,7 +20,7 @@ public class Vision {
         for (int i = 0; i < xyxy.length; i++) {
             Target calculatedData = calculateData(xyxy[i]).setOffset(-Constants.ObjVision.kCameraInset);
 
-            if (!shortestDistance.isSet() || shortestDistance.getDistance() > calculatedData.getDistance() && calculatedData.getDistance() > Units.inchesToMeters(25.0)) {
+            if (!shortestDistance.isSet() || shortestDistance.getDistance() > calculatedData.getDistance() && calculatedData.getDistance() > Units.inchesToMeters(27.0)) {
                 shortestDistance = calculatedData;
             }
         }
