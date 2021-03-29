@@ -42,7 +42,7 @@ public class Path {
     }
 
     public void add(double x, double y, double r, double xVel, double yVel, double transitionTolerance, double rotationalTolerance) {
-        this.m_points.add(new Plot(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(r), xVel, yVel, Units.inchesToMeters(transitionTolerance), rotationalTolerance));
+        this.m_points.add(new Plot(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(r), Units.feetToMeters(xVel), Units.feetToMeters(yVel), Units.inchesToMeters(transitionTolerance), rotationalTolerance));
     }
 
     /**

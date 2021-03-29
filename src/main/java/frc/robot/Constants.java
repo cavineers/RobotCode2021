@@ -169,6 +169,9 @@ public final class Constants {
 
         // Track Width
         public static double kTrackWidth = Sizing.kTrackWidthMeters;
+
+        // Velocity Tolerance
+        public static double kVelocityTolerance = Units.feetToMeters(2.0);
     }
 
     /**
