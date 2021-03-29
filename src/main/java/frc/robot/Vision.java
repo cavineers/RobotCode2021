@@ -2,7 +2,6 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.util.Units;
 import frc.lib.Target;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  * The vision controller for the robot.
@@ -20,7 +19,6 @@ public class Vision {
 
         for (int i = 0; i < xyxy.length; i++) {
             Target calculatedData = calculateData(xyxy[i]).setOffset(-Constants.ObjVision.kCameraInset);
-            SmartDashboard.putNumber("calc data", calculatedData.getDistance());
             if (!shortestDistance.isSet() || shortestDistance.getDistance() > calculatedData.getDistance() && calculatedData.getDistance() > Units.inchesToMeters(27.0)) {
                 shortestDistance = calculatedData;
             }
@@ -42,18 +40,21 @@ public class Vision {
         double height = Double.parseDouble(xyxy[3]) - Double.parseDouble(xyxy[1]);
 
         // Calculate ty / tx value | tx / ty in degrees (after conversion)
-        double ty = ((Constants.ObjVision.kCameraResolutionY / 2) - ((Double.parseDouble(xyxy[3])) + (-height / 2)))
+        double ty = ((Constants.ObjVision.kCameraResolutionY / 2.0) - ((Double.parseDouble(xyxy[3])) + (-height / 2.0)))
                 * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionY);
-        double tx = ((Constants.ObjVision.kCameraResolutionX / 2) - (Double.parseDouble(xyxy[2]) + (-width / 2)))
+        double tx = ((Constants.ObjVision.kCameraResolutionX / 2.0) - (Double.parseDouble(xyxy[2]) + (-width / 2.0)))
                 * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionX);
 
         // Calculate distance using: (ballHeight-cameraHeight) /
         // (math.tan(math.radians(cameraAngle+ty))) | distance represents line b in law
         // of sines
         // Values shown here: http://share.brycecary.dev/1EF2 with td = distance
-        double distance = (Constants.ObjVision.kBallHeight - Constants.ObjVision.kCameraHeight)
+
+        double distance = (Constants.ObjVision.kCameraHeight - Constants.ObjVision.kBallHeight) // May need to change to be (ballHeight - cameraHeight)
                 / (Math.tan(Math.toRadians(Constants.ObjVision.kCameraAngle + ty)));
 
+        Robot.logger.addInfo("Vision Data", Double.toString(distance));
+        
         // Return new Target Class
         return new Target(distance, ty, tx);
     }
