@@ -7,9 +7,10 @@ import edu.wpi.first.wpilibj.geometry.Rotation2d;
  * Plot for autonomous path that includes robot's position and tolerances.
  */
 public class Plot extends Pose2d {
-    private double m_transitionTolerance;
+    private double m_translationTolerance;
     private double m_rotationalTolerance;
-    private double m_endingVelocity;
+    private double m_xVelocity;
+    private double m_yVelocity;
 
     /**
      * Create Plot.
@@ -20,34 +21,27 @@ public class Plot extends Pose2d {
      * @param transitionTolerance Translation Tolerance
      * @param rotationTolerance Rotation Tolerance
      */
-    public Plot(double x, double y, Rotation2d rotation2d, double transitionTolerance, double rotationTolerance, double endingVelocity) {
+    public Plot(double x, double y, Rotation2d rotation2d, double xVel, double yVel, double translationTolerance, double rotationTolerance) {
         super(x, y, rotation2d);
-        setTransitionTolerance(transitionTolerance);
-        setRotationTolerance(rotationTolerance);
-        setEndingVelocity(endingVelocity);
-    }
-
-    public void setTransitionTolerance(double tolerance) {
-        this.m_transitionTolerance = tolerance;
-    }
-
-    public void setRotationTolerance(double tolerance) {
-        this.m_rotationalTolerance = tolerance;
-    }
-
-    public void setEndingVelocity(double velocity) {
-        this.m_endingVelocity = velocity;
+        this.m_xVelocity = xVel;
+        this.m_yVelocity = yVel;
+        this.m_translationTolerance = translationTolerance;
+        this.m_rotationalTolerance = rotationTolerance;
     }
 
     public double getTranslationTolerance() {
-        return this.m_transitionTolerance;
+        return this.m_translationTolerance;
     }
 
     public double getRotationTolerance() {
         return this.m_rotationalTolerance;
     }
 
-    public double getEndingVelocity() {
-        return this.m_endingVelocity;
+    public double getXVelocity() {
+        return this.m_xVelocity;
+    }
+
+    public double getYVelocity() {
+        return this.m_yVelocity;
     }
 }
