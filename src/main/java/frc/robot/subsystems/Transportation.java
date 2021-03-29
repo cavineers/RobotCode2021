@@ -48,6 +48,9 @@ public class Transportation extends SubsystemBase {
     private boolean m_sensorTwoTripped = false;
     private boolean m_sensorThreeTripped = false;
 
+    private double m_lastBall = 0.0;
+    private double m_sensorTwoTimeout = 0.0;
+
     /**
      * Transportation constructor.
      */
@@ -210,6 +213,7 @@ public class Transportation extends SubsystemBase {
 
     public void setBallCount(int ballCount) {
         this.m_numPowerCells = ballCount;
+        this.m_lastBall = Timer.getFPGATimestamp();
     }
 
     /**
@@ -220,62 +224,74 @@ public class Transportation extends SubsystemBase {
         // Set PowerCell count
         SmartDashboard.putNumber("Current PowerCell Count", this.getBallCount());
 
+        boolean one = this.getSensorOneState();
+        boolean two = this.getSensorTwoState();
+        boolean three = this.getSensorThreeState();
+
         SmartDashboard.putBoolean("sensorOneState", this.getSensorOneState());
         SmartDashboard.putBoolean("sensorTwoState", this.getSensorTwoState());
         SmartDashboard.putBoolean("sensorThreeState", this.getSensorThreeState());
 
         // Move PowerCell positions autonomously via sensor inputs
         if (this.m_enabled) {
-            if (this.m_sensorTwoTripped != true) {
-                this.m_sensorTwoTripped = this.getSensorTwoState();
-            }
-            if (this.m_sensorThreeTripped != true) {
-                this.m_sensorThreeTripped = this.getSensorThreeState();
-            }
             if (this.m_feederOffsetStart != 0.0) {
                 if (Timer.getFPGATimestamp() - this.m_feederOffsetStart > 0.2) {
                     this.setFeederMotorState(TransportMotorState.OFF);
                     this.m_feederOffsetStart = 0.0;
                 }
             } else if (this.m_offsetStart != 0.0) {
-                if (Timer.getFPGATimestamp() - this.m_offsetStart > 0.35) {
+                if (Timer.getFPGATimestamp() - this.m_offsetStart > 0.75) {
                     this.setConveyorMotorState(TransportMotorState.OFF);
                     this.m_offsetStart = 0.0;
                 }
-            } else if (this.getBallCount() == 0) {
-                // Check sensor one input.
-                if (this.getSensorOneState()) {
-                    // Turn on conveyor systems.
-                    this.setConveyorMotorState(TransportMotorState.ON);
-                } else if (this.getConveyorMotorState() == TransportMotorState.ON) {
-                    // Turn off conveyor systems.
-                    this.m_offsetStart = Timer.getFPGATimestamp();
-                    this.setBallCount(1);
-                }
-            } else if (this.getBallCount() == 1) {
-                // Check sensor one input.
-                if (this.getSensorOneState()) {
-                    // Turn on conveyor systems.
-                    this.setConveyorMotorState(TransportMotorState.ON);
-                } else if (!this.getSensorTwoState() && this.getConveyorMotorState() == TransportMotorState.ON) {
-                    // Turn off conveyor systems.
-                    this.m_offsetStart = Timer.getFPGATimestamp();
-                    this.setBallCount(2);
-                }
-            } else if (this.getBallCount() == 2) {
-                // Check sensor one input.
-                if (this.getSensorOneState()) {
-                    // Turn on conveyor / feeder systems.
-                    this.setConveyorMotorState(TransportMotorState.ON);
-                    this.setFeederMotorState(TransportMotorState.SLOW);
-                }
-                if (this.getSensorThreeState()) {
-                    // Turn off conveyor / feeder systems.
-                    // this.setFeederMotorState(TransportMotorState.OFF);
-                    this.m_feederOffsetStart = Timer.getFPGATimestamp();
-                    this.setConveyorMotorState(TransportMotorState.OFF);
-                    Robot.intake.setMotorState(IntakeMotorState.OFF);
-                    this.setBallCount(3);
+            }
+            
+            if (Timer.getFPGATimestamp() - this.m_lastBall >= 1.0) {
+                switch (this.getBallCount()) {
+                    case 0:
+                        // Check sensor one input.
+                        if (one) {
+                            // Turn on conveyor systems.
+                            this.setConveyorMotorState(TransportMotorState.ON);
+                        }
+                        
+                        if (!one && this.getConveyorMotorState() == TransportMotorState.ON) {
+                            // Turn off conveyor systems.
+                            this.m_offsetStart = Timer.getFPGATimestamp();
+                            this.setBallCount(1);
+                        }
+                        break;
+                    case 1:
+                        // Check sensor one input.
+                        if (one) {
+                            // Turn on conveyor systems.
+                            this.setConveyorMotorState(TransportMotorState.ON);
+                        }
+
+                        if (!two && this.getConveyorMotorState() == TransportMotorState.ON) {
+                            // Turn off conveyor systems.
+                            this.m_offsetStart = Timer.getFPGATimestamp();
+                            this.setBallCount(2);
+                        }
+                        break;
+                    case 2:
+                        // Check sensor one input.
+                        if (one) {
+                            // Turn on conveyor / feeder systems.
+                            this.setConveyorMotorState(TransportMotorState.ON);
+                            this.setFeederMotorState(TransportMotorState.SLOW);
+                        }
+
+                        if (three && this.getConveyorMotorState() == TransportMotorState.ON) {
+                            // Turn off conveyor / feeder systems.
+                            this.m_feederOffsetStart = Timer.getFPGATimestamp();
+                            this.setConveyorMotorState(TransportMotorState.OFF);
+                            Robot.intake.setMotorState(IntakeMotorState.OFF);
+                            this.setBallCount(3);
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
         }
