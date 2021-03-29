@@ -254,7 +254,7 @@ public class Transportation extends SubsystemBase {
                 }
             }
             
-            if (Timer.getFPGATimestamp() - this.m_lastBall >= 2.0) {
+            if (Timer.getFPGATimestamp() - this.m_lastBall >= 0.5) {
                 switch (this.getBallCount()) {
                     case 0:
                         // Check sensor one input.
