@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DropIntake;
 import frc.robot.commands.TeleopDrive;
+import frc.robot.commands.auto.AutonomousRecord;
 import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -159,7 +160,8 @@ public class Robot extends TimedRobot {
 
         new DropIntake().schedule();
 
-        new TeleopDrive().schedule(false);
+        // new TeleopDrive().schedule(false);
+        new AutonomousRecord().schedule(false);
 
         // Robot.transportation.setConveyorMotorState(TransportMotorState.ON);
         // Robot.transportation.setFeederMotorState(TransportMotorState.ON);
