@@ -18,7 +18,9 @@ public class Plot extends Pose2d {
      * @param x X Position
      * @param y Y Position
      * @param rotation2d Rotation
-     * @param transitionTolerance Translation Tolerance
+     * @param xVel X Velocity
+     * @param yVel Y Velocity
+     * @param translationTolerance Translation Tolerance
      * @param rotationTolerance Rotation Tolerance
      */
     public Plot(double x, double y, Rotation2d rotation2d, double xVel, double yVel, double translationTolerance, double rotationTolerance) {
