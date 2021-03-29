@@ -50,8 +50,7 @@ public class Vision {
         // of sines
         // Values shown here: http://share.brycecary.dev/1EF2 with td = distance
 
-        double distance = (Constants.ObjVision.kCameraHeight - Constants.ObjVision.kBallHeight) // May need to change to be (ballHeight - cameraHeight)
-                / (Math.tan(Math.toRadians(Constants.ObjVision.kCameraAngle + ty)));
+        double distance = (Constants.ObjVision.kCameraHeight - Constants.ObjVision.kBallHeight) * (1 / Math.tan(Math.toRadians(Constants.ObjVision.kCameraAngle + ty)));
 
         Robot.logger.addInfo("Vision Data", Double.toString(distance));
         

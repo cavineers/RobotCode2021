@@ -177,7 +177,7 @@ public final class Constants {
     public static class ObjVision {
         // Constants (in inches)
         public static double kCameraHeight = Units.inchesToMeters(17.025);
-        public static double kCameraAngle  = 338.0; // In degrees
+        public static double kCameraAngle  = 0.0; // In degrees
 
         public static double kBallHeight = Units.inchesToMeters(3.5);
 
