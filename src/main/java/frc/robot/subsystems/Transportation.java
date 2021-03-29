@@ -41,6 +41,7 @@ public class Transportation extends SubsystemBase {
     private DigitalInput m_sensorThree = new DigitalInput(Constants.Dio.kFeederSensor);
 
     private double m_offsetStart = 0.0;
+    private double m_offsetStart2 = 0.0;
     private double m_feederOffsetStart = 0.0;
 
     private boolean m_enabled = true;
@@ -235,18 +236,25 @@ public class Transportation extends SubsystemBase {
         // Move PowerCell positions autonomously via sensor inputs
         if (this.m_enabled) {
             if (this.m_feederOffsetStart != 0.0) {
-                if (Timer.getFPGATimestamp() - this.m_feederOffsetStart > 0.2) {
+                if (Timer.getFPGATimestamp() - this.m_feederOffsetStart > 0.4) {
                     this.setFeederMotorState(TransportMotorState.OFF);
                     this.m_feederOffsetStart = 0.0;
                 }
-            } else if (this.m_offsetStart != 0.0) {
-                if (Timer.getFPGATimestamp() - this.m_offsetStart > 0.75) {
+            }
+            if (this.m_offsetStart != 0.0) {
+                if (Timer.getFPGATimestamp() - this.m_offsetStart > 0.5) {
                     this.setConveyorMotorState(TransportMotorState.OFF);
                     this.m_offsetStart = 0.0;
                 }
             }
+            if (this.m_offsetStart2 != 0.0) {
+                if (Timer.getFPGATimestamp() - this.m_offsetStart2 > 0.5) {
+                    this.setConveyorMotorState(TransportMotorState.OFF);
+                    this.m_offsetStart2 = 0.0;
+                }
+            }
             
-            if (Timer.getFPGATimestamp() - this.m_lastBall >= 1.0) {
+            if (Timer.getFPGATimestamp() - this.m_lastBall >= 2.0) {
                 switch (this.getBallCount()) {
                     case 0:
                         // Check sensor one input.
@@ -270,7 +278,8 @@ public class Transportation extends SubsystemBase {
 
                         if (!two && this.getConveyorMotorState() == TransportMotorState.ON) {
                             // Turn off conveyor systems.
-                            this.m_offsetStart = Timer.getFPGATimestamp();
+                            // this.m_offsetStart2 = Timer.getFPGATimestamp();
+                            this.setConveyorMotorState(TransportMotorState.OFF);
                             this.setBallCount(2);
                         }
                         break;

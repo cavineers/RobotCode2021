@@ -14,6 +14,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
+import frc.robot.subsystems.Transportation.TransportMotorState;
 import frc.robot.subsystems.Transportation;
 import java.net.UnknownHostException;
 
@@ -159,6 +160,9 @@ public class Robot extends TimedRobot {
         new DropIntake().schedule();
 
         new TeleopDrive().schedule(false);
+
+        // Robot.transportation.setConveyorMotorState(TransportMotorState.ON);
+        // Robot.transportation.setFeederMotorState(TransportMotorState.ON);
     }
 
     @Override
