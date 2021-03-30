@@ -37,7 +37,6 @@ public class GalacticSearch extends CommandBase {
         Robot.logger.addInfo("GalacticSearch", "Galactic Search Autonomous Command Activated.");
 
         //Turns Intake Subsystem On.
-        // new ToggleIntake();
         Robot.intake.setMotorState(IntakeMotorState.ON);
 
         // PID setup.
@@ -45,27 +44,39 @@ public class GalacticSearch extends CommandBase {
         this.m_a.setTolerance(Constants.ObjVision.kXPID_Tolerance);
         this.m_rotatePid.setTolerance(1.0);
 
+        // Set setpoint
         this.m_td.setSetpoint(0.0);
         this.m_a.setSetpoint(0.0);
         this.m_rotatePid.setSetpoint(0.0);
 
+        // Switch to other autonomous
         Robot.swerveDrive.setState(SwerveDriveState.OTHER_AUTO);
     }
 
     @Override
     public void execute() {
+        // If we haven't collected all PowerCells
         if (Robot.transportation.getBallCount() < 3) {
             Target closestPowerCell = Robot.vision.getPowerCellTarget();
 
+            // Check distance
+            if (closestPowerCell.getDistance() <= 0 || !closestPowerCell.isSet()) {
+                // Log PowerCell error.
+                Robot.logger.addInfo("GalacticSearch", "Closest PowerCell is within the bot or not set", closestPowerCell);
+
+                // Skip the rest of the method
+                return;
+            }
+
             // Calculations
-            double td = closestPowerCell.getDistance(); // distance y (b) value in law of sines
-            double tx = closestPowerCell.getTx(); // A angle in law of sines
-            double a = Math.sqrt(Math.pow((td / Math.sin(90 - tx)), 2) + Math.pow(td, 2)); // distance x (a) in law of sines
+            final double td = closestPowerCell.getDistance(); // distance y (b) value in law of sines
+            final double tx = closestPowerCell.getTx(); // A angle in law of sines
+            final double a = Math.sqrt(Math.pow((td / Math.sin(90 - tx)), 2) + Math.pow(td, 2)); // distance x (a) in law of sines
+            final double vRotatePid = this.m_rotatePid.calculate(Robot.swerveDrive.getAngle().getDegrees());
+            final double vtd = this.m_td.calculate(td);
+            final double va = -this.m_a.calculate(a);
 
-            double vtd = this.m_td.calculate(td);
-            double va = -this.m_a.calculate(a);
-            double vRotatePid = this.m_rotatePid.calculate(Robot.swerveDrive.getAngle().getDegrees());
-
+            // Send debug info to Smart Dashboard
             SmartDashboard.putNumber("gs_td", td);
             SmartDashboard.putNumber("gs_tx", tx);
             SmartDashboard.putNumber("gs_a", a);

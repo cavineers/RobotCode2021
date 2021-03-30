@@ -1,6 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.util.Units;
 import frc.lib.Target;
 
 /**
@@ -10,30 +9,12 @@ public class Vision {
     private Target m_target = new Target();
 
     /**
-     * Finds the shortest distance of vision targets.
-
-     * @param xyxy The xyxy array given from Vision.
-     */
-    public void shortestDistance(String[][] xyxy) {
-        Target shortestDistance = new Target();
-
-        for (int i = 0; i < xyxy.length; i++) {
-            Target calculatedData = calculateData(xyxy[i]).setOffset(-Constants.ObjVision.kCameraInset);
-            if (calculatedData.getRawDistance() > Units.inchesToMeters(23.0) && (!shortestDistance.isSet() || shortestDistance.getDistance() > calculatedData.getDistance())) {
-                shortestDistance = calculatedData;
-            }
-        }
-
-        this.m_target = shortestDistance;
-    }
-
-    /**
-     * Calculates the data as passed from Vision through DANK dashboard.
+     * Calculates the data as passed from Vision through DANK.
 
      * @param xyxy The xyxy array passed from vision
      * @return Returns the closest Target to the robot
      */
-    public Target calculateData(String[] xyxy) {
+    public Target createTarget(String[] xyxy) {
         // Calculate height / width | xyxy is in pixels / rep lines around pc | xyxy[0]
         // = left line; xyxy[1] = top line; xyxy[2] = right line; xyxy[3] = bottom line;
         double width = Double.parseDouble(xyxy[2]) - Double.parseDouble(xyxy[0]);
@@ -55,7 +36,7 @@ public class Vision {
         // Robot.logger.addInfo("Vision Data", Double.toString(distance) + " || " + Double.toString(ty) + " || " + Double.toString(Double.parseDouble(xyxy[3])));
         
         // Return new Target Class
-        return new Target(distance, ty, tx);
+        return new Target(distance, ty, tx).setOffset(-Constants.ObjVision.kCameraInset);
     }
 
     /**
@@ -63,7 +44,7 @@ public class Vision {
 
      * @param s the string to convert
      */
-    public void convertStringToArr(String s) {
+    public void ingest(String s) {
         // Split on this delimiter
         String[] rows = s.split("], \\[");
         for (int i = 0; i < rows.length; i++) {
@@ -82,10 +63,23 @@ public class Vision {
             matrix[i] = rows[i].split(",");
         }
 
-        // Run parseData
-        shortestDistance(matrix);
+        Target closestTarget = new Target();
+
+        for (int i = 0; i < matrix.length; i++) {
+            Target newTarget = createTarget(matrix[i]).setOffset(-Constants.ObjVision.kCameraInset);
+            if (!closestTarget.isSet() || closestTarget.getDistance() > newTarget.getDistance()) {
+                closestTarget = newTarget;
+            }
+        }
+
+        this.m_target = closestTarget;
     }
 
+    /**
+     * Get the closest PowerCell to target.
+
+     * @return PowerCell Target class.
+     */
     public Target getPowerCellTarget() {
         return this.m_target;
     }
