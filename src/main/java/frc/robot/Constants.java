@@ -156,7 +156,7 @@ public final class Constants {
         // Rotation PID
         public static double kRotationPID_P = 0.0045;
         public static double kRotationPID_I = 0.0;
-        public static double kRotationPID_D = 0.0005;
+        public static double kRotationPID_D = 0.0001;
         public static double kRotationPID_T = 1.0;
 
         // Position PID
