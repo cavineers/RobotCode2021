@@ -1,11 +1,9 @@
 package frc.robot.commands;
 
-import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpiutil.math.MathUtil;
 import frc.lib.ShooterUtil;
 import frc.robot.Constants;
 import frc.robot.Robot;
@@ -17,17 +15,23 @@ import frc.robot.subsystems.Transportation;
  * Automatically shoot.
  */
 public class AutoShoot extends CommandBase {
+    // PIDs
     private PIDController m_adjustmentPid = new PIDController(Constants.Shooter.kAdjustPIDp, Constants.Shooter.kAdjustPIDi, Constants.Shooter.kAdjustPIDd);
     private PIDController m_rotatePid = new PIDController(Constants.Shooter.kAnglePIDp, Constants.Shooter.kAnglePIDi, Constants.Shooter.kAnglePIDd);
 
+    // Finished command
     private boolean m_finished = false;
 
+    // Previous Sensor Reading
     private boolean m_prevSensor = false;
 
+    // Start timestamp
     private double m_timestamp;
 
+    // Ever reached adjustment
     private boolean m_everAchievedAdj = false;
 
+    // Ever reached rotation
     private boolean m_everAchievedRot = false;
 
     public AutoShoot() {
@@ -36,22 +40,27 @@ public class AutoShoot extends CommandBase {
     
     @Override
     public void initialize() {
+        Robot.logger.addInfo("AutoShoot", "Starting AutoShoot.");
+
+        // Setup adjustment
         this.m_adjustmentPid.setSetpoint(0.0);
         this.m_adjustmentPid.setTolerance(0.5);
 
+        // Setup rotation
         this.m_rotatePid.setSetpoint(0.0);
         this.m_rotatePid.setTolerance(1.0);
 
+        // Set state to swerve
         Robot.swerveDrive.setState(SwerveDriveState.OTHER_AUTO);
 
-        Robot.logger.addInfo("AutoShoot", "Starting AutoShoot.");
-
+        // Disable transportation autonomous
         Robot.transportation.disable();
 
+        // Reset setpoint
         this.m_everAchievedAdj = false;
-
         this.m_everAchievedRot = false;
 
+        // Set start timestamp
         this.m_timestamp = Timer.getFPGATimestamp();
     }
     
@@ -84,40 +93,36 @@ public class AutoShoot extends CommandBase {
         SmartDashboard.putBoolean("check_adjustment", this.m_adjustmentPid.atSetpoint());
         SmartDashboard.putBoolean("check_rotation", this.m_rotatePid.atSetpoint());
 
+        // If we've reached adjustment & rotation setpoint
         if (this.m_everAchievedAdj && this.m_everAchievedRot) {
             Robot.logger.addInfo("AutoShoot", "At setpoint");
             
-            double msVel = (Units.inchesToMeters(4) * Math.PI) * (Robot.shooter.getSpeed() / 120);
-            double angle = ShooterUtil.calculateHoodAngle(msVel, Constants.Vision.kFieldGoalHeightFromGround);
-            SmartDashboard.putNumber("angle", angle);
-            angle = MathUtil.clamp(angle, Constants.Hood.kMinimumAngle, Constants.Hood.kMaximumAngle);
-            System.out.println("unclamped_angle " + angle);
-            System.out.println(ShooterUtil.withinBounds(angle));
-            SmartDashboard.putNumber("clamped_angle", angle);
-            SmartDashboard.putBoolean("angle_bounds", ShooterUtil.withinBounds(angle));
-            if (ShooterUtil.withinBounds(angle)) {
-                Robot.hood.findTargetPosition(msVel);
-                if (Robot.shooter.closeEnough()) {
-                    System.out.println("fuclk yea");
-                    if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
-                        Robot.transportation.setFeederMotorState(Transportation.TransportMotorState.ON);
-                    }
-                    if (Robot.transportation.getConveyorMotorState() != Transportation.TransportMotorState.ON) {
-                        Robot.transportation.setConveyorMotorState(Transportation.TransportMotorState.ON);
-                    }
-                    if (Robot.transportation.getSensorThreeState() == false && this.m_prevSensor) {
-                        Robot.transportation.setBallCount(Robot.transportation.getBallCount() - 1);
-                    }
-                    this.m_prevSensor = Robot.transportation.getSensorThreeState();
-                    if (Robot.transportation.getBallCount() <= 0) {
-                        this.m_finished = true;
-                    }
+            // Set velocity to matching distance
+            Robot.shooter.setSpeed(ShooterUtil.calculateVelocity(Robot.limelight.getDistance()));
+
+            // If the shooter is within 120rpm
+            if (Robot.shooter.closeEnough()) {
+                // Turn on feeder if not
+                if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
+                    Robot.transportation.setFeederMotorState(Transportation.TransportMotorState.ON);
                 }
-            } else {
-                if (angle > Constants.Hood.kMaximumAngle) {
-                    Robot.shooter.setSpeed(Robot.shooter.getSpeed() - 100);
-                } else {
-                    Robot.shooter.setSpeed(Robot.shooter.getSpeed() + 100);
+
+                // Turn on conveyor if not
+                if (Robot.transportation.getConveyorMotorState() != Transportation.TransportMotorState.ON) {
+                    Robot.transportation.setConveyorMotorState(Transportation.TransportMotorState.ON);
+                }
+
+                // Decrement ball count when PowerCell passes 3rd sensor
+                if (Robot.transportation.getSensorThreeState() == false && this.m_prevSensor) {
+                    Robot.transportation.setBallCount(Robot.transportation.getBallCount() - 1);
+                }
+
+                // Save state
+                this.m_prevSensor = Robot.transportation.getSensorThreeState();
+
+                // Finish if all balls are empty
+                if (Robot.transportation.getBallCount() <= 0) {
+                    this.m_finished = true;
                 }
             }
         }
@@ -125,16 +130,28 @@ public class AutoShoot extends CommandBase {
 
     @Override
     public void end(boolean interrupted) {
+        // Disable shooter
         Robot.shooter.disable();
+
+        // Turn off feeder
         Robot.transportation.setFeederMotorState(Transportation.TransportMotorState.OFF);
+
+        // Turn off conveyor
         Robot.transportation.setConveyorMotorState(Transportation.TransportMotorState.OFF);
+
+        // Switch back to swerve
         Robot.swerveDrive.setState(SwerveDriveState.SWERVE);
+
+        // Reset ball count
         Robot.transportation.setBallCount(0);
+
+        // Enable transportation autonomous actions
         Robot.transportation.enable();
     }
     
     @Override
     public boolean isFinished() {
+        // Finished if 30secs elapses or is finished
         return Timer.getFPGATimestamp() - this.m_timestamp > 30.0 || this.m_finished;
     }
 }
