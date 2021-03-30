@@ -41,16 +41,11 @@ public class Transportation extends SubsystemBase {
     private DigitalInput m_sensorThree = new DigitalInput(Constants.Dio.kFeederSensor);
 
     private double m_offsetStart = 0.0;
-    private double m_offsetStart2 = 0.0;
     private double m_feederOffsetStart = 0.0;
 
     private boolean m_enabled = true;
 
-    private boolean m_sensorTwoTripped = false;
-    private boolean m_sensorThreeTripped = false;
-
     private double m_lastBall = 0.0;
-    private double m_sensorTwoTimeout = 0.0;
 
     /**
      * Transportation constructor.
@@ -247,12 +242,6 @@ public class Transportation extends SubsystemBase {
                     this.m_offsetStart = 0.0;
                 }
             }
-            if (this.m_offsetStart2 != 0.0) {
-                if (Timer.getFPGATimestamp() - this.m_offsetStart2 > 0.5) {
-                    this.setConveyorMotorState(TransportMotorState.OFF);
-                    this.m_offsetStart2 = 0.0;
-                }
-            }
             
             if (Timer.getFPGATimestamp() - this.m_lastBall >= 0.5) {
                 switch (this.getBallCount()) {
@@ -278,7 +267,6 @@ public class Transportation extends SubsystemBase {
 
                         if (!two && this.getConveyorMotorState() == TransportMotorState.ON) {
                             // Turn off conveyor systems.
-                            // this.m_offsetStart2 = Timer.getFPGATimestamp();
                             this.setConveyorMotorState(TransportMotorState.OFF);
                             this.setBallCount(2);
                         }
