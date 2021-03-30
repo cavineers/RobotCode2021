@@ -53,7 +53,7 @@ public class Shooter extends SubsystemBase {
 
         // Add PID values to controller
         this.m_pidController.setIZone(0.0);
-        this.m_pidController.setOutputRange(-1, 1);
+        this.m_pidController.setOutputRange(-1.0, 1.0);
 
         // Log to smart dashboard for debugging
         SmartDashboard.putNumber("shooter_p", Constants.Shooter.kPIDp);
@@ -122,8 +122,6 @@ public class Shooter extends SubsystemBase {
      */
     @Override
     public void periodic() {
-        // System.out.println("speriodic");
-
         this.m_pidController.setReference(-this.m_speed, ControlType.kVelocity);
 
         if (this.m_currentMode == ShooterMode.ENABLED && this.m_speed != 0) {
