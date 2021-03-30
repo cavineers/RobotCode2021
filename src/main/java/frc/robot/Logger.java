@@ -2,6 +2,7 @@ package frc.robot;
 
 import com.google.gson.Gson;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.lib.ByteArray;
 import frc.lib.logging.LogEntry;
 import java.io.File;
@@ -30,6 +31,8 @@ public class Logger {
     public Logger() {
         if (Robot.isReal()) {
             this.m_filename = Long.toString(Instant.now().getEpochSecond());
+
+            SmartDashboard.putString("logs_filename", this.m_filename);
 
             File file = new File("/home/lvuser/logs/" + this.m_filename + ".log");
             try {

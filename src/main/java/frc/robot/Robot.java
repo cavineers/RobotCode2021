@@ -123,8 +123,7 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void disabledPeriodic() {
-    }
+    public void disabledPeriodic() {}
 
     @Override
     public void autonomousInit() {
@@ -139,9 +138,7 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void autonomousPeriodic() {
-        // swerveDrive.swerve(0.2, -0.2, -0.0, false);
-    }
+    public void autonomousPeriodic() {}
 
     @Override
     public void teleopInit() {
@@ -163,24 +160,7 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void teleopPeriodic() {
-        // if (!hood.isHoming()) {
-        //     hood.turnToAngle(90.0);
-        // }
-        // hood.disable();
-
-        // hood.m_hoodMotor.set(ControlMode.PercentOutput, -0.5);
-        // transportation.setConveyorMotorState(TransportMotorState.ON);
-        // transportation.setFeederMotorState(TransportMotorState.ON);
-
-        // shooter.setSpeed(4000);
-        // shooter.enable();
-        // if (Deadzone.apply(robotContainer.m_rBump.get() ? speed : 0.0, 0.1) != 0.0) {
-        //     hood.m_hoodMotor.set(Deadzone.apply(robotContainer.m_rBump.get() ? speed : 0.0, 0.1));
-        // } else {
-        //     hood.m_hoodMotor.set(-Deadzone.apply(robotContainer.m_lBump.get() ? speed : 0.0, 0.1));
-        // }
-    }
+    public void teleopPeriodic() {}
 
     @Override
     public void testInit() {
@@ -203,8 +183,7 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void simulationPeriodic() {
-    }
+    public void simulationPeriodic() {}
 
     public static double getMatchTime() {
         return m_matchTime;

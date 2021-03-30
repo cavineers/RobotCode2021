@@ -22,12 +22,11 @@ public class ShooterUtil {
 
     /**
      * Calculate the velocity needed to fire with accuracy.
+
      * @param x Distance between robot and target.
-     * @param c Guess and check constant. Needs tuning.
      * @return Velocity required to shoot at target.
      */
-    public static double calculateVelocity(double x, double c) {
-        // TODO: c will need to be tuned!
-        return ((7 / (Math.sin(Math.atan(2.5 / x)))) * c);
+    public static double calculateVelocity(double x) {
+        return ((7.0 / (Math.sin(Math.atan(2.5 / x)))) * Constants.Shooter.kVelocityConstant);
     }
 }

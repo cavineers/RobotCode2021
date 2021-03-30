@@ -41,8 +41,8 @@ public class Path {
         return this.m_current + 1 != this.m_plots.length;
     }
 
-    public void add(double x, double y, double r, double transitionTolerance, double rotationalTolerance, double endingVelocity) {
-        this.m_points.add(new Plot(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(r), Units.inchesToMeters(transitionTolerance), rotationalTolerance, endingVelocity));
+    public void add(double x, double y, double r, double xVel, double yVel, double transitionTolerance, double rotationalTolerance) {
+        this.m_points.add(new Plot(Units.inchesToMeters(x), Units.inchesToMeters(y), Rotation2d.fromDegrees(r), Units.feetToMeters(xVel), Units.feetToMeters(yVel), Units.inchesToMeters(transitionTolerance), rotationalTolerance));
     }
 
     /**

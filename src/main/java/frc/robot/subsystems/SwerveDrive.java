@@ -279,17 +279,17 @@ public class SwerveDrive extends SubsystemBase {
     private void generateProfile() {
         // System.out.println(this.m_path.getCurrent().getX());
         // System.out.println(this.m_path.getCurrent().getY());
-        this.m_xPidController.setTolerance(this.m_path.getCurrent().getTranslationTolerance(), 2.0);
-        this.m_yPidController.setTolerance(this.m_path.getCurrent().getTranslationTolerance(), 2.0);
-        this.m_rPidController.setTolerance(this.m_path.getCurrent().getRotationTolerance(), 2.0);
+        this.m_xPidController.setTolerance(this.m_path.getCurrent().getTranslationTolerance(), Constants.Swerve.kVelocityTolerance);
+        this.m_yPidController.setTolerance(this.m_path.getCurrent().getTranslationTolerance(), Constants.Swerve.kVelocityTolerance);
+        this.m_rPidController.setTolerance(this.m_path.getCurrent().getRotationTolerance());
         if (this.m_isRelative) {
-            this.m_xPidController.setGoal(new State(this.getPosition().getX() + this.m_path.getCurrent().getX(), this.m_path.getCurrent().getEndingVelocity()));
-            this.m_yPidController.setGoal(new State(this.getPosition().getY() + this.m_path.getCurrent().getY(), this.m_path.getCurrent().getEndingVelocity()));
+            this.m_xPidController.setGoal(new State(this.getPosition().getX() + this.m_path.getCurrent().getX(), this.m_path.getCurrent().getXVelocity()));
+            this.m_yPidController.setGoal(new State(this.getPosition().getY() + this.m_path.getCurrent().getY(), this.m_path.getCurrent().getYVelocity()));
             this.m_rPidController.setSetpoint(this.getPosition().getRotation().getDegrees()
                     + this.m_path.getCurrent().getRotation().getDegrees());
         } else {
-            this.m_xPidController.setGoal(new State(this.m_initialPosition.getX() + this.m_path.getCurrent().getX(), this.m_path.getCurrent().getEndingVelocity()));
-            this.m_yPidController.setGoal(new State(this.m_initialPosition.getY() + this.m_path.getCurrent().getY(), this.m_path.getCurrent().getEndingVelocity()));
+            this.m_xPidController.setGoal(new State(this.m_initialPosition.getX() + this.m_path.getCurrent().getX(), this.m_path.getCurrent().getXVelocity()));
+            this.m_yPidController.setGoal(new State(this.m_initialPosition.getY() + this.m_path.getCurrent().getY(), this.m_path.getCurrent().getYVelocity()));
             this.m_rPidController.setSetpoint(
                     this.m_initialRotation.getDegrees() + this.m_path.getCurrent().getRotation().getDegrees());
         }

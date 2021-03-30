@@ -14,6 +14,8 @@ import frc.robot.commands.TimedReverseIntake;
 import frc.robot.commands.ToggleConveyor;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.auto.AutonomousExample;
+import frc.robot.commands.auto.AutonomousExecute;
+import frc.robot.commands.auto.AutonomousRecord;
 import frc.robot.commands.auto.BarrelRacingAuto;
 import frc.robot.commands.auto.BouncePathAuto;
 import frc.robot.commands.auto.DeadAuto;
@@ -65,6 +67,8 @@ public class RobotContainer {
         this.m_autoChooser.addOption("BOUNCE_PATH", new BouncePathAuto());
         this.m_autoChooser.addOption("GALACTIC_SEARCH", new GalacticSearch());
         this.m_autoChooser.addOption("SLALOM_PATH", new SlalomPathAuto());
+        this.m_autoChooser.addOption("RECORD", new AutonomousRecord());
+        this.m_autoChooser.addOption("EXECUTE", new AutonomousExecute("1617056056.csv"));
         
         // Add SmartDashboard Autonomous Picker
         SmartDashboard.putData("Autonomous Command", this.m_autoChooser);

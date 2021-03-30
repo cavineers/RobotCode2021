@@ -61,7 +61,7 @@ public final class Constants {
     public static class Vision {
         public static double kFieldGoalHeightFromGround = Units.inchesToMeters(98.0); // 31 inches used for testing
         public static double kLimelightHeightFromGround = Units.inchesToMeters(18.0); // vertical distance from limelight to ground
-        public static double kLimelightMountingAngle    = 25.0; // TODO: Update mounting angle when complete
+        public static double kLimelightMountingAngle    = 25.0;
     }
 
     /**
@@ -83,6 +83,8 @@ public final class Constants {
         public static double kAnglePIDp = 0.008;
         public static double kAnglePIDi = 0.0;
         public static double kAnglePIDd = 0.001;
+
+        public static double kVelocityConstant = 1.0; // TODO: Tune this constant
     }
 
     /**
@@ -169,6 +171,9 @@ public final class Constants {
 
         // Track Width
         public static double kTrackWidth = Sizing.kTrackWidthMeters;
+
+        // Velocity Tolerance
+        public static double kVelocityTolerance = Units.feetToMeters(2.0);
     }
 
     /**
