@@ -59,7 +59,7 @@ public class Dank extends WebSocketServer {
                 Robot.logger.addInfo("DANK-WS-03", content);
                 break;
             case "04":
-                Robot.vision.convertStringToArr(content);
+                Robot.vision.ingest(content);
                 break;
             case "08":
                 this.m_visionAddress = conn;
