@@ -19,7 +19,7 @@ public class Vision {
 
         for (int i = 0; i < xyxy.length; i++) {
             Target calculatedData = calculateData(xyxy[i]).setOffset(-Constants.ObjVision.kCameraInset);
-            if (!shortestDistance.isSet() || shortestDistance.getDistance() > calculatedData.getDistance() && calculatedData.getDistance() > Units.inchesToMeters(27.0)) {
+            if (calculatedData.getRawDistance() > Units.inchesToMeters(23.0) && (!shortestDistance.isSet() || shortestDistance.getDistance() > calculatedData.getDistance())) {
                 shortestDistance = calculatedData;
             }
         }
@@ -52,7 +52,7 @@ public class Vision {
 
         double distance = (Constants.ObjVision.kCameraHeight - Constants.ObjVision.kBallHeight) * (1 / Math.tan(Math.toRadians(Constants.ObjVision.kCameraAngle + ty)));
 
-        Robot.logger.addInfo("Vision Data", Double.toString(distance) + " || " + Double.toString(ty) + " || " + Double.toString(Double.parseDouble(xyxy[3])));
+        // Robot.logger.addInfo("Vision Data", Double.toString(distance) + " || " + Double.toString(ty) + " || " + Double.toString(Double.parseDouble(xyxy[3])));
         
         // Return new Target Class
         return new Target(distance, ty, tx);
