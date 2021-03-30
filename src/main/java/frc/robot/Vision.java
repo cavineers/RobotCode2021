@@ -28,7 +28,7 @@ public class Vision {
     }
 
     /**
-     * Calculates the data as passed from Vision through DANK.
+     * Calculates the data as passed from Vision through DANK dashboard.
 
      * @param xyxy The xyxy array passed from vision
      * @return Returns the closest Target to the robot
@@ -40,7 +40,7 @@ public class Vision {
         double height = Double.parseDouble(xyxy[3]) - Double.parseDouble(xyxy[1]);
 
         // Calculate ty / tx value | tx / ty in degrees (after conversion)
-        double ty = ((Constants.ObjVision.kCameraResolutionY / 2.0) - ((Double.parseDouble(xyxy[3])) + (-height / 2.0)))
+        double ty = ((Constants.ObjVision.kCameraResolutionY / 2.0) - (Double.parseDouble(xyxy[3]) + (-height / 2.0)))
                 * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionY);
         double tx = ((Constants.ObjVision.kCameraResolutionX / 2.0) - (Double.parseDouble(xyxy[2]) + (-width / 2.0)))
                 * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionX);
@@ -52,7 +52,7 @@ public class Vision {
 
         double distance = (Constants.ObjVision.kCameraHeight - Constants.ObjVision.kBallHeight) * (1 / Math.tan(Math.toRadians(Constants.ObjVision.kCameraAngle + ty)));
 
-        Robot.logger.addInfo("Vision Data", Double.toString(distance));
+        Robot.logger.addInfo("Vision Data", Double.toString(distance) + " || " + Double.toString(ty) + " || " + Double.toString(Double.parseDouble(xyxy[3])));
         
         // Return new Target Class
         return new Target(distance, ty, tx);
