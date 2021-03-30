@@ -41,6 +41,10 @@ public class Target {
     public double getDistance() {
         return this.m_distance + this.m_offset;
     }
+
+    public double getRawDistance() {
+        return this.m_distance;
+    }
     
     public boolean isSet() {
         return this.m_set;
