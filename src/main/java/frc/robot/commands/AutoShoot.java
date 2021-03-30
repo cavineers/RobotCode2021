@@ -98,7 +98,7 @@ public class AutoShoot extends CommandBase {
             Robot.logger.addInfo("AutoShoot", "At setpoint");
             
             // Set velocity to matching distance
-            Robot.shooter.setSpeed(ShooterUtil.calculateVelocity(Robot.limelight.getDistance()));
+            // Robot.shooter.setSpeed(ShooterUtil.calculateVelocity(Robot.limelight.getDistance()));
 
             // If the shooter is within 120rpm
             if (Robot.shooter.closeEnough()) {
