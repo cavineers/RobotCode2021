@@ -1,14 +1,13 @@
 package frc.robot.commands.auto;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.time.Instant;
-
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.lib.Deadzone;
 import frc.robot.Robot;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.time.Instant;
 
 /**
  * Record autonomous.
@@ -61,7 +60,6 @@ public class AutonomousRecord extends CommandBase {
         try {
             this.m_fout.close();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
