@@ -35,7 +35,7 @@ public class Vision {
 
         // double distance = (Constants.ObjVision.kBallHeight - Constants.ObjVision.kCameraHeight) * (1 / Math.tan(Math.toRadians(Constants.ObjVision.kCameraAngle + ty))); // TODO find if negative or positive                       
 
-        double distance = Math.abs(1.87*((Constants.ObjVision.kCameraHeight - Constants.ObjVision.kBallHeight) / (Math.tan(Math.toRadians(ty)))));
+        double distance = (1.87*((Constants.ObjVision.kCameraHeight - Constants.ObjVision.kBallHeight) / (Math.tan(Math.toRadians(ty)))));
 
         // Robot.logger.addInfo("Vision Data", Double.toString(distance) + "||" + Double.toString(ty));
         // Return new Target Class

@@ -192,14 +192,14 @@ public final class Constants {
         public static double kCameraFieldOfViewY = 84.375;
 
         public static double kCameraInset   = Units.inchesToMeters(19.5);
-        public static double kDistancePID_P = 0.2;
+        public static double kDistancePID_P = 0.12;
         public static double kDistancePID_I = 0.0;
-        public static double kDistancePID_D = 0.0;
+        public static double kDistancePID_D = 0.001;
         public static double kDistancePID_Tolerance = Units.inchesToMeters(1.0);
 
-        public static double kXPID_P = 0.1;
+        public static double kXPID_P = 0.12;
         public static double kXPID_I = 0.0;
-        public static double kXPID_D = 0.0;
+        public static double kXPID_D = 0.001;
         public static double kXPID_Tolerance = Units.inchesToMeters(1.0);
 
         public static double kAnglePIDp = 0.008;
