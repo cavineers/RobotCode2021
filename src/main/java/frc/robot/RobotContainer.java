@@ -51,6 +51,8 @@ public class RobotContainer {
     // If the robot is field oriented
     public boolean m_fieldOriented = false;
 
+    public Command m_shootCommand;
+
     // Autonomous Command Chooser
     private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
 
@@ -73,6 +75,9 @@ public class RobotContainer {
         // Add SmartDashboard Autonomous Picker
         SmartDashboard.putData("Autonomous Command", this.m_autoChooser);
 
+        // Shoot Command
+        this.m_shootCommand = new AutoShoot();
+
         // Controller Bindings
         mapButtonBindings();
     }
@@ -92,7 +97,16 @@ public class RobotContainer {
         this.m_rightMenu.whenPressed(new Flush());
 
         // Shoot
-        this.m_aButton.whenPressed(new AutoShoot());
+        this.m_aButton.whenPressed(new InstantCommand() {
+            @Override
+            public void initialize() {
+                if (Robot.robotContainer.m_shootCommand.isScheduled()) {
+                    Robot.robotContainer.m_shootCommand.cancel();
+                } else {
+                    Robot.robotContainer.m_shootCommand.schedule();
+                }
+            }
+        });
 
         // Toggle Conveyor
         this.m_yButton.whenPressed(new ToggleConveyor());

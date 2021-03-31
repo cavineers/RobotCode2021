@@ -267,7 +267,7 @@ public class Transportation extends SubsystemBase {
 
                         if (!two && this.getConveyorMotorState() == TransportMotorState.ON) {
                             // Turn off conveyor systems.
-                            this.setConveyorMotorState(TransportMotorState.OFF);
+                            this.m_offsetStart = Timer.getFPGATimestamp();
                             this.setBallCount(2);
                         }
                         break;
