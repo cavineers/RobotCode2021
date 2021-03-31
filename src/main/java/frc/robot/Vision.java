@@ -25,7 +25,7 @@ public class Vision {
         //         * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionY);
         double ty = ( (Constants.ObjVision.kCameraResolutionY / 2.0) - (Double.parseDouble(xyxy[3]) + (-height / 2.0) )  )
                 * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionY);
-        double tx = ((Constants.ObjVision.kCameraResolutionX / 2.0) - Double.parseDouble(xyxy[2]) + (-width / 2.0))
+        double tx = ((Constants.ObjVision.kCameraResolutionX / 2.0) - Double.parseDouble(xyxy[2]) + (width / 2.0))
                 * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionX);
 
         // Calculate distance using: (ballHeight-cameraHeight) /
