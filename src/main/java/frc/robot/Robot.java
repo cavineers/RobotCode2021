@@ -159,7 +159,11 @@ public class Robot extends TimedRobot {
     }
 
     @Override
-    public void teleopPeriodic() {}
+    public void teleopPeriodic() {
+
+        Robot.shooter.enable();
+        Robot.shooter.setSpeed(5000);
+    }
 
     @Override
     public void testInit() {
