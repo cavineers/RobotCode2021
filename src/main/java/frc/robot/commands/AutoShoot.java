@@ -62,6 +62,9 @@ public class AutoShoot extends CommandBase {
 
         // Set start timestamp
         this.m_timestamp = Timer.getFPGATimestamp();
+
+        // Set finished to false
+        this.m_finished = false;
     }
     
     @Override
@@ -122,9 +125,9 @@ public class AutoShoot extends CommandBase {
                 this.m_prevSensor = Robot.transportation.getSensorThreeState();
 
                 // Finish if all balls are empty
-                if (Robot.transportation.getBallCount() <= 0) {
-                    this.m_finished = true;
-                }
+                // if (Robot.transportation.getBallCount() <= 0) {
+                //     this.m_finished = true;
+                // }
             }
         }
     }
@@ -153,6 +156,6 @@ public class AutoShoot extends CommandBase {
     @Override
     public boolean isFinished() {
         // Finished if 30secs elapses or is finished
-        return Timer.getFPGATimestamp() - this.m_timestamp > 15.0 || this.m_finished;
+        return Timer.getFPGATimestamp() - this.m_timestamp >= 20.0 || this.m_finished;
     }
 }
