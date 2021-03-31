@@ -189,6 +189,7 @@ public final class Constants {
         public static double kCameraResolutionY = 1080.0; // In pixels
         public static double kCameraResolutionX = 1920.0; // In pixels
         public static double kCameraFieldOfView = 150.0; // In degrees
+        public static double kCameraFieldOfViewY = 84.375;
 
         public static double kCameraInset   = Units.inchesToMeters(19.5);
         public static double kDistancePID_P = 0.2;

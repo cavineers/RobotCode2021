@@ -23,8 +23,8 @@ public class Vision {
         // Calculate ty / tx value | tx / ty in degrees (after conversion)
         // double ty = ((Constants.ObjVision.kCameraResolutionY / 2.0) - Double.parseDouble(xyxy[3]) + (-height / 2.0))
         //         * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionY);
-        double ty = ( (Constants.ObjVision.kCameraResolutionY / 2.0) - (Double.parseDouble(xyxy[3]) + (-height / 2.0) )  )
-                * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionY);
+        double ty = ( (Constants.ObjVision.kCameraResolutionY / 2.0) - Double.parseDouble(xyxy[3]) + (height / 2.0))
+                * (Constants.ObjVision.kCameraFieldOfViewY / Constants.ObjVision.kCameraResolutionY);
         double tx = ((Constants.ObjVision.kCameraResolutionX / 2.0) - Double.parseDouble(xyxy[2]) + (width / 2.0))
                 * (Constants.ObjVision.kCameraFieldOfView / Constants.ObjVision.kCameraResolutionX);
 
@@ -33,8 +33,11 @@ public class Vision {
         // of sines
         // Values shown here: http://share.brycecary.dev/1EF2 with td = distance
 
-        double distance = (Constants.ObjVision.kBallHeight - Constants.ObjVision.kCameraHeight) * (1 / Math.tan(Math.toRadians(Constants.ObjVision.kCameraAngle + ty))); // TODO find if negative or positive                       
+        // double distance = (Constants.ObjVision.kBallHeight - Constants.ObjVision.kCameraHeight) * (1 / Math.tan(Math.toRadians(Constants.ObjVision.kCameraAngle + ty))); // TODO find if negative or positive                       
 
+        double distance = Math.abs(1.87*((Constants.ObjVision.kCameraHeight - Constants.ObjVision.kBallHeight) / (Math.tan(Math.toRadians(ty)))));
+
+        // Robot.logger.addInfo("Vision Data", Double.toString(distance) + "||" + Double.toString(ty));
         // Return new Target Class
         return new Target(distance, ty, tx).setOffset(-Constants.ObjVision.kCameraInset);
     }
