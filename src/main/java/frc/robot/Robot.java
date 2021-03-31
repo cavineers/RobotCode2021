@@ -93,7 +93,7 @@ public class Robot extends TimedRobot {
 
         // Vision
         vision = new Vision();
-        // vision.convertStringToArr("[[143.0, 246.0, 184.0, 293.0, 0.671875, 0.0]]"); // Test Vision Data
+        // vision.ingest("[[143.0, 246.0, 184.0, 293.0, 0.671875, 0.0]]"); // Test Vision Data
 
         // Static robot container
         robotContainer = new RobotContainer();

@@ -31,7 +31,7 @@ public class Vision {
         // of sines
         // Values shown here: http://share.brycecary.dev/1EF2 with td = distance
 
-        double distance = (Constants.ObjVision.kCameraHeight - Constants.ObjVision.kBallHeight) * (1 / Math.tan(Math.toRadians(Constants.ObjVision.kCameraAngle + ty)));
+        double distance = (Constants.ObjVision.kCameraHeight - Constants.ObjVision.kBallHeight) * (1 / Math.tan(Math.toRadians(Constants.ObjVision.kCameraAngle + ty))); // TODO find if negative or positive
 
         // Robot.logger.addInfo("Vision Data", Double.toString(distance) + " || " + Double.toString(ty) + " || " + Double.toString(Double.parseDouble(xyxy[3])));
         
