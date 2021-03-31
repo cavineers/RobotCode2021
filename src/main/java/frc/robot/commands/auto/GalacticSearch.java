@@ -71,7 +71,8 @@ public class GalacticSearch extends CommandBase {
             // Calculations
             final double td = closestPowerCell.getDistance(); // distance y (b) value in law of sines
             final double tx = closestPowerCell.getTx(); // A angle in law of sines
-            final double a = Math.sqrt(Math.pow((td / Math.sin(90 - tx)), 2) + Math.pow(td, 2)); // distance x (a) in law of sines
+            final double a = (Math.tan(tx) * td);
+            // final double a = Math.sqrt(Math.pow((td / Math.sin(90 - tx)), 2) + Math.pow(td, 2)); // distance x (a) in law of sines
             final double vRotatePid = this.m_rotatePid.calculate(Robot.swerveDrive.getAngle().getDegrees(), 0.0);
             final double vtd = this.m_td.calculate(td);
             final double va = -this.m_a.calculate(a);
