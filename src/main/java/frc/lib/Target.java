@@ -11,9 +11,7 @@ public class Target {
     private double m_distance;
     private double m_offset;
 
-    public Target() {
-
-    }
+    public Target() {}
 
     /**
      * Create target.
