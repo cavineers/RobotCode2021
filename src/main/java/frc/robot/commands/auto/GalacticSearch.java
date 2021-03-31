@@ -69,9 +69,10 @@ public class GalacticSearch extends CommandBase {
             }
 
             // Calculations
-            final double td = closestPowerCell.getDistance(); // distance y (b) value in law of sines
+            double td = closestPowerCell.getDistance(); // distance y (b) value in law of sines
             final double tx = closestPowerCell.getTx(); // A angle in law of sines
             final double a = (Math.tan(tx) * td);
+            td = Math.abs(td);
             // final double a = Math.sqrt(Math.pow((td / Math.sin(90 - tx)), 2) + Math.pow(td, 2)); // distance x (a) in law of sines
             final double vRotatePid = this.m_rotatePid.calculate(Robot.swerveDrive.getAngle().getDegrees(), 0.0);
             final double vtd = this.m_td.calculate(td);
@@ -85,9 +86,11 @@ public class GalacticSearch extends CommandBase {
             SmartDashboard.putNumber("gs_va", va);
             SmartDashboard.putNumber("gs_rot", vRotatePid);
             SmartDashboard.putNumber("gs_ty", closestPowerCell.getTy());
+            Robot.logger.addInfo("Vision Data", Double.toString(td) + "||" + Double.toString(a) + "||" + Double.toString(tx));
 
             // Drive the robot based on the coordinates of power cell
-            Robot.swerveDrive.heldSwerve(vtd, va, vRotatePid, true); // TODO: test if field-oriented works and solves issues
+            Robot.swerveDrive.heldSwerve(-vtd, va, vRotatePid, true); // TODO: test if field-oriented works and solves issues
+            // Robot.swerveDrive.heldSwerve(0.0, va, vRotatePid, true); // TODO: test if field-oriented works and solves issues
         } else {
             // Finish command if more than three balls are in the chamber
             this.m_finished = true;
