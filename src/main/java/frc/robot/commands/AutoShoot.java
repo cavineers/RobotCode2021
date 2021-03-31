@@ -44,7 +44,7 @@ public class AutoShoot extends CommandBase {
 
         // Setup adjustment
         this.m_adjustmentPid.setSetpoint(0.0);
-        this.m_adjustmentPid.setTolerance(0.5);
+        this.m_adjustmentPid.setTolerance(1.0);
 
         // Setup rotation
         this.m_rotatePid.setSetpoint(0.0);
@@ -80,9 +80,9 @@ public class AutoShoot extends CommandBase {
             this.m_everAchievedRot = true;
         }
 
-        if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
-            Robot.swerveDrive.heldSwerve(0.0, this.m_everAchievedAdj ? 0.0 : -adj, this.m_everAchievedRot ? 0.0 : rot, false);
-        }
+        // if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
+        Robot.swerveDrive.heldSwerve(0.0, this.m_adjustmentPid.atSetpoint() ? 0.0 : -adj, this.m_rotatePid.atSetpoint() ? 0.0 : rot, false);
+        // }
 
         if (Robot.shooter.getCurrentMode() != Shooter.ShooterMode.ENABLED) { 
             Robot.shooter.setSpeed(Constants.Shooter.kMaxRPM * 0.9);
@@ -94,11 +94,12 @@ public class AutoShoot extends CommandBase {
         SmartDashboard.putBoolean("check_rotation", this.m_rotatePid.atSetpoint());
 
         // If we've reached adjustment & rotation setpoint
-        if (this.m_everAchievedAdj && this.m_everAchievedRot) {
+        System.out.println(this.m_everAchievedAdj + " " + this.m_everAchievedRot);
+        if ((this.m_everAchievedAdj && this.m_everAchievedRot) && Timer.getFPGATimestamp() - this.m_timestamp >= 5.0) {
             Robot.logger.addInfo("AutoShoot", "At setpoint");
             
             // Set velocity to matching distance
-            // Robot.shooter.setSpeed(ShooterUtil.calculateVelocity(Robot.limelight.getDistance()));
+            Robot.shooter.setSpeed(ShooterUtil.calculateVelocity(Robot.limelight.getDistance()));
 
             // If the shooter is within 120rpm
             if (Robot.shooter.closeEnough()) {
@@ -152,6 +153,6 @@ public class AutoShoot extends CommandBase {
     @Override
     public boolean isFinished() {
         // Finished if 30secs elapses or is finished
-        return Timer.getFPGATimestamp() - this.m_timestamp > 30.0 || this.m_finished;
+        return Timer.getFPGATimestamp() - this.m_timestamp > 15.0 || this.m_finished;
     }
 }

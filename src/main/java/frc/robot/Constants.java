@@ -76,7 +76,7 @@ public final class Constants {
         public static double kMaxRPM = 5500;
         public static int kCurrentLimit = 39;
 
-        public static double kAdjustPIDp = 0.03;
+        public static double kAdjustPIDp = 0.05;
         public static double kAdjustPIDi = 0.0;
         public static double kAdjustPIDd = 0.001;
 
@@ -84,7 +84,7 @@ public final class Constants {
         public static double kAnglePIDi = 0.0;
         public static double kAnglePIDd = 0.001;
 
-        public static double kVelocityConstant = 1.0; // TODO: Tune this constant
+        public static double kVelocityConstant = 225.0;
     }
 
     /**
