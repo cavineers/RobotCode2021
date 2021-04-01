@@ -1,5 +1,6 @@
 package frc.lib;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 /**
@@ -27,6 +28,6 @@ public class ShooterUtil {
      * @return Velocity required to shoot at target.
      */
     public static double calculateVelocity(double x) {
-        return ((7.0 / (Math.sin(Math.atan(2.5 / x)))) * Constants.Shooter.kVelocityConstant);
+        return Math.sqrt(((Math.pow(7.0, 2) / Math.pow((Math.sin(Math.atan(2.5 / x))) * SmartDashboard.getNumber("shooter_constant", 0.0), 2))));
     }
 }

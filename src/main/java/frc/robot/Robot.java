@@ -5,6 +5,8 @@ import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.DropIntake;
@@ -14,8 +16,10 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
+import frc.robot.subsystems.Transportation.TransportMotorState;
 import frc.robot.subsystems.Transportation;
 import java.net.UnknownHostException;
+import java.util.function.DoubleSupplier;
 
 /**
  * Main Robot class that contains all Subsystems and periodic methods.
@@ -51,6 +55,8 @@ public class Robot extends TimedRobot {
     private Command m_autonomousCommand;
 
     private static double m_matchTime;
+
+    private DoubleSupplier m_sup;
 
     /**
      * Robot constructor.
@@ -91,6 +97,8 @@ public class Robot extends TimedRobot {
 
         // Static robot container
         robotContainer = new RobotContainer();
+
+        this.m_sup = () -> PDP.getCurrent(0);
     }
 
     @Override
@@ -100,6 +108,12 @@ public class Robot extends TimedRobot {
         gyro.calibrate();
 
         transportation.disable();
+
+        Shuffleboard.getTab("Tab 5").add("PDP", PDP);
+
+        Shuffleboard.getTab("Tab 5").addNumber("Port0", this.m_sup);
+    
+        SmartDashboard.putNumber("shooter_constant", Constants.Shooter.kVelocityConstant);
     }
 
     @Override
@@ -153,6 +167,8 @@ public class Robot extends TimedRobot {
         hood.home();
 
         transportation.enable();
+        // transportation.setConveyorMotorState(TransportMotorState.ON);
+        // transportation.setFeederMotorState(TransportMotorState.ON);
 
         new DropIntake().schedule();
 
