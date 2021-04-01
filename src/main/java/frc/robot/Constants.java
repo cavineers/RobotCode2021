@@ -71,7 +71,7 @@ public final class Constants {
         public static int kShootID = CanIds.kShooterMotor;
         public static double kPIDp = 0.0005;
         public static double kPIDi = 0.0;
-        public static double kPIDd = 0.00001;
+        public static double kPIDd = 0.0001;
         public static double kPIDf = 0.00002;
         public static double kMaxRPM = 5500;
         public static int kCurrentLimit = 39;
@@ -192,14 +192,14 @@ public final class Constants {
         public static double kCameraFieldOfViewY = 84.375;
 
         public static double kCameraInset   = Units.inchesToMeters(19.5);
-        public static double kDistancePID_P = 0.12;
+        public static double kDistancePID_P = 0.03;
         public static double kDistancePID_I = 0.0;
-        public static double kDistancePID_D = 0.001;
+        public static double kDistancePID_D = 0.008;
         public static double kDistancePID_Tolerance = Units.inchesToMeters(1.0);
 
-        public static double kXPID_P = 0.12;
+        public static double kXPID_P = 0.03;
         public static double kXPID_I = 0.0;
-        public static double kXPID_D = 0.001;
+        public static double kXPID_D = 0.008;
         public static double kXPID_Tolerance = Units.inchesToMeters(1.0);
 
         public static double kAnglePIDp = 0.008;
