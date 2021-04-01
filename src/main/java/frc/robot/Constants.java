@@ -71,7 +71,7 @@ public final class Constants {
         public static int kShootID = CanIds.kShooterMotor;
         public static double kPIDp = 0.0005;
         public static double kPIDi = 0.0;
-        public static double kPIDd = 0.0;
+        public static double kPIDd = 0.00001;
         public static double kPIDf = 0.00002;
         public static double kMaxRPM = 5500;
         public static int kCurrentLimit = 39;

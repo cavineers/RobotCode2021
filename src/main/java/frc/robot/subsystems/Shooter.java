@@ -79,6 +79,7 @@ public class Shooter extends SubsystemBase {
     public void disable() {
         this.m_currentMode = ShooterMode.DISABLED;
         Robot.logger.addInfo("Shooter", "Disabled shooter PID loop");
+        this.setSpeed(0.0);
     }
 
     /**
@@ -124,7 +125,7 @@ public class Shooter extends SubsystemBase {
     public void periodic() {
         this.m_pidController.setReference(-this.m_speed, ControlType.kVelocity);
 
-        if (this.m_currentMode == ShooterMode.ENABLED && this.m_speed != 0) {
+        // if (this.m_currentMode == ShooterMode.ENABLED && this.m_speed != 0) {
             // pidController.setP(Constants.Shooter.PIDp);
             // pidController.setI(Constants.Shooter.PIDi);
             // pidController.setD(Constants.Shooter.PIDd);
@@ -133,12 +134,12 @@ public class Shooter extends SubsystemBase {
             this.m_pidController.setI(SmartDashboard.getNumber("shooter_i", 0));
             this.m_pidController.setD(SmartDashboard.getNumber("shooter_d", 0));
             this.m_pidController.setFF(Math.abs(SmartDashboard.getNumber("shooter_f", 0)));
-        } else {
-            this.m_pidController.setP(0);
-            this.m_pidController.setP(0);
-            this.m_pidController.setP(0);
-            this.m_pidController.setFF(0);
-        }
+        //  } else {
+        //     this.m_pidController.setP(0);
+        //     this.m_pidController.setP(0);
+        //     this.m_pidController.setP(0);
+        //     this.m_pidController.setFF(0);
+        // }
 
         // System.out.println(this.encoder.getVelocity());
 
