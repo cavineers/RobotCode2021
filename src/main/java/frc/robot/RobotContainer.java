@@ -144,9 +144,7 @@ public class RobotContainer {
         this.m_rightStick.whenPressed(new InstantCommand() {
             @Override
             public void initialize() {
-                if (Robot.isSimulation()) {
-                    Robot.robotContainer.m_fieldOriented = !Robot.robotContainer.m_fieldOriented;
-                }
+                Robot.robotContainer.m_fieldOriented = !Robot.robotContainer.m_fieldOriented;
             }
         });
     }
