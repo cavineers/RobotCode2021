@@ -10,8 +10,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.Flush;
+import frc.robot.commands.LowGoalShoot;
 import frc.robot.commands.TimedReverseIntake;
 import frc.robot.commands.ToggleConveyor;
+import frc.robot.commands.ToggleFeeder;
 import frc.robot.commands.ToggleIntake;
 import frc.robot.commands.auto.AutonomousExample;
 import frc.robot.commands.auto.AutonomousExecute;
@@ -52,6 +54,7 @@ public class RobotContainer {
     public boolean m_fieldOriented = false;
 
     public Command m_shootCommand;
+    public Command m_lowShootCommand;
 
     // Autonomous Command Chooser
     private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
@@ -77,6 +80,7 @@ public class RobotContainer {
 
         // Shoot Command
         this.m_shootCommand = new AutoShoot();
+        this.m_lowShootCommand = new LowGoalShoot();
 
         // Controller Bindings
         mapButtonBindings();
@@ -104,6 +108,17 @@ public class RobotContainer {
                     Robot.robotContainer.m_shootCommand.cancel();
                 } else {
                     Robot.robotContainer.m_shootCommand.schedule();
+                }
+            }
+        });
+
+        this.m_lBump.whenPressed(new InstantCommand() {
+            @Override
+            public void initialize() {
+                if (Robot.robotContainer.m_lowShootCommand.isScheduled()) {
+                    Robot.robotContainer.m_lowShootCommand.cancel();
+                } else {
+                    Robot.robotContainer.m_lowShootCommand.schedule();
                 }
             }
         });
@@ -147,6 +162,8 @@ public class RobotContainer {
                 Robot.robotContainer.m_fieldOriented = !Robot.robotContainer.m_fieldOriented;
             }
         });
+
+        this.m_rBump.whenPressed(new ToggleFeeder());
     }
 
     /**

@@ -84,7 +84,7 @@ public final class Constants {
         public static double kAnglePIDi = 0.0;
         public static double kAnglePIDd = 0.001;
 
-        public static double kVelocityConstant = 225.0;
+        public static double kVelocityConstant = 275.0;
     }
 
     /**

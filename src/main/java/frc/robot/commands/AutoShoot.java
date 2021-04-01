@@ -98,7 +98,7 @@ public class AutoShoot extends CommandBase {
 
         // If we've reached adjustment & rotation setpoint
         System.out.println(this.m_everAchievedAdj + " " + this.m_everAchievedRot);
-        if ((this.m_everAchievedAdj && this.m_everAchievedRot) && Timer.getFPGATimestamp() - this.m_timestamp >= 5.0) {
+        if ((this.m_everAchievedAdj && this.m_everAchievedRot) && Timer.getFPGATimestamp() - this.m_timestamp >= 2.5) {
             Robot.logger.addInfo("AutoShoot", "At setpoint");
             
             // Set velocity to matching distance
@@ -156,6 +156,6 @@ public class AutoShoot extends CommandBase {
     @Override
     public boolean isFinished() {
         // Finished if 30secs elapses or is finished
-        return Timer.getFPGATimestamp() - this.m_timestamp >= 20.0 || this.m_finished;
+        return Timer.getFPGATimestamp() - this.m_timestamp >= 15.0 || this.m_finished;
     }
 }
