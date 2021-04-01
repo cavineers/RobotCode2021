@@ -28,6 +28,6 @@ public class ShooterUtil {
      * @return Velocity required to shoot at target.
      */
     public static double calculateVelocity(double x) {
-        return Math.sqrt(((Math.pow(7.0, 2) / Math.pow((Math.sin(Math.atan(2.5 / x))) * SmartDashboard.getNumber("shooter_constant", 0.0), 2))));
+        return (6.346 / (Math.sin(Math.atan(2.055 / x))) * SmartDashboard.getNumber("shooter_constant", 0.0));
     }
 }
