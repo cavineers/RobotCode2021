@@ -30,7 +30,7 @@ public class TeleopDrive extends CommandBase {
     public void execute() {
         Robot.swerveDrive.swerve(Deadzone.apply(Robot.robotContainer.m_joy.getRawAxis(1), 0.1),
                 Deadzone.apply(Robot.robotContainer.m_joy.getRawAxis(0), 0.1),
-                -Deadzone.apply(Robot.robotContainer.m_joy.getRawAxis(4), 0.1), true);
+                -Deadzone.apply(Robot.robotContainer.m_joy.getRawAxis(4), 0.1), Robot.robotContainer.m_fieldOriented);
     }
 
     @Override
