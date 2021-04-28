@@ -1,0 +1,9 @@
+{
+  "lengthUnit": "Meter",
+  "exportUnit": "Always Meters",
+  "maxVelocity": 3.6576,
+  "maxAcceleration": 1.8288,
+  "trackWidth": 0.635,
+  "gameName": "Infinite Recharge 2021",
+  "outputDir": ""
+}
