@@ -17,7 +17,7 @@ public class SlalomPathAuto extends CommandBase {
     public void initialize() {
         Robot.logger.addInfo("SlalomPathAuto", "Autonomous slalom path command initialized");
 
-        Robot.swerveDrive.followPath(new SlalomPath(), false);
+        // Robot.swerveDrive.followPath(new SlalomPath(), false);
     }
 
     @Override

@@ -17,7 +17,7 @@ public class BarrelRacingAuto extends CommandBase {
     public void initialize() {
         Robot.logger.addInfo("BarrelRacingAuto", "Autonomous barrel racing path command initialized");
 
-        Robot.swerveDrive.followPath(new BarrelRacingPath(), false);
+        // Robot.swerveDrive.followPath(new BarrelRacingPath(), false);
     }
 
     @Override

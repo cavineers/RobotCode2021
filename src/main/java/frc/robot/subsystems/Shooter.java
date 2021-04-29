@@ -114,7 +114,7 @@ public class Shooter extends SubsystemBase {
 
      * @return at setpoint
      */
-    public boolean closeEnough() {
+    public boolean atSetpoint() {
         return (Math.abs(this.m_speed - Math.abs(this.m_encoder.getVelocity())) < 120);
     }
 

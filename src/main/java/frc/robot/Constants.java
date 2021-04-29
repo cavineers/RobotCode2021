@@ -157,6 +157,11 @@ public final class Constants {
         public static double kRotationPID_D = 0.0001;
         public static double kRotationPID_T = 1.0;
 
+        // Module Velocity PID
+        public static double kVelocityPIDp = 0.0005;
+        public static double kVelocityPIDi = 0.0;
+        public static double kVelocityPIDd = 0.0001;
+
         // Robot Angle PID
         public static double kAnglePIDp = 0.008;
         public static double kAnglePIDi = 0.0;

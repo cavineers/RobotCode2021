@@ -52,7 +52,7 @@ public class AutonomousRecord extends CommandBase {
         }
 
         // Actually swerve
-        Robot.swerveDrive.heldSwerve(fwd, strafe, rotate, false);
+        // Robot.swerveDrive.heldSwerve(fwd, strafe, rotate, false);
     }
 
     @Override

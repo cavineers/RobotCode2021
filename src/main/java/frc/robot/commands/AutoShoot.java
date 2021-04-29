@@ -83,16 +83,12 @@ public class AutoShoot extends CommandBase {
             this.m_everAchievedRot = true;
         }
 
-        // if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
-        Robot.swerveDrive.heldSwerve(0.0, this.m_adjustmentPid.atSetpoint() ? 0.0 : -adj, this.m_rotatePid.atSetpoint() ? 0.0 : rot, false);
-        // }
-
         if (Robot.shooter.getCurrentMode() != Shooter.ShooterMode.ENABLED) { 
             Robot.shooter.setSpeed(Constants.Shooter.kMaxRPM * 0.9);
             Robot.shooter.enable();
         }
 
-        SmartDashboard.putBoolean("check_shooter", Robot.shooter.closeEnough());
+        SmartDashboard.putBoolean("check_shooter", Robot.shooter.atSetpoint());
         SmartDashboard.putBoolean("check_adjustment", this.m_adjustmentPid.atSetpoint());
         SmartDashboard.putBoolean("check_rotation", this.m_rotatePid.atSetpoint());
 
@@ -105,7 +101,7 @@ public class AutoShoot extends CommandBase {
             Robot.shooter.setSpeed(ShooterUtil.calculateVelocity(Robot.limelight.getDistance()));
 
             // If the shooter is within 120rpm
-            if (Robot.shooter.closeEnough()) {
+            if (Robot.shooter.atSetpoint()) {
                 // Turn on feeder if not
                 if (Robot.transportation.getFeederMotorState() != Transportation.TransportMotorState.ON) {
                     Robot.transportation.setFeederMotorState(Transportation.TransportMotorState.ON);
@@ -123,11 +119,6 @@ public class AutoShoot extends CommandBase {
 
                 // Save state
                 this.m_prevSensor = Robot.transportation.getSensorThreeState();
-
-                // Finish if all balls are empty
-                // if (Robot.transportation.getBallCount() <= 0) {
-                //     this.m_finished = true;
-                // }
             }
         }
     }

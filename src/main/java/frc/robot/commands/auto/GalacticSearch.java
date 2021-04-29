@@ -89,7 +89,7 @@ public class GalacticSearch extends CommandBase {
             Robot.logger.addInfo("Vision Data", Double.toString(td) + "||" + Double.toString(a) + "||" + Double.toString(tx));
 
             // Drive the robot based on the coordinates of power cell
-            Robot.swerveDrive.heldSwerve(-vtd, va, vRotatePid, true); // TODO: test if field-oriented works and solves issues
+            // Robot.swerveDrive.heldSwerve(-vtd, va, vRotatePid, true); // TODO: test if field-oriented works and solves issues
             // Robot.swerveDrive.heldSwerve(0.0, va, vRotatePid, true); // TODO: test if field-oriented works and solves issues
         } else {
             // Finish command if more than three balls are in the chamber

@@ -17,7 +17,7 @@ public class BouncePathAuto extends CommandBase {
     public void initialize() {
         Robot.logger.addInfo("BouncePathAuto", "Autonomous bounce path command initialized");
 
-        Robot.swerveDrive.followPath(new BouncePath(), false);
+        // Robot.swerveDrive.followPath(new BouncePath(), false);
     }
 
     @Override

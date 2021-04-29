@@ -1,7 +1,10 @@
 package frc.lib.swerve;
 
 import com.ctre.phoenix.sensors.CANCoder;
+import com.revrobotics.CANEncoder;
+import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj.controller.PIDController;
@@ -21,14 +24,16 @@ public class SwerveModule {
     // Rotation Motor
     private CANSparkMax m_rotationMotor;
 
-    // CANCoder
-    private CANCoder m_encoder;
-
-    // PID
-    private PIDController m_pidController; 
-
     // Settings object
     public SwerveSettings m_settings;
+
+    // Rotation Controller
+    private PIDController m_rotationController; 
+    private CANCoder m_encoder;
+
+    // Drive Controller
+    private CANPIDController m_driveController;
+    private CANEncoder m_driveEncoder;
 
     // Save these values for later
     private double m_currentSpeed = 0.0;
@@ -54,28 +59,33 @@ public class SwerveModule {
         this.m_encoder = new CANCoder(this.m_settings.getEncoderId());
 
         // Configure Motors
-        this.m_rotationMotor.setIdleMode(IdleMode.kBrake);
         this.m_driveMotor.setIdleMode(IdleMode.kBrake);
+        this.m_rotationMotor.setIdleMode(IdleMode.kBrake);
 
-        this.m_rotationMotor.setSmartCurrentLimit(38);
         this.m_driveMotor.setSmartCurrentLimit(38);
+        this.m_rotationMotor.setSmartCurrentLimit(38);
 
-        this.m_pidController = new PIDController(Constants.Swerve.kRotationPID_P, Constants.Swerve.kRotationPID_I, Constants.Swerve.kRotationPID_D);
+        this.m_driveController = this.m_driveMotor.getPIDController();
+        this.m_rotationController = new PIDController(Constants.Swerve.kRotationPID_P, Constants.Swerve.kRotationPID_I, Constants.Swerve.kRotationPID_D);
 
-        this.m_pidController.setTolerance(Constants.Swerve.kRotationPID_T);
+        // Configure drive controller
+        this.m_driveController.setIZone(0.0);
+        this.m_driveController.setOutputRange(-1.0, 1.0);
+
+        // Drive PIDs
+        SmartDashboard.putNumber(this.m_settings.commonName() + "_drive_p", Constants.Swerve.kVelocityPIDp);
+        SmartDashboard.putNumber(this.m_settings.commonName() + "_drive_i", Constants.Swerve.kVelocityPIDi);
+        SmartDashboard.putNumber(this.m_settings.commonName() + "_drive_d", Constants.Swerve.kVelocityPIDd);
+        SmartDashboard.putNumber(this.m_settings.commonName() + "_drive_f", Math.abs(0.000182));
 
         // Send default angle to smart dashboard
         SmartDashboard.putNumber(this.m_settings.commonName() + "_Angle", 0.0);
 
         // Set PID values
-        this.m_pidController.setP(Constants.Swerve.kRotationPID_P);
-        this.m_pidController.setI(Constants.Swerve.kRotationPID_I);
-        this.m_pidController.setD(Constants.Swerve.kRotationPID_D);
-
-        // Send default PID values to SmartDashboard for testing
-        // SmartDashboard.putNumber("rot_kP", Constants.Swerve.kRotationPID_P);
-        // SmartDashboard.putNumber("rot_kI", Constants.Swerve.kRotationPID_I);
-        // SmartDashboard.putNumber("rot_kD", Constants.Swerve.kRotationPID_D);
+        this.m_rotationController.setP(Constants.Swerve.kRotationPID_P);
+        this.m_rotationController.setI(Constants.Swerve.kRotationPID_I);
+        this.m_rotationController.setD(Constants.Swerve.kRotationPID_D);
+        this.m_rotationController.setTolerance(Constants.Swerve.kRotationPID_T);
 
         // Set encoder absolute position when started
         SmartDashboard.putNumber(this.m_settings.commonName() + "_absoluteValue", this.getRotation().getDegrees());
@@ -149,23 +159,23 @@ public class SwerveModule {
             difference -= (180.0 * Math.signum(difference));
             speed = -speed;
         }
-        
-        // Set PID Values
-        // this.m_pidController.setP(SmartDashboard.getNumber("rot_kP", 0.0));
-        // this.m_pidController.setI(SmartDashboard.getNumber("rot_kI", 0.0));
-        // this.m_pidController.setD(SmartDashboard.getNumber("rot_kD", 0.0));
 
         // Current Setpoint
         this.m_rotationSetpoint = this.getRotation().plus(Rotation2d.fromDegrees(difference));
 
         // Output rotation motor
-        this.m_rotationMotor.set(this.m_pidController.calculate(this.getRotation().getDegrees(), this.m_rotationSetpoint.getDegrees()));
+        this.m_rotationMotor.set(this.m_rotationController.calculate(this.getRotation().getDegrees(), this.m_rotationSetpoint.getDegrees()));
 
-        // Test
+        // Invert speed
         this.m_currentSpeed = this.m_settings.isInverted() ? -speed : speed;
 
+        this.m_driveController.setP(SmartDashboard.getNumber(this.m_settings.commonName() + "_drive_p", 0));
+        this.m_driveController.setI(SmartDashboard.getNumber(this.m_settings.commonName() + "_drive_i", 0));
+        this.m_driveController.setD(SmartDashboard.getNumber(this.m_settings.commonName() + "_drive_d", 0));
+        this.m_driveController.setFF(Math.abs(SmartDashboard.getNumber(this.m_settings.commonName() + "_drive_f", 0)));
+
         // Output drive motor
-        this.m_driveMotor.set(this.m_currentSpeed);
+        this.m_driveController.setReference(this.m_currentSpeed * 5500, ControlType.kVelocity);
 
         SmartDashboard.putNumber(this.m_settings.commonName() + "_percentOut", this.m_currentSpeed);
         SmartDashboard.putNumber(this.m_settings.commonName() + "_rotationSetpoint", this.m_rotationSetpoint.getDegrees());
@@ -182,7 +192,7 @@ public class SwerveModule {
         SmartDashboard.putNumber(this.m_settings.commonName() + "_encoderVal", this.getRotation().getDegrees());
 
         return new SwerveModuleState(
-            -this.m_currentSpeed * Constants.Swerve.kMaxVelocity,
+            -((this.m_driveEncoder.getVelocity() / 5500) * Constants.Swerve.kMaxVelocity),
             this.getRotation()
         );
     }
