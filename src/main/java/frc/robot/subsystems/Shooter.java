@@ -123,25 +123,21 @@ public class Shooter extends SubsystemBase {
      */
     @Override
     public void periodic() {
-        this.m_pidController.setReference(-this.m_speed, ControlType.kVelocity);
-
-        // if (this.m_currentMode == ShooterMode.ENABLED && this.m_speed != 0) {
-            // pidController.setP(Constants.Shooter.PIDp);
-            // pidController.setI(Constants.Shooter.PIDi);
-            // pidController.setD(Constants.Shooter.PIDd);
-            // pidController.setFF(Math.abs(0.000182));
+        if (this.m_currentMode == ShooterMode.ENABLED) {
             this.m_pidController.setP(SmartDashboard.getNumber("shooter_p", 0));
             this.m_pidController.setI(SmartDashboard.getNumber("shooter_i", 0));
             this.m_pidController.setD(SmartDashboard.getNumber("shooter_d", 0));
             this.m_pidController.setFF(Math.abs(SmartDashboard.getNumber("shooter_f", 0)));
-        //  } else {
-        //     this.m_pidController.setP(0);
-        //     this.m_pidController.setP(0);
-        //     this.m_pidController.setP(0);
-        //     this.m_pidController.setFF(0);
-        // }
 
-        // System.out.println(this.encoder.getVelocity());
+            this.m_pidController.setReference(-this.m_speed, ControlType.kVelocity);
+        } else {
+            this.m_pidController.setP(0.001);
+            this.m_pidController.setI(0.0);
+            this.m_pidController.setD(0.0001);
+            this.m_pidController.setFF(Math.abs(SmartDashboard.getNumber("shooter_f", 0)));
+
+            this.m_pidController.setReference(0.0, ControlType.kVelocity);
+        }
 
         // Add the setpoint and actual to smart dashboard
         SmartDashboard.putNumber("SetPoint", this.m_speed);
