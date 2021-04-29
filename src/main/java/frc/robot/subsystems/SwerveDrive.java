@@ -227,6 +227,10 @@ public class SwerveDrive extends SubsystemBase {
         }
     }
 
+    public void setAngle(Rotation2d angle) {
+        this.m_desiredRotation = angle.getDegrees();
+    }
+
     public void setState(SwerveDriveState state) {
         // Update subsystem state
         this.m_state = state;
