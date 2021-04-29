@@ -1,7 +1,7 @@
 package frc.robot.commands.auto;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.lib.Deadzone;
+import frc.lib.control.Deadzone;
 import frc.robot.Robot;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
 import java.io.File;

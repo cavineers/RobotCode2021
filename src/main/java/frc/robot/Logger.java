@@ -3,7 +3,7 @@ package frc.robot;
 import com.google.gson.Gson;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.lib.ByteArray;
+import frc.lib.logging.ByteArray;
 import frc.lib.logging.LogEntry;
 import java.io.File;
 import java.io.FileOutputStream;

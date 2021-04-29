@@ -1,4 +1,4 @@
-package frc.lib;
+package frc.lib.logging;
 
 /**
  * Byte array utils.
