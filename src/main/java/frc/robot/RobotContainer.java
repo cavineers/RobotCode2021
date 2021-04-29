@@ -50,9 +50,6 @@ public class RobotContainer {
     // Simulation Menu
     public boolean m_simMenu = false;
 
-    // If the robot is field oriented
-    public boolean m_fieldOriented = false;
-
     public Command m_shootCommand;
     public Command m_lowShootCommand;
 
@@ -159,7 +156,7 @@ public class RobotContainer {
         this.m_rightStick.whenPressed(new InstantCommand() {
             @Override
             public void initialize() {
-                Robot.robotContainer.m_fieldOriented = !Robot.robotContainer.m_fieldOriented;
+                Robot.swerveDrive.setFieldOriented(!Robot.swerveDrive.isFieldOriented());
             }
         });
 

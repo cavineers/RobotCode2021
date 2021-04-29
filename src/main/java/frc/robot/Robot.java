@@ -4,11 +4,11 @@ import com.kauailabs.navx.frc.AHRS;
 import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.TimedRobot;
-import edu.wpi.first.wpilibj.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.lib.control.ControllerDriveInput;
+import frc.robot.Limelight.LedMode;
 import frc.robot.commands.DropIntake;
 import frc.robot.commands.TeleopDrive;
 import frc.robot.subsystems.Hood;
@@ -16,10 +16,8 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.SwerveDrive;
 import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
-import frc.robot.subsystems.Transportation.TransportMotorState;
 import frc.robot.subsystems.Transportation;
 import java.net.UnknownHostException;
-import java.util.function.DoubleSupplier;
 
 /**
  * Main Robot class that contains all Subsystems and periodic methods.
@@ -54,9 +52,8 @@ public class Robot extends TimedRobot {
     // Autonomous command
     private Command m_autonomousCommand;
 
+    // Match time
     private static double m_matchTime;
-
-    private DoubleSupplier m_sup;
 
     /**
      * Robot constructor.
@@ -64,7 +61,7 @@ public class Robot extends TimedRobot {
      * <p>Used to create all subsystems and start various services.
      */
     public Robot() {
-        super(0.02);
+        super(Constants.Robot.kPeriod);
 
         // Static logger
         logger = new Logger();
@@ -93,12 +90,9 @@ public class Robot extends TimedRobot {
 
         // Vision
         vision = new Vision();
-        // vision.ingest("[[143.0, 246.0, 184.0, 293.0, 0.671875, 0.0]]"); // Test Vision Data
 
         // Static robot container
         robotContainer = new RobotContainer();
-
-        this.m_sup = () -> PDP.getCurrent(0);
     }
 
     @Override
@@ -108,12 +102,10 @@ public class Robot extends TimedRobot {
         gyro.calibrate();
 
         transportation.disable();
-
-        Shuffleboard.getTab("Tab 5").add("PDP", PDP);
-
-        Shuffleboard.getTab("Tab 5").addNumber("Port0", this.m_sup);
     
         SmartDashboard.putNumber("shooter_constant", Constants.Shooter.kVelocityConstant);
+
+        limelight.setLightMode(LedMode.OFF);
     }
 
     @Override
@@ -131,7 +123,7 @@ public class Robot extends TimedRobot {
 
         swerveDrive.setState(SwerveDriveState.SWERVE);
         
-        swerveDrive.swerve(0, 0, 0, false);
+        swerveDrive.swerve(new ControllerDriveInput(0.0, 0.0, 0.0));
 
         transportation.disable();
     }
@@ -161,14 +153,10 @@ public class Robot extends TimedRobot {
             m_autonomousCommand.cancel();
         }
 
-        gyro.reset();
-
         hood.enable();
         hood.home();
 
         transportation.enable();
-        // transportation.setConveyorMotorState(TransportMotorState.ON);
-        // transportation.setFeederMotorState(TransportMotorState.ON);
 
         new DropIntake().schedule();
 
@@ -177,16 +165,11 @@ public class Robot extends TimedRobot {
 
     @Override
     public void teleopPeriodic() {
-
-        // Robot.shooter.enable();
-        // Robot.shooter.setSpeed(5000);
     }
 
     @Override
     public void testInit() {
         logger.addInfo("robot", "Robot running in Test");
-
-        System.out.println(Rotation2d.fromDegrees(190).getDegrees());
 
         CommandScheduler.getInstance().cancelAll();
     }

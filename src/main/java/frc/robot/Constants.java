@@ -12,6 +12,7 @@ public final class Constants {
     public static class Robot {
         public static String kYear = "2021";
         public static String kName = "MIG"; // "Mechanical is garbage"
+        public static double kPeriod = 0.02;
     }
 
     /**
@@ -148,32 +149,24 @@ public final class Constants {
 
         // Kinematics & Odometry
         public static double kMaxVelocity = Units.feetToMeters(12.0); // In Feet Per Second (converted to meters)
-        public static double kMaxAcceleration = Units.feetToMeters(6.0);
+        public static double kMaxAcceleration = Units.feetToMeters(6.0); // In Feet Per Second (converted to meters)
 
-        public static double kMaxRotateSpeed = 150.0; // In Degrees Per Second
-        public static double kMaxRotateAcceleration = 30.0;
-
-        // Rotation PID
+        // Module Rotation PID
         public static double kRotationPID_P = 0.0045;
         public static double kRotationPID_I = 0.0;
         public static double kRotationPID_D = 0.0001;
         public static double kRotationPID_T = 1.0;
 
-        // Position PID
-        public static double kPositionPID_P = 2.0;
-        public static double kPositionPID_I = 0.0;
-        public static double kPositionPID_D = 0.0;
+        // Robot Angle PID
+        public static double kAnglePIDp = 0.008;
+        public static double kAnglePIDi = 0.0;
+        public static double kAnglePIDd = 0.001;
 
-        // Angle PID
-        public static double kAnglePID_P = 0.009;
-        public static double kAnglePID_I = 0.0;
-        public static double kAnglePID_D = 0.001;
+        public static double kDegreesPerSecond = 180.0;
+        public static double kRotationConstant = (kDegreesPerSecond * Robot.kPeriod);
 
         // Track Width
         public static double kTrackWidth = Sizing.kTrackWidthMeters;
-
-        // Velocity Tolerance
-        public static double kVelocityTolerance = Units.feetToMeters(2.0);
     }
 
     /**
