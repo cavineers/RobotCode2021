@@ -17,9 +17,9 @@ public class Deadzone {
         if (Math.abs(input) <= removed) {
             input = 0;
         } else if (input < 0) {
-            input = -Math.pow(input, 2);
+            input = -Math.pow(input, 3);
         } else {
-            input = Math.pow(input, 2);
+            input = Math.pow(input, 3);
         }
         return input;
     }
