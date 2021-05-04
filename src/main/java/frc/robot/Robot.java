@@ -161,6 +161,14 @@ public class Robot extends TimedRobot {
         new DropIntake().schedule();
 
         new TeleopDrive().schedule(false);
+
+        shooter.enable();
+        shooter.setSpeed(5000);
+
+        transportation.setFeederMotorState(Transportation.TransportMotorState.ON);
+        transportation.setConveyorMotorState(Transportation.TransportMotorState.ON);
+
+        intake.setMotorState(Intake.IntakeMotorState.ON);
     }
 
     @Override
