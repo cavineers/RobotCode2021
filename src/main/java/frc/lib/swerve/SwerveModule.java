@@ -4,9 +4,9 @@ import com.ctre.phoenix.sensors.CANCoder;
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
-import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.ControlType;
 import edu.wpi.first.wpilibj.controller.PIDController;
 import edu.wpi.first.wpilibj.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.kinematics.SwerveModuleState;
@@ -57,6 +57,8 @@ public class SwerveModule {
 
         // Init encoder
         this.m_encoder = new CANCoder(this.m_settings.getEncoderId());
+
+        this.m_driveEncoder = this.m_driveMotor.getEncoder();
 
         // Configure Motors
         this.m_driveMotor.setIdleMode(IdleMode.kBrake);
