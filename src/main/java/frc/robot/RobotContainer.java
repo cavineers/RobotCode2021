@@ -15,6 +15,7 @@ import frc.robot.commands.TimedReverseIntake;
 import frc.robot.commands.ToggleConveyor;
 import frc.robot.commands.ToggleFeeder;
 import frc.robot.commands.ToggleIntake;
+import frc.robot.commands.ToggleTransportation;
 import frc.robot.commands.auto.AutonomousExample;
 import frc.robot.commands.auto.AutonomousExecute;
 import frc.robot.commands.auto.AutonomousRecord;
@@ -97,6 +98,9 @@ public class RobotContainer {
         // Toggle Flush on rMenu
         this.m_rightMenu.whenPressed(new Flush());
 
+        // Toggle Conveyor and Feeder on yButton
+        this.m_yButton.whenPressed(new ToggleTransportation());
+
         // Shoot
         this.m_aButton.whenPressed(new InstantCommand() {
             @Override
@@ -121,7 +125,7 @@ public class RobotContainer {
         });
 
         // Toggle Conveyor
-        this.m_yButton.whenPressed(new ToggleConveyor());
+        // this.m_yButton.whenPressed(new ToggleConveyor());
 
         this.m_povDown.whenPressed(new InstantCommand() {
             @Override
