@@ -1,6 +1,6 @@
 # RobotCode2021 Controls
 
-![Controller Format](https://github.com/cavineers/RobotCode2021/blob/master/controller_mapped.jpeg)
+![Controller Format](https://github.com/cavineers/RobotCode2021/blob/disabled-conveyor-sensors/controller_mapped.jpeg)
 
 ## Buttons
 
