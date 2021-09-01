@@ -15,7 +15,6 @@ import frc.robot.commands.TimedReverseIntake;
 import frc.robot.commands.ToggleConveyor;
 import frc.robot.commands.ToggleFeeder;
 import frc.robot.commands.ToggleIntake;
-import frc.robot.commands.ToggleTransportation;
 import frc.robot.commands.auto.AutonomousExample;
 import frc.robot.commands.auto.AutonomousExecute;
 import frc.robot.commands.auto.AutonomousRecord;
@@ -87,19 +86,19 @@ public class RobotContainer {
     private void mapButtonBindings() {
         Robot.logger.addInfo("RobotContainer", "Start to map button bindings");
 
-        this.m_leftMenu.whenPressed(new SimMenu());
+        this.m_leftMenu.whenPressed(new TimedReverseIntake(1.5));
 
         // Toggle Intake
         this.m_xButton.whenPressed(new ToggleIntake());
 
-        // ReverseIntake on bButton
-        this.m_bButton.whenPressed(new TimedReverseIntake(1.5));
+        // ToggleFeeder on bButton
+        this.m_bButton.whenPressed(new ToggleFeeder());
 
         // Toggle Flush on rMenu
         this.m_rightMenu.whenPressed(new Flush());
 
         // Toggle Conveyor and Feeder on yButton
-        this.m_yButton.whenPressed(new ToggleTransportation());
+        this.m_yButton.whenPressed(new ToggleConveyor());
 
         // Shoot
         this.m_aButton.whenPressed(new InstantCommand() {
@@ -124,8 +123,8 @@ public class RobotContainer {
             }
         });
 
-        // Toggle Conveyor
-        // this.m_yButton.whenPressed(new ToggleConveyor());
+        // Open Simulation Menu
+        this.m_povRight.whenPressed(new SimMenu());
 
         this.m_povDown.whenPressed(new InstantCommand() {
             @Override
