@@ -5,15 +5,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.Transportation.TransportMotorState;
 
-public class LowGoalShoot extends CommandBase {
+/**
+ * Turns on shooting systems and conveyors.
+ */
+public class ManualShoot extends CommandBase {
     private double m_timestamp;
 
-    public LowGoalShoot() {}
+    public ManualShoot() {}
 
     @Override
     public void initialize() {
         Robot.shooter.enable();
-        Robot.shooter.setSpeed(2000);
+        Robot.shooter.setSpeed(4500); // Change to update speed. (1000 - 5000 safe bounds)
 
         this.m_timestamp = Timer.getFPGATimestamp();
     }
@@ -35,6 +38,7 @@ public class LowGoalShoot extends CommandBase {
 
     @Override
     public boolean isFinished() {
-        return Timer.getFPGATimestamp() - this.m_timestamp >= 15.0;
+        // Turns off after 10 seconds.
+        return Timer.getFPGATimestamp() - this.m_timestamp >= 10.0;
     }
 }
