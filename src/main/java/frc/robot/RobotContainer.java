@@ -2,30 +2,14 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.POVButton;
-import frc.robot.commands.AutoShoot;
 import frc.robot.commands.Flush;
-import frc.robot.commands.LowGoalShoot;
 import frc.robot.commands.TimedReverseIntake;
 import frc.robot.commands.ToggleConveyor;
 import frc.robot.commands.ToggleFeeder;
 import frc.robot.commands.ToggleIntake;
-import frc.robot.commands.auto.AutonomousExample;
-import frc.robot.commands.auto.AutonomousExecute;
-import frc.robot.commands.auto.AutonomousRecord;
-import frc.robot.commands.auto.BarrelRacingAuto;
-import frc.robot.commands.auto.BouncePathAuto;
-import frc.robot.commands.auto.DeadAuto;
-import frc.robot.commands.auto.GalacticSearch;
-import frc.robot.commands.auto.SlalomPathAuto;
-import frc.robot.commands.sim.ResetRobot;
-import frc.robot.commands.sim.SimMenu;
-
 /**
  * RobotContainer stores all controls and autonomous routines.
  */
@@ -62,31 +46,12 @@ public class RobotContainer {
     public RobotContainer() {
         Robot.logger.addInfo("RobotContainer", "Created RobotContainer");
 
-        // Add Autonomous Options
-        this.m_autoChooser.setDefaultOption("DEAD", new DeadAuto());
-        this.m_autoChooser.addOption("AUTONOMOUS_EXAMPLE", new AutonomousExample());
-        this.m_autoChooser.addOption("BARREL_RACING", new BarrelRacingAuto());
-        this.m_autoChooser.addOption("BOUNCE_PATH", new BouncePathAuto());
-        this.m_autoChooser.addOption("GALACTIC_SEARCH", new GalacticSearch());
-        this.m_autoChooser.addOption("SLALOM_PATH", new SlalomPathAuto());
-        this.m_autoChooser.addOption("RECORD", new AutonomousRecord());
-        this.m_autoChooser.addOption("EXECUTE", new AutonomousExecute("1617056056.csv"));
-        
-        // Add SmartDashboard Autonomous Picker
-        SmartDashboard.putData("Autonomous Command", this.m_autoChooser);
-
-        // Shoot Command
-        this.m_shootCommand = new AutoShoot();
-        this.m_lowShootCommand = new LowGoalShoot();
-
         // Controller Bindings
         mapButtonBindings();
     }
 
     private void mapButtonBindings() {
         Robot.logger.addInfo("RobotContainer", "Start to map button bindings");
-
-        this.m_leftMenu.whenPressed(new SimMenu());
 
         // Toggle Intake
         this.m_xButton.whenPressed(new ToggleIntake());
@@ -98,67 +63,9 @@ public class RobotContainer {
         this.m_rightMenu.whenPressed(new Flush());
 
         // Shoot
-        this.m_aButton.whenPressed(new InstantCommand() {
-            @Override
-            public void initialize() {
-                if (Robot.robotContainer.m_shootCommand.isScheduled()) {
-                    Robot.robotContainer.m_shootCommand.cancel();
-                } else {
-                    Robot.robotContainer.m_shootCommand.schedule();
-                }
-            }
-        });
-
-        this.m_lBump.whenPressed(new InstantCommand() {
-            @Override
-            public void initialize() {
-                if (Robot.robotContainer.m_lowShootCommand.isScheduled()) {
-                    Robot.robotContainer.m_lowShootCommand.cancel();
-                } else {
-                    Robot.robotContainer.m_lowShootCommand.schedule();
-                }
-            }
-        });
 
         // Toggle Conveyor
         this.m_yButton.whenPressed(new ToggleConveyor());
-
-        this.m_povDown.whenPressed(new InstantCommand() {
-            @Override
-            public void initialize() {
-                if (Robot.robotContainer.m_simMenu) {
-                    new ResetRobot(0, 0, 0).schedule();
-                }
-                Robot.robotContainer.m_simMenu = false;
-            }
-        });
-
-        this.m_povLeft.whenPressed(new InstantCommand() {
-            @Override
-            public void initialize() {
-                if (Robot.robotContainer.m_simMenu) {
-                    new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(30), 0).schedule();
-                }
-                Robot.robotContainer.m_simMenu = false;
-            }
-        });
-
-        this.m_povUp.whenPressed(new InstantCommand() {
-            @Override
-            public void initialize() {
-                if (Robot.robotContainer.m_simMenu) {
-                    new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(90), 0).schedule();
-                }
-                Robot.robotContainer.m_simMenu = false;
-            }
-        });
-
-        this.m_rightStick.whenPressed(new InstantCommand() {
-            @Override
-            public void initialize() {
-                Robot.swerveDrive.setFieldOriented(!Robot.swerveDrive.isFieldOriented());
-            }
-        });
 
         this.m_rBump.whenPressed(new ToggleFeeder());
     }

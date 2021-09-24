@@ -7,15 +7,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.lib.control.ControllerDriveInput;
-import frc.robot.Limelight.LedMode;
 import frc.robot.commands.DropIntake;
-import frc.robot.commands.TeleopDrive;
-import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.SwerveDrive;
-import frc.robot.subsystems.SwerveDrive.SwerveDriveState;
 import frc.robot.subsystems.Transportation;
 import java.net.UnknownHostException;
 
@@ -34,17 +28,11 @@ public class Robot extends TimedRobot {
 
     // Shared Sensors
     public static AHRS gyro;
-    public static Limelight limelight;
 
     // Subsystems
-    public static Hood hood;
     public static Intake intake;
     public static Shooter shooter;
-    public static SwerveDrive swerveDrive;
     public static Transportation transportation;
-
-    // Vision
-    public static Vision vision;
 
     // Robot Container
     public static RobotContainer robotContainer;
@@ -79,17 +67,11 @@ public class Robot extends TimedRobot {
 
         // Shared Sensors
         gyro = new AHRS(Port.kMXP);
-        limelight = new Limelight();
 
         // Subsystems
-        hood = new Hood();
         intake = new Intake();
         shooter = new Shooter();
-        swerveDrive = new SwerveDrive();
         transportation = new Transportation();
-
-        // Vision
-        vision = new Vision();
 
         // Static robot container
         robotContainer = new RobotContainer();
@@ -104,8 +86,6 @@ public class Robot extends TimedRobot {
         transportation.disable();
     
         SmartDashboard.putNumber("shooter_constant", Constants.Shooter.kVelocityConstant);
-
-        limelight.setLightMode(LedMode.OFF);
     }
 
     @Override
@@ -120,10 +100,6 @@ public class Robot extends TimedRobot {
     @Override
     public void disabledInit() {
         logger.addInfo("robot", "Robot Disabled");
-
-        swerveDrive.setState(SwerveDriveState.SWERVE);
-        
-        swerveDrive.swerve(new ControllerDriveInput(0.0, 0.0, 0.0));
 
         transportation.disable();
     }
@@ -153,17 +129,12 @@ public class Robot extends TimedRobot {
             m_autonomousCommand.cancel();
         }
 
-        hood.enable();
-        hood.home();
-
         transportation.enable();
 
         new DropIntake().schedule();
 
-        new TeleopDrive().schedule(false);
-
         shooter.enable();
-        shooter.setSpeed(5000);
+        shooter.setSpeed(5000); // Max 5500, Min 200
 
         transportation.setFeederMotorState(Transportation.TransportMotorState.ON);
         transportation.setConveyorMotorState(Transportation.TransportMotorState.ON);
@@ -184,7 +155,6 @@ public class Robot extends TimedRobot {
 
     @Override
     public void testPeriodic() {
-        swerveDrive.testPeriodic();
     }
 
     @Override
