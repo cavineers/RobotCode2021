@@ -4,7 +4,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.Robot;
 import frc.robot.subsystems.Shooter.ShooterMode;
-// import frc.robot.subsystems.Transportation.TransportMotorState;
+import frc.robot.subsystems.Transportation.TransportMotorState;
 
 /**
  * Turns on shooting systems and conveyors.
@@ -18,9 +18,13 @@ public class ManualShoot extends CommandBase {
     public void initialize() {
         if (Robot.shooter.getCurrentMode() == ShooterMode.DISABLED) {
             Robot.shooter.enable();
-            Robot.shooter.setSpeed(4500); // Change to update speed. (1000 - 5000 safe bounds)
+            Robot.shooter.setSpeed(5000); // Change to update speed. (200 - 5500 safe bounds)
+            Robot.transportation.setFeederMotorState(TransportMotorState.ON);
+            Robot.transportation.setConveyorMotorState(TransportMotorState.ON);
         } else if (Robot.shooter.getCurrentMode() == ShooterMode.ENABLED) {
             Robot.shooter.disable();
+            Robot.transportation.setFeederMotorState(TransportMotorState.OFF);
+            Robot.transportation.setConveyorMotorState(TransportMotorState.OFF);
         }
 
         // this.m_timestamp = Timer.getFPGATimestamp();
