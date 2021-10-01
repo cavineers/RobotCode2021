@@ -1,22 +1,13 @@
 package frc.robot;
 
-import com.google.gson.Gson;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.lib.ByteArray;
 import frc.lib.logging.LogEntry;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.time.Instant;
 
 /**
  * The Logger for the robot.
  */
 public class Logger {
-    // File Stream
-    private FileOutputStream m_fout;
-    private String m_filename;
 
     /**
      * Type of the log message.
@@ -29,21 +20,6 @@ public class Logger {
      * Logger constructor.
      */
     public Logger() {
-        if (Robot.isReal()) {
-            this.m_filename = Long.toString(Instant.now().getEpochSecond());
-
-            SmartDashboard.putString("logs_filename", this.m_filename);
-
-            File file = new File("/home/lvuser/logs/" + this.m_filename + ".log");
-            try {
-                file.createNewFile();
-                this.m_fout = new FileOutputStream("/home/lvuser/logs/" + this.m_filename + ".log");
-                this.m_fout.write("{\"logVersion\": 1}".getBytes());
-            } catch (IOException e) {
-                System.out.println("Unable to create or open logging file.");
-                e.printStackTrace();
-            }
-        }
     }
 
     /**
@@ -71,14 +47,6 @@ public class Logger {
      * @param entry entry
      */
     public void add(LogEntry entry) {
-        if (Robot.isReal()) {
-            try {
-                this.m_fout.write(ByteArray.concatenateByteArrays(new Gson().toJson(entry).getBytes(), ",".getBytes()));
-            } catch (IOException e) {
-                System.out.println(e.getStackTrace());
-            }
-        }
-        System.out.println(new Gson().toJson(entry));
     }
 
     /**

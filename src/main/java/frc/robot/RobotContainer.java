@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.POVButton;
 import frc.robot.commands.AutoShoot;
 import frc.robot.commands.Flush;
 import frc.robot.commands.LowGoalShoot;
+import frc.robot.commands.ManualShoot;
 import frc.robot.commands.TimedReverseIntake;
 import frc.robot.commands.ToggleConveyor;
 import frc.robot.commands.ToggleFeeder;
@@ -55,6 +56,7 @@ public class RobotContainer {
 
     public Command m_shootCommand;
     public Command m_lowShootCommand;
+    public Command m_manualShootCommand;
 
     // Autonomous Command Chooser
     private SendableChooser<Command> m_autoChooser = new SendableChooser<>();
@@ -81,6 +83,7 @@ public class RobotContainer {
         // Shoot Command
         this.m_shootCommand = new AutoShoot();
         this.m_lowShootCommand = new LowGoalShoot();
+        this.m_manualShootCommand = new ManualShoot();
 
         // Controller Bindings
         mapButtonBindings();
@@ -89,42 +92,45 @@ public class RobotContainer {
     private void mapButtonBindings() {
         Robot.logger.addInfo("RobotContainer", "Start to map button bindings");
 
-        this.m_leftMenu.whenPressed(new SimMenu());
+        this.m_leftMenu.whenPressed(new TimedReverseIntake(1.5));
 
         // Toggle Intake
         this.m_xButton.whenPressed(new ToggleIntake());
 
-        // ReverseIntake on bButton
-        this.m_bButton.whenPressed(new TimedReverseIntake(1.5));
+        // ToggleFeeder on bButton
+        this.m_bButton.whenPressed(new ToggleFeeder());
 
         // Toggle Flush on rMenu
         this.m_rightMenu.whenPressed(new Flush());
+
+        // Toggle Conveyor and Feeder on yButton
+        this.m_yButton.whenPressed(new ToggleConveyor());
 
         // Shoot
         this.m_aButton.whenPressed(new InstantCommand() {
             @Override
             public void initialize() {
-                if (Robot.robotContainer.m_shootCommand.isScheduled()) {
-                    Robot.robotContainer.m_shootCommand.cancel();
+                if (Robot.robotContainer.m_manualShootCommand.isScheduled()) {
+                    Robot.robotContainer.m_manualShootCommand.cancel();
                 } else {
-                    Robot.robotContainer.m_shootCommand.schedule();
+                    Robot.robotContainer.m_manualShootCommand.schedule();
                 }
             }
         });
 
-        this.m_lBump.whenPressed(new InstantCommand() {
-            @Override
-            public void initialize() {
-                if (Robot.robotContainer.m_lowShootCommand.isScheduled()) {
-                    Robot.robotContainer.m_lowShootCommand.cancel();
-                } else {
-                    Robot.robotContainer.m_lowShootCommand.schedule();
-                }
-            }
-        });
+        // this.m_lBump.whenPressed(new InstantCommand() {
+        //     @Override
+        //     public void initialize() {
+        //         if (Robot.robotContainer.m_shootCommand.isScheduled()) {
+        //             Robot.robotContainer.m_shootCommand.cancel();
+        //         } else {
+        //             Robot.robotContainer.m_shootCommand.schedule();
+        //         }
+        //     }
+        // });
 
-        // Toggle Conveyor
-        this.m_yButton.whenPressed(new ToggleConveyor());
+        // Open Simulation Menu
+        this.m_povRight.whenPressed(new SimMenu());
 
         this.m_povDown.whenPressed(new InstantCommand() {
             @Override
@@ -153,13 +159,6 @@ public class RobotContainer {
                     new ResetRobot(Units.inchesToMeters(30), Units.inchesToMeters(90), 0).schedule();
                 }
                 Robot.robotContainer.m_simMenu = false;
-            }
-        });
-
-        this.m_rightStick.whenPressed(new InstantCommand() {
-            @Override
-            public void initialize() {
-                Robot.robotContainer.m_fieldOriented = !Robot.robotContainer.m_fieldOriented;
             }
         });
 

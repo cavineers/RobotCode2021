@@ -12,12 +12,14 @@
 
 **X-Button** => Toggle Intake
 
-**B-Button** => Reverse Intake
+**B-Button** => Toggle Feeder Wheels
 
 **A-Button** => Autonomous Shoot
 
+**Y-Button** => Toggle Conveyor Belt
+
 **R-Menu** => Toggle Flush
 
-**L-Menu** => Simulation Menu
+**L-Menu** => Reverse Intake
 
-**Y-Button** => Toggle Conveyor Belt
+**Right-PAD** => Simulation Menu
